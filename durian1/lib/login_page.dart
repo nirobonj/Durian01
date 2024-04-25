@@ -20,7 +20,7 @@ class LoginPage extends StatelessWidget {
       if (username == 'admin' && password == 'password') {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
+          MaterialPageRoute(builder: (context) => HomePage()),
         );
         if (kDebugMode) {
           print('Login successful');
