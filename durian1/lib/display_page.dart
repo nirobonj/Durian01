@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class DisplayPage extends StatelessWidget {
-  const DisplayPage({Key? key}) : super(key: key);
+  const DisplayPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Display Page'),
+        title: const Text('Display Page'),
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           'This is the display page',
           style: TextStyle(fontSize: 24),

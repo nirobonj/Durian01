@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'display_page.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key});
+  HomePage({Key? key});
+  final ScrollController _scrollController = ScrollController();
 
   void next(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => DisplayPage()),
+      MaterialPageRoute(builder: (context) => const DisplayPage()),
     );
   }
 
@@ -15,7 +16,19 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 248, 153),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+        },
+        backgroundColor: const Color(0xffffea00),
+        child: const Icon(Icons.arrow_downward),
+      ),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -31,7 +44,7 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 25),
               SizedBox(
                 width: 350,
-                height: 2000,
+                height: 3000,
                 child: Card(
                   color: const Color.fromARGB(255, 255, 255, 255),
                   child: Column(

@@ -9,12 +9,12 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _usernameController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
+    TextEditingController usernameController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
 
     void login(BuildContext context) {
-      String username = _usernameController.text;
-      String password = _passwordController.text;
+      String username = usernameController.text;
+      String password = passwordController.text;
 
       // Check if username and password are correct
       if (username == 'admin' && password == 'password') {
@@ -53,7 +53,7 @@ class LoginPage extends StatelessWidget {
               width: 220,
               height: 50,
               child: TextField(
-                controller: _usernameController,
+                controller: usernameController,
                 decoration: InputDecoration(
                   hintText: 'กรอกชื่อผู้ใช้',
                   labelText: 'ชื่อผู้ใช้',
@@ -69,7 +69,7 @@ class LoginPage extends StatelessWidget {
               width: 220,
               height: 50,
               child: TextField(
-                controller: _passwordController,
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: 'กรอกรหัสผ่าน',
