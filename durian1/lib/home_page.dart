@@ -87,12 +87,22 @@ class HomePage extends StatelessWidget {
                               bottomRight: Radius.circular(10.0),
                             ),
                           ),
-                          child: const Center(
-                            child: Text(
-                              'Body',
-                              style: TextStyle(
-                                color: Colors.black, // กำหนดสีข้อความใน Body
-                              ),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                const Text(
+                                  'ระดับที่ 1 : ดิบ1  (0%)',
+                                  style: TextStyle(
+                                    color:
+                                        Colors.black, // กำหนดสีข้อความใน Body
+                                  ),
+                                ),
+                                Image.asset(
+                                  'assets/images/lv1.png',
+                                  width: 100, // กำหนดความกว้างเป็น 100 pixels
+                                  height: 100, // กำหนดความสูงเป็น 100 pixels),
+                                )
+                              ],
                             ),
                           ),
                         ),
