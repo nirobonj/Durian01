@@ -65,7 +65,7 @@ class HomePage extends StatelessWidget {
                               'ระดับความสุกของทุเรียน',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontSize: 25,
                                 color: Colors.black,
                               ),
                             ),
@@ -87,21 +87,35 @@ class HomePage extends StatelessWidget {
                               bottomRight: Radius.circular(10.0),
                             ),
                           ),
-                          child: Center(
+                          child:  Center(
                             child: Column(
                               children: [
                                 const Text(
                                   'ระดับที่ 1 : ดิบ1  (0%)',
                                   style: TextStyle(
-                                    color:
-                                        Colors.black, // กำหนดสีข้อความใน Body
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.normal, // กำหนดสีข้อความใน Body
                                   ),
                                 ),
-                                Image.asset(
-                                  'assets/images/lv1.png',
-                                  width: 100, // กำหนดความกว้างเป็น 100 pixels
-                                  height: 100, // กำหนดความสูงเป็น 100 pixels),
-                                )
+                                SizedBox(
+                                  width: 100,
+                                  height: 100,
+                                  child: Image.asset('assets/lv1.png'),
+                                ),
+
+                                // Image.asset(
+                                //   "assets/microphone.png",
+                                //   width: 200, // กำหนดความกว้างเป็น 100 pixels
+                                //   height: 200, // กำหนดความสูงเป็น 100 pixels),
+                                // ),
+                                const Text(
+                                  'ระดับที่ 2 : ดิบ2  (20%)',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20, // กำหนดสีข้อความใน Body
+                                  ),
+                                ),
                               ],
                             ),
                           ),
