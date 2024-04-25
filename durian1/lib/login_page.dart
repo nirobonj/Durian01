@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart'; // Import for kDebugMode
+import 'package:flutter/foundation.dart'; 
 import 'signup_page.dart';
 import 'home_page.dart';
 
