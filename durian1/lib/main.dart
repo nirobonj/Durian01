@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           filled: true,
         ),
       ),
-      home: const LoginPage(),
+      home: LoginPage(),
       debugShowCheckedModeBanner: false,
     );
   }

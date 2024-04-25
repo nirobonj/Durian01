@@ -3,7 +3,7 @@ import 'signup_next_page.dart';
 
 class SignupPage extends StatefulWidget {
 
-  SignupPage({super.key});
+  const SignupPage({super.key});
 
   @override
   State<SignupPage> createState() => _SignupPageState();
@@ -122,7 +122,7 @@ class _SignupPageState extends State<SignupPage> {
   void next(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => SignupNextPage()),
+      MaterialPageRoute(builder: (context) => const SignupNextPage()),
     );
   }
 
