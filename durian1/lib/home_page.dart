@@ -5,11 +5,11 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-      ),
-      body: const Center(
+    return const Scaffold(
+      // appBar: AppBar(
+      //   title: const Text('Home Page'),
+      // ),
+      body: Center(
         child: Text('Welcome to the Home Page!'),
       ),
     );
