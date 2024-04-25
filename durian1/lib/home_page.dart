@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'display_page.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key});
+  HomePage({super.key});
   final ScrollController _scrollController = ScrollController();
 
   void next(BuildContext context) {
@@ -38,13 +38,13 @@ class HomePage extends StatelessWidget {
                 'คำอธิบาย',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 30,
+                  fontSize: 35,
                 ),
               ),
               const SizedBox(height: 25),
               SizedBox(
                 width: 350,
-                height: 3000,
+                height: 1400,
                 child: Card(
                   color: const Color.fromARGB(255, 255, 255, 255),
                   child: Column(
@@ -87,34 +87,113 @@ class HomePage extends StatelessWidget {
                               bottomRight: Radius.circular(10.0),
                             ),
                           ),
-                          child:  Center(
+                          child: Center(
                             child: Column(
                               children: [
+                                const SizedBox(height: 30),
                                 const Text(
                                   'ระดับที่ 1 : ดิบ1  (0%)',
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal, // กำหนดสีข้อความใน Body
+                                    fontSize: 18,
+                                    fontWeight: FontWeight
+                                        .normal, // กำหนดสีข้อความใน Body
                                   ),
                                 ),
+                                const SizedBox(height: 20),
                                 SizedBox(
-                                  width: 100,
-                                  height: 100,
+                                  width: 120,
+                                  height: 120,
                                   child: Image.asset('assets/lv1.png'),
                                 ),
-
+                                const SizedBox(height: 30),
                                 // Image.asset(
                                 //   "assets/microphone.png",
                                 //   width: 200, // กำหนดความกว้างเป็น 100 pixels
                                 //   height: 200, // กำหนดความสูงเป็น 100 pixels),
                                 // ),
+                                const Divider(),
+                                // Container(
+                                //   height: 2, // ปรับความหนาของ Divider ตรงนี้
+                                //   color: Colors.grey, // สีของเส้นแบ่ง
+                                // ),
+                                const SizedBox(height: 10),
                                 const Text(
                                   'ระดับที่ 2 : ดิบ2  (20%)',
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 20, // กำหนดสีข้อความใน Body
+                                    fontSize: 18, // กำหนดสีข้อความใน Body
                                   ),
+                                ),
+                                const SizedBox(height: 20),
+                                SizedBox(
+                                  width: 120,
+                                  height: 120,
+                                  child: Image.asset('assets/lv2.png'),
+                                ),
+                                const SizedBox(height: 30),
+                                const Divider(),
+                                const SizedBox(height: 10),
+                                const Text(
+                                  'ระดับที่ 3 : กึ่งสุกกึ่งดิบ (40%)',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18, // กำหนดสีข้อความใน Body
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                SizedBox(
+                                  width: 120,
+                                  height: 120,
+                                  child: Image.asset('assets/lv3.png'),
+                                ),
+                                const SizedBox(height: 30),
+                                const Divider(),
+                                const SizedBox(height: 10),
+                                const Text(
+                                  'ระดับที่ 4 : สุก1 กรอบนอกนุ่มใน (60%)',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18, // กำหนดสีข้อความใน Body
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                SizedBox(
+                                  width: 120,
+                                  height: 120,
+                                  child: Image.asset('assets/lv4.png'),
+                                ),
+                                const SizedBox(height: 30),
+                                const Divider(),
+                                const SizedBox(height: 10),
+                                const Text(
+                                  'ระดับที่ 5 : สุก2 สุกนุ่มกำลังดี (80%)',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18, // กำหนดสีข้อความใน Body
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                SizedBox(
+                                  width: 120,
+                                  height: 120,
+                                  child: Image.asset('assets/lv5.png'),
+                                ),
+                                const SizedBox(height: 30),
+                                const Divider(),
+                                const SizedBox(height: 10),
+                                const Text(
+                                  'ระดับที่ 6 : สุก3 สุกมาก งอม(100%)',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18, // กำหนดสีข้อความใน Body
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                SizedBox(
+                                  width: 120,
+                                  height: 120,
+                                  child: Image.asset('assets/lv6.png'),
                                 ),
                               ],
                             ),
