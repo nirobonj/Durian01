@@ -40,7 +40,7 @@ class LoginPage extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xffffff8D),
+      backgroundColor: const Color.fromARGB(255, 255, 248, 153),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

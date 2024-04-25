@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart';
+// import 'login_page.dart';
+import 'home_page.dart';
 
 class SignupNextPage extends StatelessWidget {
   const SignupNextPage({super.key});
@@ -7,7 +8,7 @@ class SignupNextPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffffff8D),
+      backgroundColor: const Color.fromARGB(255, 255, 248, 153),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -72,9 +73,13 @@ class SignupNextPage extends StatelessWidget {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => LoginPage()),
+                  // );
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
+                    MaterialPageRoute(builder: (context) => const HomePage()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
