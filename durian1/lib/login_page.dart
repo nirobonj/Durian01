@@ -1,12 +1,13 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart'; 
+import 'package:flutter/foundation.dart';
 import 'signup_page.dart';
 import 'home_page.dart';
+import 'display_page.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
+  final bool isHomePageVisible;
+  const LoginPage({Key? key, required this.isHomePageVisible})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     TextEditingController usernameController = TextEditingController();
@@ -16,12 +17,19 @@ class LoginPage extends StatelessWidget {
       String username = usernameController.text;
       String password = passwordController.text;
 
-      // Check if username and password are correct
+      
       if (username == 'admin' && password == 'password') {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
+        if (isHomePageVisible) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DisplayPage(isHomePageVisible: false,)),
+          );
+        }
         if (kDebugMode) {
           print('Login successful');
         }
@@ -35,7 +43,7 @@ class LoginPage extends StatelessWidget {
     void signup(BuildContext context) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const SignupPage()),
+        MaterialPageRoute(builder: (context) => const SignupPage(isHomePageVisible: false,)),
       );
     }
 
@@ -45,6 +53,7 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text('isHomePageVisible: $isHomePageVisible'),
             const SizedBox(
               width: 200,
               height: 200,

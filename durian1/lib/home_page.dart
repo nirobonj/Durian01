@@ -8,7 +8,7 @@ class HomePage extends StatelessWidget {
   void next(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const DisplayPage()),
+      MaterialPageRoute(builder: (context) => const DisplayPage(isHomePageVisible: false,)),
     );
   }
 

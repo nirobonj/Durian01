@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
+import 'setting_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,7 +19,23 @@ class MyApp extends StatelessWidget {
           filled: true,
         ),
       ),
-      home: const LoginPage(),
+      home: FutureBuilder<bool>(
+        future: Future.delayed(Duration.zero,
+            () => false), // สร้าง Future<bool> เริ่มต้นเป็น false
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            bool isHomePageVisible = snapshot.data ?? false;
+            return LoginPage(isHomePageVisible: isHomePageVisible);
+          } else {
+            // สามารถแสดง Indicator หรือ Loading Screen ได้ตรงนี้
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        },
+      ),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 // import 'login_page.dart';
 import 'home_page.dart';
+import 'display_page.dart';
 
 class SignupNextPage extends StatelessWidget {
-  const SignupNextPage({super.key});
-
+  final bool isHomePageVisible;
+  const SignupNextPage({Key? key, required this.isHomePageVisible})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,14 +75,17 @@ class SignupNextPage extends StatelessWidget {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => LoginPage()),
-                  // );
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
+                  if (isHomePageVisible) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DisplayPage(isHomePageVisible: false,)),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xffffea00),

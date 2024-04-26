@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'setting_page.dart';
 
 class DisplayPage extends StatelessWidget {
-  const DisplayPage({Key? key}) : super(key: key);
-
+  final bool isHomePageVisible;
+  const DisplayPage({Key? key, required this.isHomePageVisible})
+      : super(key: key);
+      
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,12 +15,13 @@ class DisplayPage extends StatelessWidget {
       // ),
       body: Stack(
         children: [
-          const Center(
+          Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 20),
-                Text(
+                Text('isHomePageVisible: $isHomePageVisible'),
+                const SizedBox(height: 20),
+                const Text(
                   'This is the display page',
                   style: TextStyle(fontSize: 24),
                 ),
