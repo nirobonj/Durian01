@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'login_page.dart';
 import 'setting_page.dart';
 
 void main() {
-  runApp(
-    MyApp(),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -20,15 +19,13 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: FutureBuilder<bool>(
-        future: Future.delayed(Duration.zero,
-            () => false), // สร้าง Future<bool> เริ่มต้นเป็น false
+        future: _getIsHomePageVisible(), // ใช้ฟังก์ชั่น _getIsHomePageVisible() เพื่อเรียกใช้ SharedPreferences
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             bool isHomePageVisible = snapshot.data ?? false;
-            return LoginPage(isHomePageVisible: isHomePageVisible);
+            return isHomePageVisible ? SettingPage() : LoginPage(isHomePageVisible: false,);
           } else {
-            // สามารถแสดง Indicator หรือ Loading Screen ได้ตรงนี้
-            return Scaffold(
+            return const Scaffold(
               body: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -38,6 +35,11 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
     );
+  }
+
+  Future<bool> _getIsHomePageVisible() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isHomePageVisible') ?? false;
   }
 }
 

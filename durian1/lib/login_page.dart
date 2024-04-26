@@ -6,8 +6,9 @@ import 'display_page.dart';
 
 class LoginPage extends StatelessWidget {
   final bool isHomePageVisible;
-  const LoginPage({Key? key, required this.isHomePageVisible})
-      : super(key: key);
+  LoginPage({super.key, required this.isHomePageVisible});
+  // const LoginPage({Key? key, required this.isHomePageVisible})
+  //     : super(key: key);
   @override
   Widget build(BuildContext context) {
     TextEditingController usernameController = TextEditingController();
