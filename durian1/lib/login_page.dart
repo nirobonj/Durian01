@@ -11,14 +11,13 @@ class LoginPage extends StatelessWidget {
   //     : super(key: key);
   @override
   Widget build(BuildContext context) {
-    TextEditingController usernameController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+    TextEditingController usernameController = TextEditingController(text: 'admin');
+    TextEditingController passwordController = TextEditingController(text: 'password');
 
     void login(BuildContext context) {
       String username = usernameController.text;
       String password = passwordController.text;
 
-      
       if (username == 'admin' && password == 'password') {
         if (isHomePageVisible) {
           Navigator.push(
@@ -28,7 +27,10 @@ class LoginPage extends StatelessWidget {
         } else {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => DisplayPage(isHomePageVisible: false,)),
+            MaterialPageRoute(
+                builder: (context) => DisplayPage(
+                      isHomePageVisible: false,
+                    )),
           );
         }
         if (kDebugMode) {
@@ -44,7 +46,10 @@ class LoginPage extends StatelessWidget {
     void signup(BuildContext context) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const SignupPage(isHomePageVisible: false,)),
+        MaterialPageRoute(
+            builder: (context) => const SignupPage(
+                  isHomePageVisible: false,
+                )),
       );
     }
 

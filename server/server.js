@@ -6,6 +6,7 @@ const path = require("path");
 const app = express();
 const { Pool } = require("pg");
 const fs = require("fs");
+const bcrypt = require("bcrypt");
 
 require("dotenv").config();
 
@@ -39,6 +40,39 @@ app.post("/auth/login/", (req, res) => {
     access_token,
     refresh_token,
   });
+});
+
+app.post("/checking", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Query the database to check if the username exists
+    const client = await pool.connect();
+    const result = await client.query(
+      `SELECT * FROM users WHERE username = $1`,
+      [username]
+    );
+    client.release();
+
+    // If the username exists, check the password
+    if (result.rows.length > 0) {
+      const user = result.rows[0];
+      const match = await bcrypt.compare(password, user.password);
+      if (match) {
+        // Password matches, return success message
+        res.status(200).send("Login successful");
+      } else {
+        // Password does not match, return error message
+        res.status(401).send("Incorrect password");
+      }
+    } else {
+      // Username does not exist, return error message
+      res.status(404).send("Username not found");
+    }
+  } catch (error) {
+    console.error("Error while checking username and password:", error);
+    res.status(500).send("Error checking username and password");
+  }
 });
 
 const jwtGenerate = (user) => {
@@ -75,18 +109,19 @@ const jwtValidate = (req, res, next) => {
   }
 };
 
+const saltRounds = 10;
 app.post("/register", async (req, res) => {
   try {
     console.log("Received data:", req.body);
     const { firstname, lastname, tel, province, type, username, password } =
       req.body;
-
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
     //connect database and record data to users table
     const client = await pool.connect();
     const result = await client.query(
       `INSERT INTO users (firstname, lastname, tel, province, type, username, password) 
        VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-      [firstname, lastname, tel, province, type, username, password]
+      [firstname, lastname, tel, province, type, username, hashedPassword]
     );
     client.release();
 
