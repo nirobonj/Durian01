@@ -197,7 +197,7 @@ class _SignupPageState extends State<SignupPage> {
                 fontSize: 40,
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 50,
@@ -214,7 +214,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 50,
@@ -231,7 +231,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 50,
@@ -247,7 +247,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 50,
@@ -264,7 +264,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 50,
@@ -280,7 +280,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 50,
@@ -297,7 +297,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 65,
@@ -322,7 +322,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 65,
@@ -378,6 +378,7 @@ class _SignupPageState extends State<SignupPage> {
             //     ),
             //   ),
             // ),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed:
                   _sendDataToServer, // เรียกใช้ _sendDataToServer() เมื่อกดปุ่ม

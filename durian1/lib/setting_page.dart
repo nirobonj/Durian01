@@ -88,14 +88,14 @@ class _SettingPageState extends State {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            isHomePageVisible = !isHomePageVisible;
-          });
-        },
-        child: Icon(isHomePageVisible ? Icons.close : Icons.home),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     setState(() {
+      //       isHomePageVisible = !isHomePageVisible;
+      //     });
+      //   },
+      //   child: Icon(isHomePageVisible ? Icons.close : Icons.home),
+      // ),
     );
   }
 }
