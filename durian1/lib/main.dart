@@ -10,6 +10,31 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // return MaterialApp(
+    //   title: 'Durian Sound Classify',
+    //   theme: ThemeData(
+    //     inputDecorationTheme: const InputDecorationTheme(
+    //       fillColor: Colors.white,
+    //       filled: true,
+    //     ),
+    //   ),
+    //   home: FutureBuilder<bool>(
+    //     future: _getIsHomePageVisible(), // ใช้ฟังก์ชั่น _getIsHomePageVisible() เพื่อเรียกใช้ SharedPreferences
+    //     builder: (context, snapshot) {
+    //       if (snapshot.connectionState == ConnectionState.done) {
+    //         bool isHomePageVisible = snapshot.data ?? false;
+    //         return isHomePageVisible ? SettingPage() : LoginPage(isHomePageVisible: false,);
+    //       } else {
+    //         return const Scaffold(
+    //           body: Center(
+    //             child: CircularProgressIndicator(),
+    //           ),
+    //         );
+    //       }
+    //     },
+    //   ),
+    //   debugShowCheckedModeBanner: false,
+    // );
     return MaterialApp(
       title: 'Durian Sound Classify',
       theme: ThemeData(
@@ -19,11 +44,20 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: FutureBuilder<bool>(
-        future: _getIsHomePageVisible(), // ใช้ฟังก์ชั่น _getIsHomePageVisible() เพื่อเรียกใช้ SharedPreferences
+        future: _getIsHomePageVisible(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            bool isHomePageVisible = snapshot.data ?? false;
-            return isHomePageVisible ? SettingPage() : LoginPage(isHomePageVisible: false,);
+            if (snapshot.hasData) {
+              // ตรวจสอบว่ามีข้อมูลที่ส่งมาหรือไม่
+              bool isHomePageVisible = snapshot.data ?? true;
+              return isHomePageVisible
+                  ? SettingPage()
+                  : LoginPage(isHomePageVisible: false);
+            } else {
+              return LoginPage(
+                  isHomePageVisible:
+                      false); // ถ้าไม่มีข้อมูลให้กลับไปที่หน้าเข้าสู่ระบบ
+            }
           } else {
             return const Scaffold(
               body: Center(

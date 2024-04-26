@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'setting_page.dart';
+import 'login_page.dart';
 
 class DisplayPage extends StatelessWidget {
   // final bool isHomePageVisible;
@@ -45,6 +46,22 @@ class DisplayPage extends StatelessWidget {
                 height: 40,
                 child: Image.asset('assets/settings.png'),
               ),
+            ),
+          ),
+          Positioned(
+            top: 50,
+            left: 17,
+            child: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => LoginPage(
+                            isHomePageVisible: isHomePageVisible,
+                          )),
+                );
+              },
             ),
           ),
         ],
