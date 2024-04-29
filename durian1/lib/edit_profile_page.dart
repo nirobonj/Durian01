@@ -1,4 +1,4 @@
-import 'package:durian1/home_page.dart';
+import 'package:D1/home_page.dart';
 import 'package:flutter/material.dart';
 
 class EditPage extends StatelessWidget {

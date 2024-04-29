@@ -1,14 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'edit_profile_page.dart';
 import 'display_page.dart';
 
 class SettingPage extends StatefulWidget {
+  const SettingPage({super.key});
+
   @override
   _SettingPageState createState() => _SettingPageState();
 }
 
 class _SettingPageState extends State {
-  bool isHomePageVisible = false;
+  bool isHomePageVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class _SettingPageState extends State {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           // onPressed: () {
           //   Navigator.pop(context, isHomePageVisible);
           // },
@@ -68,8 +71,10 @@ class _SettingPageState extends State {
                     final newValue = !isHomePageVisible;
                     setState(() {
                       isHomePageVisible = newValue;
-                      print(
+                      if (kDebugMode) {
+                        print(
                           'Setting Page is now ${newValue ? 'open' : 'closed'}');
+                      }
                     });
                   },
                 ),

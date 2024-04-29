@@ -4,37 +4,14 @@ import 'login_page.dart';
 import 'setting_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key});
+
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp(
-    //   title: 'Durian Sound Classify',
-    //   theme: ThemeData(
-    //     inputDecorationTheme: const InputDecorationTheme(
-    //       fillColor: Colors.white,
-    //       filled: true,
-    //     ),
-    //   ),
-    //   home: FutureBuilder<bool>(
-    //     future: _getIsHomePageVisible(), // ใช้ฟังก์ชั่น _getIsHomePageVisible() เพื่อเรียกใช้ SharedPreferences
-    //     builder: (context, snapshot) {
-    //       if (snapshot.connectionState == ConnectionState.done) {
-    //         bool isHomePageVisible = snapshot.data ?? false;
-    //         return isHomePageVisible ? SettingPage() : LoginPage(isHomePageVisible: false,);
-    //       } else {
-    //         return const Scaffold(
-    //           body: Center(
-    //             child: CircularProgressIndicator(),
-    //           ),
-    //         );
-    //       }
-    //     },
-    //   ),
-    //   debugShowCheckedModeBanner: false,
-    // );
     return MaterialApp(
       title: 'Durian Sound Classify',
       theme: ThemeData(
@@ -47,17 +24,10 @@ class MyApp extends StatelessWidget {
         future: _getIsHomePageVisible(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              // ตรวจสอบว่ามีข้อมูลที่ส่งมาหรือไม่
-              bool isHomePageVisible = snapshot.data ?? true;
-              return isHomePageVisible
-                  ? SettingPage()
-                  : LoginPage(isHomePageVisible: false);
-            } else {
-              return LoginPage(
-                  isHomePageVisible:
-                      false); // ถ้าไม่มีข้อมูลให้กลับไปที่หน้าเข้าสู่ระบบ
-            }
+            bool isHomePageVisible = snapshot.data ?? false;
+            return isHomePageVisible
+                ? const LoginPage(isHomePageVisible: true)
+                : const SettingPage();
           } else {
             return const Scaffold(
               body: Center(
@@ -73,9 +43,118 @@ class MyApp extends StatelessWidget {
 
   Future<bool> _getIsHomePageVisible() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('isHomePageVisible') ?? false;
+
+    bool isHomePageVisible = prefs.getBool('isHomePageVisible') ?? true;
+
+    await prefs.setBool('isHomePageVisible', isHomePageVisible);
+    return isHomePageVisible;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import 'package:flutter/material.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'login_page.dart';
+// import 'setting_page.dart';
+
+// void main() {
+//   runApp(const MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     // return MaterialApp(
+//     //   title: 'Durian Sound Classify',
+//     //   theme: ThemeData(
+//     //     inputDecorationTheme: const InputDecorationTheme(
+//     //       fillColor: Colors.white,
+//     //       filled: true,
+//     //     ),
+//     //   ),
+//     //   home: FutureBuilder<bool>(
+//     //     future: _getIsHomePageVisible(), // ใช้ฟังก์ชั่น _getIsHomePageVisible() เพื่อเรียกใช้ SharedPreferences
+//     //     builder: (context, snapshot) {
+//     //       if (snapshot.connectionState == ConnectionState.done) {
+//     //         bool isHomePageVisible = snapshot.data ?? false;
+//     //         return isHomePageVisible ? SettingPage() : LoginPage(isHomePageVisible: false,);
+//     //       } else {
+//     //         return const Scaffold(
+//     //           body: Center(
+//     //             child: CircularProgressIndicator(),
+//     //           ),
+//     //         );
+//     //       }
+//     //     },
+//     //   ),
+//     //   debugShowCheckedModeBanner: false,
+//     // );
+//     return MaterialApp(
+//       title: 'Durian Sound Classify',
+//       theme: ThemeData(
+//         inputDecorationTheme: const InputDecorationTheme(
+//           fillColor: Colors.white,
+//           filled: true,
+//         ),
+//       ),
+//       home: FutureBuilder<bool>(
+//         future: _getIsHomePageVisible(),
+//         builder: (context, snapshot) {
+//           if (snapshot.connectionState == ConnectionState.done) {
+//             if (snapshot.hasData) {
+//               // ตรวจสอบว่ามีข้อมูลที่ส่งมาหรือไม่
+//               bool isHomePageVisible = snapshot.data ?? true;
+//               return isHomePageVisible
+//                   ? const SettingPage()
+//                   : const LoginPage(isHomePageVisible: true);
+//             } else {
+//               return const LoginPage(
+//                   isHomePageVisible:
+//                       false);
+//             }
+//           } else {
+//             return const Scaffold(
+//               body: Center(
+//                 child: CircularProgressIndicator(),
+//               ),
+//             );
+//           }
+//         },
+//       ),
+//       debugShowCheckedModeBanner: false,
+//     );
+//   }
+
+//   Future<bool> _getIsHomePageVisible() async {
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     return prefs.getBool('isHomePageVisible') ?? true;
+//   }
+// }
 
 
 

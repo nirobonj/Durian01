@@ -5,8 +5,7 @@ import 'display_page.dart';
 
 class SignupNextPage extends StatelessWidget {
   final bool isHomePageVisible;
-  const SignupNextPage({Key? key, required this.isHomePageVisible})
-      : super(key: key);
+  const SignupNextPage({super.key, required this.isHomePageVisible});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +82,7 @@ class SignupNextPage extends StatelessWidget {
                   } else {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DisplayPage(isHomePageVisible: false,)),
+                      MaterialPageRoute(builder: (context) => const DisplayPage(isHomePageVisible: false,)),
                     );
                   }
                 },

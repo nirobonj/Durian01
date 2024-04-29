@@ -6,7 +6,7 @@ import 'display_page.dart';
 
 class LoginPage extends StatelessWidget {
   final bool isHomePageVisible; // เปลี่ยนเป็น bool?
-  LoginPage({super.key, required this.isHomePageVisible});
+  const LoginPage({super.key, required this.isHomePageVisible});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
       String password = passwordController.text;
 
       if (username == 'admin' && password == 'password') {
-        if (isHomePageVisible != null && isHomePageVisible!) {
+        if (isHomePageVisible) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => HomePage()),
