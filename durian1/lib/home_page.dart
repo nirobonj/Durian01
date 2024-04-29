@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'display_page.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({super.key});
+  final bool isHomePageVisible;
+  HomePage({super.key, required this.isHomePageVisible});
   final ScrollController _scrollController = ScrollController();
 
   void next(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const DisplayPage(isHomePageVisible: false,)),
+      MaterialPageRoute(builder: (context) => DisplayPage(isHomePageVisible: isHomePageVisible,)),
     );
   }
 

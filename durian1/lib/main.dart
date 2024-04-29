@@ -7,8 +7,29 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late bool _isHomePageVisible;
+  bool _isLoading = true;
+  @override
+  void initState() {
+    super.initState();
+    _loadHomePageVisibility();
+  }
+
+  Future<void> _loadHomePageVisibility() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isHomePageVisible = prefs.getBool('isHomePageVisible') ?? true;
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,36 +41,29 @@ class MyApp extends StatelessWidget {
           filled: true,
         ),
       ),
-      home: FutureBuilder<bool>(
-        future: _getIsHomePageVisible(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            bool isHomePageVisible = snapshot.data ?? false;
-            return isHomePageVisible
-                ? const LoginPage(isHomePageVisible: true)
-                : const SettingPage();
-          } else {
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        },
-      ),
+      home: _isLoading
+      ? const SplashScreen() 
+      :_isHomePageVisible
+      
+          ? const LoginPage(isHomePageVisible: true)
+          : const SettingPage(),
       debugShowCheckedModeBanner: false,
     );
   }
+}
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
 
-  Future<bool> _getIsHomePageVisible() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    bool isHomePageVisible = prefs.getBool('isHomePageVisible') ?? true;
-
-    await prefs.setBool('isHomePageVisible', isHomePageVisible);
-    return isHomePageVisible;
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
   }
 }
+
 
 
 
