@@ -1,14 +1,32 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'edit_profile_page.dart';
 import 'display_page.dart';
 
 class SettingPage extends StatefulWidget {
+  const SettingPage({Key? key}) : super(key: key);
+
   @override
   _SettingPageState createState() => _SettingPageState();
 }
 
-class _SettingPageState extends State {
-  bool isHomePageVisible = false;
+class _SettingPageState extends State<SettingPage> {
+  bool? isHomePageVisible; // เปลี่ยนเป็น null แทน true
+
+  @override
+  void initState() {
+    super.initState();
+    _loadHomePageVisibility();
+  }
+
+  Future<void> _loadHomePageVisibility() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isHomePageVisible =
+          prefs.getBool('isHomePageVisible'); // ไม่มีการกำหนดค่าเริ่มต้น
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,23 +39,18 @@ class _SettingPageState extends State {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          // onPressed: () {
-          //   Navigator.pop(context, isHomePageVisible);
-          // },
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => DisplayPage(
-                  isHomePageVisible: isHomePageVisible,
+                  isHomePageVisible: isHomePageVisible ?? true,
                 ),
               ),
             ).then((value) {
-              // เมื่อกลับมาจากหน้า DisplayPage
               setState(() {
-                isHomePageVisible = value ??
-                    isHomePageVisible; // ใช้ค่าเดิมหากไม่มีการเปลี่ยนแปลง
+                isHomePageVisible = value ?? isHomePageVisible;
               });
             });
           },
@@ -50,7 +63,7 @@ class _SettingPageState extends State {
           child: Card(
             child: ListView(
               children: <Widget>[
-                Text('isHomePageVisible: $isHomePageVisible'),
+                Text('isHomePageVisible: ${isHomePageVisible ?? "null"}'),
                 ListTile(
                   title: const Text(' แก้ไขข้อมูลส่วนตัว'),
                   onTap: () {
@@ -63,13 +76,19 @@ class _SettingPageState extends State {
                 const Divider(),
                 ListTile(
                   title: Text(
-                      ' หน้าคำอธิบาย ${isHomePageVisible ? 'เปิด' : 'ปิด'}'),
+                      ' หน้าคำอธิบาย ${isHomePageVisible ?? true ? 'เปิด' : 'ปิด'}'),
                   onTap: () async {
-                    final newValue = !isHomePageVisible;
+                    final newValue = !(isHomePageVisible ?? true);
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.setBool('isHomePageVisible',
+                        newValue); // บันทึกค่าใหม่ใน SharedPreferences
                     setState(() {
                       isHomePageVisible = newValue;
-                      print(
-                          'Setting Page is now ${newValue ? 'open' : 'closed'}');
+                      if (kDebugMode) {
+                        print(
+                            'Setting Page is now ${newValue ? 'open' : 'closed'}');
+                      }
                     });
                   },
                 ),
@@ -88,17 +107,10 @@ class _SettingPageState extends State {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            isHomePageVisible = !isHomePageVisible;
-          });
-        },
-        child: Icon(isHomePageVisible ? Icons.close : Icons.home),
-      ),
     );
   }
 }
+
 
 
 

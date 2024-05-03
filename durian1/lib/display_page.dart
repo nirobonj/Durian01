@@ -9,8 +9,7 @@ class DisplayPage extends StatelessWidget {
   //     : super(key: key);
   final bool isHomePageVisible;
 
-  const DisplayPage({Key? key, required this.isHomePageVisible})
-      : super(key: key);
+  const DisplayPage({super.key, required this.isHomePageVisible});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,7 @@ class DisplayPage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SettingPage()),
+                  MaterialPageRoute(builder: (context) => const SettingPage()),
                 );
               },
               child: SizedBox(
@@ -52,7 +51,7 @@ class DisplayPage extends StatelessWidget {
             top: 50,
             left: 17,
             child: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,

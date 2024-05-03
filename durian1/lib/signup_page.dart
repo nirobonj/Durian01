@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'signup_next_page.dart';
 import 'display_page.dart';
@@ -7,8 +8,7 @@ import 'login_page.dart';
 
 class SignupPage extends StatefulWidget {
   final bool isHomePageVisible;
-  const SignupPage({Key? key, required this.isHomePageVisible})
-      : super(key: key);
+  const SignupPage({super.key, required this.isHomePageVisible});
   @override
   State<SignupPage> createState() => _SignupPageState();
 }
@@ -151,12 +151,16 @@ class _SignupPageState extends State<SignupPage> {
         },
         body: jsonData,
       );
-      print(response.statusCode);
+      if (kDebugMode) {
+        print(response.statusCode);
+      }
 
       // ตรวจสอบสถานะการตอบรับจากเซิร์ฟเวอร์
       if (response.statusCode == 201) {
         // หากสำเร็จแสดงข้อความ
-        print('Data sent successfully');
+        if (kDebugMode) {
+          print('Data sent successfully');
+        }
         // นำผู้ใช้ไปยังหน้าถัดไป
         // next(context);
         setState(() {
@@ -164,11 +168,15 @@ class _SignupPageState extends State<SignupPage> {
         });
       } else {
         // หากไม่สำเร็จแสดงข้อความแสดงว่ามีข้อผิดพลาด
-        print('Failed to send data. Error: ${response.statusCode}');
+        if (kDebugMode) {
+          print('Failed to send data. Error: ${response.statusCode}');
+        }
       }
     } catch (e) {
       // หากเกิดข้อผิดพลาดในการส่งข้อมูล
-      print('Error sending data: $e');
+      if (kDebugMode) {
+        print('Error sending data: $e');
+      }
     }
   }
 
@@ -176,7 +184,7 @@ class _SignupPageState extends State<SignupPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => LoginPage(
+          builder: (context) => const LoginPage(
                 isHomePageVisible: false,
               )),
     );
@@ -197,7 +205,7 @@ class _SignupPageState extends State<SignupPage> {
                 fontSize: 40,
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 50,
@@ -214,7 +222,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 50,
@@ -231,7 +239,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 50,
@@ -247,7 +255,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 50,
@@ -264,7 +272,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 50,
@@ -280,7 +288,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 50,
@@ -297,7 +305,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 65,
@@ -322,7 +330,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 65,
@@ -378,6 +386,7 @@ class _SignupPageState extends State<SignupPage> {
             //     ),
             //   ),
             // ),
+            const SizedBox(height: 30),
             ElevatedButton(
               onPressed:
                   _sendDataToServer, // เรียกใช้ _sendDataToServer() เมื่อกดปุ่ม

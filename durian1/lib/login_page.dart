@@ -6,8 +6,8 @@ import 'display_page.dart';
 
 class LoginPage extends StatelessWidget {
   final bool isHomePageVisible; // เปลี่ยนเป็น bool?
-  LoginPage({super.key, required this.isHomePageVisible});
-  
+  const LoginPage({super.key, required this.isHomePageVisible});
+
   @override
   Widget build(BuildContext context) {
     TextEditingController usernameController = TextEditingController(text: 'admin');
@@ -18,15 +18,17 @@ class LoginPage extends StatelessWidget {
       String password = passwordController.text;
 
       if (username == 'admin' && password == 'password') {
-        if (isHomePageVisible != null && isHomePageVisible!) { // ตรวจสอบว่า isHomePageVisible ไม่เป็น null และมีค่าเป็น true
+        if (isHomePageVisible) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => HomePage(isHomePageVisible: isHomePageVisible,)),
           );
         } else {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => DisplayPage(isHomePageVisible: isHomePageVisible)),
+            MaterialPageRoute(
+                builder: (context) =>
+                    DisplayPage(isHomePageVisible: isHomePageVisible)),
           );
         }
         if (kDebugMode) {
@@ -42,7 +44,8 @@ class LoginPage extends StatelessWidget {
     void signup(BuildContext context) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const SignupPage(isHomePageVisible: true)),
+        MaterialPageRoute(
+            builder: (context) => const SignupPage(isHomePageVisible: true)),
       );
     }
 
