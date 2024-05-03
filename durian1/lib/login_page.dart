@@ -10,8 +10,8 @@ class LoginPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    TextEditingController usernameController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+    TextEditingController usernameController = TextEditingController(text: 'admin');
+    TextEditingController passwordController = TextEditingController(text: 'password');
 
     void login(BuildContext context) {
       String username = usernameController.text;
