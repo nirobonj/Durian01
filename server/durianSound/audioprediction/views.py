@@ -1,3 +1,4 @@
+# views.py
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -7,11 +8,6 @@ import numpy as np
 import librosa as lb
 from keras.models import load_model
 import os
-
-# Load the trained model
-current_directory = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(current_directory, '..',
-                          '..', 'server', 'audio_classification_model.h5')
 
 # Define classes
 classes = ['air_conditioner', 'car_horn', 'children_playing', 'dog_bark', 'drilling',
@@ -30,6 +26,15 @@ def feature_extractor(path):
 
 
 def predict_audio(path):
+    # Load the trained model
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    # MODEL_PATH = os.path.join(current_directory, '..',
+    #                           '..', 'server', 'audio_classification_model.h5')
+    MODEL_PATH = "D:/Study/Project/Durian01/server/audio_classification_model.h5"
+
+    print(MODEL_PATH)
+    model = load_model(MODEL_PATH)
+
     # Extract features from audio file
     audio_features = feature_extractor(path)
     # Reshape the features
