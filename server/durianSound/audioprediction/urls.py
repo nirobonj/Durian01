@@ -1,7 +1,7 @@
 from django.urls import path
-from . import views
+from audioprediction import views
+
 
 urlpatterns = [
-    path("blogposts/", views.BlogPostListCreate.as_view(),
-         name="blogpost-view-create"),
+    path('hello/', views.hello, name='hello'),
 ]
