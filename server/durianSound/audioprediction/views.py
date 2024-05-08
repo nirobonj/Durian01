@@ -30,8 +30,8 @@ def predict_audio(path):
     current_directory = os.path.dirname(os.path.abspath(__file__))
     # MODEL_PATH = os.path.join(current_directory, '..',
     #                           '..', 'server', 'audio_classification_model.h5')
-    MODEL_PATH = "D:/Study/Project/Durian01/server/audio_classification_model.h5"
-
+    # MODEL_PATH = "D:/Study/Project/Durian01/server/audio_classification_model.h5"
+    MODEL_PATH = 'audio_classification_model.h5'
     print(MODEL_PATH)
     model = load_model(MODEL_PATH)
 
