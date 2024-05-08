@@ -1,36 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'login_page.dart';
-import 'setting_page.dart';
+// import 'setting_page.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  late bool _isHomePageVisible;
   bool _isLoading = true;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _loadHomePageVisibility();
+  // }
   @override
   void initState() {
     super.initState();
-    _loadHomePageVisibility();
+    _loadIsHomePageVisible();
   }
 
-  Future<void> _loadHomePageVisibility() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  // Future<void> _loadHomePageVisibility() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     _isHomePageVisible = prefs.getBool('isHomePageVisible') ?? true;
+  //     _isLoading = false;
+  //   });
+  // }
+  // Future<void> _updateIsHomePageVisible(bool newValue) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.setBool('isHomePageVisible', newValue);
+  //   setState(() {
+  //   });
+  // }
+
+  Future<void> _loadIsHomePageVisible() async {
     setState(() {
-      _isHomePageVisible = prefs.getBool('isHomePageVisible') ?? true;
       _isLoading = false;
     });
   }
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return MaterialApp(
+  //     title: 'Durian Sound Classify',
+  //     theme: ThemeData(
+  //       inputDecorationTheme: const InputDecorationTheme(
+  //         fillColor: Colors.white,
+  //         filled: true,
+  //       ),
+  //     ),
+  //     home: _isLoading
+  //         ? const SplashScreen()
+  //         : _isHomePageVisible
+  //             ? const LoginPage(isHomePageVisible: true)
+  //             : const SettingPage(),
+  //     debugShowCheckedModeBanner: false,
+  //   );
+  // }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,15 +76,15 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       home: _isLoading
-      ? const SplashScreen() 
-      :_isHomePageVisible
-      
-          ? const LoginPage(isHomePageVisible: true)
-          : const SettingPage(),
+          ? const SplashScreen()
+          : const LoginPage(
+              isHomePageVisible:
+                  true),
       debugShowCheckedModeBanner: false,
     );
   }
 }
+
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 

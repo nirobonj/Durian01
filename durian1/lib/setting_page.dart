@@ -5,7 +5,7 @@ import 'edit_profile_page.dart';
 import 'display_page.dart';
 
 class SettingPage extends StatefulWidget {
-  const SettingPage({Key? key}) : super(key: key);
+  const SettingPage({super.key});
 
   @override
   _SettingPageState createState() => _SettingPageState();
@@ -63,43 +63,118 @@ class _SettingPageState extends State<SettingPage> {
           child: Card(
             child: ListView(
               children: <Widget>[
-                Text('isHomePageVisible: ${isHomePageVisible ?? "null"}'),
+                // Text('isHomePageVisible: ${isHomePageVisible ?? "null"}'),
+
+                // ListTile(
+                //   title: Text(
+                //       ' หน้าคำอธิบาย ${isHomePageVisible ?? true ? 'เปิด' : 'ปิด'}'),
+                //   onTap: () async {
+                //     final newValue = !(isHomePageVisible ?? true);
+                //     SharedPreferences prefs =
+                //         await SharedPreferences.getInstance();
+                //     await prefs.setBool('isHomePageVisible',
+                //         newValue); // บันทึกค่าใหม่ใน SharedPreferences
+                //     setState(() {
+                //       isHomePageVisible = newValue;
+                //       if (kDebugMode) {
+                //         print(
+                //             'Setting Page is now ${newValue ? 'open' : 'closed'}');
+                //       }
+                //     });
+                //   },
+                // ),
+                // ListTile(
+                //   title: Row(
+                //     children: [
+                //       const Text(' หน้าคำอธิบาย '),
+                //       Switch(
+                //         value: isHomePageVisible ?? true,
+                //         onChanged: (bool value) async {
+                //           SharedPreferences prefs =
+                //               await SharedPreferences.getInstance();
+                //           await prefs.setBool('isHomePageVisible', value);
+                //           setState(() {
+                //             isHomePageVisible = value;
+                //           });
+                //         },
+                //         activeColor: Color.fromARGB(255, 66, 204, 144),
+                //       ),
+                //     ],
+                //   ),
+                //   onTap: () async {
+                //     final newValue = !(isHomePageVisible ?? true);
+                //     SharedPreferences prefs =
+                //         await SharedPreferences.getInstance();
+                //     await prefs.setBool('isHomePageVisible', newValue);
+                //     setState(() {
+                //       isHomePageVisible = newValue;
+                //       if (kDebugMode) {
+                //         print(
+                //             'Setting Page is now ${newValue ? 'open' : 'closed'}');
+                //       }
+                //     });
+                //   },
+                // ),
                 ListTile(
-                  title: const Text(' แก้ไขข้อมูลส่วนตัว'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const EditPage()),
-                    );
-                  },
-                ),
-                const Divider(),
-                ListTile(
-                  title: Text(
-                      ' หน้าคำอธิบาย ${isHomePageVisible ?? true ? 'เปิด' : 'ปิด'}'),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(' หน้าคำอธิบาย '),
+                      Switch(
+                        value: isHomePageVisible ?? true,
+                        onChanged: (bool value) async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          await prefs.setBool('isHomePageVisible', value);
+                          setState(() {
+                            isHomePageVisible = value;
+                          });
+                        },
+                        activeColor: const Color.fromARGB(255, 35, 184, 119),
+                      ),
+                    ],
+                  ),
                   onTap: () async {
                     final newValue = !(isHomePageVisible ?? true);
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-                    await prefs.setBool('isHomePageVisible',
-                        newValue); // บันทึกค่าใหม่ใน SharedPreferences
+                    await prefs.setBool('isHomePageVisible', newValue);
                     setState(() {
                       isHomePageVisible = newValue;
                       if (kDebugMode) {
                         print(
-                            'Setting Page is now ${newValue ? 'open' : 'closed'}');
+                          'Setting Page is now ${newValue ? 'open' : 'closed'}',
+                        );
                       }
                     });
                   },
                 ),
                 const Divider(),
                 ListTile(
-                  title: const Text(
-                      ' Version                                                1.0'),
+                  title: const Text(' แก้ไขข้อมูลส่วนตัว'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => EditPage()),
+                    );
+                  },
+                  trailing: const Icon(Icons.edit),
+                ),
+
+                const Divider(),
+                ListTile(
+                  title: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Version'),
+                      Text('1.0'),
+                    ],
+                  ),
                   onTap: () {
                     // ใส่โค้ดที่ต้องการให้ทำงานเมื่อคลิกที่รายการ Privacy ตรงนี้
                   },
                 ),
+
                 const Divider(),
                 // เพิ่มรายการอื่นๆ ตามต้องการ
               ],
