@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'signup_next_page.dart';
-import 'display_page.dart';
+// import 'signup_next_page.dart';
+// import 'display_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'login_page.dart';
@@ -122,11 +122,11 @@ class _SignupPageState extends State<SignupPage> {
     'อุบลราชธานี',
     'อำนาจเจริญ',
   ];
-  TextEditingController _firstnameController = TextEditingController();
-  TextEditingController _lastnameController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _firstnameController = TextEditingController();
+  final TextEditingController _lastnameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   Future<void> _sendDataToServer() async {
     // เตรียมข้อมูลที่จะส่งไปยังเซิร์ฟเวอร์
     Map<String, dynamic> data = {
@@ -145,7 +145,7 @@ class _SignupPageState extends State<SignupPage> {
     try {
       // ส่ง request ไปยังเซิร์ฟเวอร์
       var response = await http.post(
-        Uri.parse('http://192.168.9.35:3000/register'),
+        Uri.parse('http://192.168.9.44:3000/register'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -193,6 +193,7 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromARGB(255, 255, 248, 153),
       body: Center(
         child: Column(
@@ -202,10 +203,10 @@ class _SignupPageState extends State<SignupPage> {
               'ลงทะเบียน',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 40,
+                fontSize: 25,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             SizedBox(
               width: 220,
               height: 50,
@@ -222,7 +223,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             SizedBox(
               width: 220,
               height: 50,
@@ -239,7 +240,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             SizedBox(
               width: 220,
               height: 50,
@@ -255,7 +256,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             SizedBox(
               width: 220,
               height: 50,
@@ -272,7 +273,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             SizedBox(
               width: 220,
               height: 50,
@@ -288,7 +289,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             SizedBox(
               width: 220,
               height: 50,
@@ -305,7 +306,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             SizedBox(
               width: 220,
               height: 65,
@@ -330,7 +331,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             SizedBox(
               width: 220,
               height: 65,
@@ -386,7 +387,7 @@ class _SignupPageState extends State<SignupPage> {
             //     ),
             //   ),
             // ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed:
                   _sendDataToServer, // เรียกใช้ _sendDataToServer() เมื่อกดปุ่ม
@@ -401,7 +402,7 @@ class _SignupPageState extends State<SignupPage> {
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: 16,
                 ),
               ),
             ),
