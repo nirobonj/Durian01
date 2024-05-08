@@ -1,5 +1,5 @@
 """
-ASGI config for durianRecognition project.
+ASGI config for durianSound project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "durianRecognition.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "durianSound.settings")
 
 application = get_asgi_application()

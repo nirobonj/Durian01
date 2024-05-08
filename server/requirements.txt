@@ -3,5 +3,3 @@ djangorestframework
 pandas 
 numpy 
 scikit-learn
-environs
-librosa
