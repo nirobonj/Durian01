@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 import 'setting_page.dart';
 import 'login_page.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'app_state.dart';
 
 class DisplayPage extends StatefulWidget {
   final bool isHomePageVisible;
@@ -15,8 +25,181 @@ class _DisplayPageState extends State<DisplayPage> {
   final ScrollController _scrollController = ScrollController();
   static const IconData settings =
       IconData(0xe57f, fontFamily: 'MaterialIcons');
+
   bool _isExpanded = false;
   bool isPressed = false;
+  FlutterSoundRecorder? _recorder;
+  FlutterSoundPlayer? _player;
+  bool _isRecording = false;
+
+  late AppState _appState;
+  late String _audioFilePath;
+  late String recordingTimeStamp;
+  late List<int> _recordedAudio;
+  late List<int> _tempRecordedAudio;
+  late String file_path;
+  late String username;
+  late String password;
+  late String storeName;
+  late Timer _timer;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _tempRecordedAudio = [];
+  // }
+  @override
+  void initState() {
+    super.initState();
+    _recorder = FlutterSoundRecorder();
+    _player = FlutterSoundPlayer();
+    recordingTimeStamp = '';
+    _initAudioFilePath();
+  }
+
+  // Future<void> _initAudioFilePath() async {
+  //   setState(() {
+  //     // _audioFilePath = '${directory!.path}/Download/';
+  //     _audioFilePath = '/storage/emulated/0/Download/';
+  //   });
+  // }
+  Future<void> _initAudioFilePath() async {
+    setState(() {
+      Directory directory =
+          Directory('/storage/emulated/0/Download/');
+      if (directory.existsSync()) {
+        if (kDebugMode) {
+          print("Directory exists");
+        }
+      } else {
+        if (kDebugMode) {
+          print("Directory does not exist");
+        }
+        directory.createSync(recursive: true);
+      }
+      _audioFilePath = directory.path;
+    });
+  }
+
+  @override
+  void dispose() {
+    _recorder?.closeRecorder();
+    _player?.closePlayer();
+    super.dispose();
+  }
+  void _startRecording() async {
+     var status = await Permission.microphone.status;
+    if (!status.isGranted) {
+      await Permission.microphone.request();
+      status = await Permission.microphone.status;
+      await Permission.storage.request();
+      status = await Permission.storage.status;
+      if (!status.isGranted) {
+        if (kDebugMode) {
+          print('ไม่ได้รับอนุญาตให้ใช้ไมค์');
+          print('ไม่ได้รับอนุญาตให้เข้าถึงไฟล์เสียง');
+        }
+        return;
+      }
+    }
+
+    await _initAudioFilePath();
+    try {
+      recordingTimeStamp = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+
+      await _recorder?.openRecorder();
+      await _recorder?.startRecorder(
+        toFile: '$_audioFilePath$recordingTimeStamp.wav',
+        codec: Codec.pcm16WAV,
+      );
+      setState(() {
+        _isRecording = true;
+        recordingTimeStamp =
+            DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+      });
+      _stopRecordingAfter20Seconds();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error starting recording: $e');
+      }
+    }
+  }
+
+  void _stopRecordingAfter20Seconds() {
+    Timer(const Duration(seconds: 20), () async {
+      if (_isRecording) {
+        _stopRecording();
+      }
+    });
+  }
+
+  void _stopRecording() async {
+    try {
+      await _recorder?.stopRecorder();
+      setState(() {
+        _isRecording = false;
+      });
+
+      if (kDebugMode) {
+        print('Recording time stamp: $recordingTimeStamp');
+      }
+      String fileName = '$recordingTimeStamp' '.wav';
+
+      if (kDebugMode) {
+        print(fileName);
+      }
+      String filePath ='$_audioFilePath$fileName';
+      var url = Uri.parse('http://127.0.0.1:8000/predict/');
+      // // var url = Uri.parse('/usr/share/nginx/https://erp.365supplychain.com/Durain_Sound/upload');
+      // // var url = Uri.parse('http://203.154.74.67:3001/upload');
+      var request = http.MultipartRequest('POST', url)
+        ..files.add(http.MultipartFile.fromBytes(
+            'audio', File(filePath).readAsBytesSync(),
+            filename: fileName));
+
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        if (kDebugMode) {
+          print('File uploaded successfully');
+        }
+      } else {
+        if (kDebugMode) {
+          print('File upload failed');
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error stopping recording: $e');
+      }
+    }
+  }
+
+  void _playRecording() async {
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+      status = await Permission.storage.status;
+      if (!status.isGranted) {
+        if (kDebugMode) {
+          print('ไม่ได้รับอนุญาตให้เข้าถึงไฟล์เสียง');
+        }
+        return;
+      }
+    }
+
+    try {
+      await _player?.openPlayer();
+      await _player?.startPlayer(
+        fromURI: '$_audioFilePath$recordingTimeStamp.wav',
+        codec: Codec.pcm16WAV,
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error playing recording: $e');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,56 +250,7 @@ class _DisplayPageState extends State<DisplayPage> {
                   height: 5000,
                   child: Column(
                     children: [
-                      const SizedBox(height: 50),
-                      //
-                      // GestureDetector(
-                      //   onTapDown: (TapDownDetails details) {
-                      //     setState(() {
-                      //       isPressed = true;
-                      //     });
-                      //   },
-                      //   onTapUp: (TapUpDetails details) {
-                      //     setState(() {
-                      //       isPressed = false;
-                      //     });
-                      //   },
-                      //   child: AnimatedContainer(
-                      //     duration: Duration(milliseconds: 200),
-                      //     width: 200.0,
-                      //     height: 200.0,
-                      //     decoration: BoxDecoration(
-                      //       color: Color.fromARGB(255, 255, 223, 61),
-                      //       shape: BoxShape.circle,
-                      //       boxShadow: isPressed
-                      //           ? [
-                      //               BoxShadow(
-                      //                 color:
-                      //                     Color.fromARGB(255, 255, 180, 5)
-                      //                         .withOpacity(0.2),
-                      //                 blurRadius: 400.0,
-                      //                 spreadRadius: 100.0,
-                      //                 offset: const Offset(
-                      //                   0.0,
-                      //                   3.0,
-                      //                 ),
-                      //               ),
-                      //             ]
-                      //           : [],
-                      //     ),
-                      //     child: Center(
-                      //       child: AnimatedContainer(
-                      //         duration: const Duration(milliseconds: 200),
-                      //         width: 170.0,
-                      //         height: 170.0,
-                      //         decoration: const BoxDecoration(
-                      //           color: Color.fromARGB(255, 255, 174, 61),
-                      //           shape: BoxShape.circle,
-                      //         ),
-                      //       ),
-                      //     ),
-
-                      //   ),
-                      // ),
+                      const SizedBox(height: 15),
                       GestureDetector(
                         onTapDown: (TapDownDetails details) {
                           setState(() {
@@ -128,6 +262,7 @@ class _DisplayPageState extends State<DisplayPage> {
                             isPressed = false;
                           });
                         },
+                        onTap: _isRecording ? null : _startRecording,
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
                           width: 200.0,
@@ -180,24 +315,12 @@ class _DisplayPageState extends State<DisplayPage> {
                                     ),
                                   ),
                                 ),
-                                // Positioned(
-                                //   top: 80,
-                                //   left: 80,
-                                //   child: AnimatedContainer(
-                                //     duration: const Duration(milliseconds: 200),
-                                //     width: 40.0,
-                                //     height: 40.0,
-                                //     decoration: BoxDecoration(
-                                //       color: Color.fromARGB(255, 255, 174, 61),
-                                //       shape: BoxShape.circle,
-                                //     ),
-                                //   ),
-                                // ),
                               ],
                             ),
                           ),
                         ),
                       ),
+
                       // Text('isHomePageVisible: ${widget.isHomePageVisible}'),
                       const SizedBox(height: 50),
                       const Text(
@@ -229,22 +352,53 @@ class _DisplayPageState extends State<DisplayPage> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 255, 198, 54), // background color
+                      backgroundColor: const Color.fromARGB(255, 255, 198, 54),
                     ),
-                    child: const Text('เคาะอีกครั้ง',style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold, // กำหนดสีข้อความใน Body
-                        ),),
+                    child: const Text(
+                      'เคาะอีกครั้ง',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
-                 const SizedBox(height: 50),
+                const SizedBox(height: 50),
+                Text(
+                  'ชื่อไฟล์ : ${recordingTimeStamp ?? 'ไม่มีชื่อไฟล์'}',
+                  style: const TextStyle(fontSize: 16),
+                ),
+                _isRecording
+                    ? ElevatedButton(
+                        onPressed: _stopRecording,
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: const Text('Stop Recording'),
+                      )
+                    : ElevatedButton(
+                        onPressed: _startRecording,
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: const Text('Start Recording'),
+                      ),
+                !_isRecording
+                    ? ElevatedButton(
+                        onPressed: _playRecording,
+                        child: const Text('Play Recording'),
+                      )
+                    : Container(),
               ],
             ),
           ),
         ),
       ),
-
       bottomNavigationBar: Container(
         color: Colors.grey,
         height: 100,
