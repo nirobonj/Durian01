@@ -130,11 +130,11 @@ class _SignupPageState extends State<SignupPage> {
   Future<void> _sendDataToServer() async {
     // เตรียมข้อมูลที่จะส่งไปยังเซิร์ฟเวอร์
     Map<String, dynamic> data = {
-      'firstname': _firstnameController.text,
-      'lastname': _lastnameController.text,
+      'fname': _firstnameController.text,
+      'lname': _lastnameController.text,
       'tel': _phoneController.text,
       'province': _selectedProvince,
-      'type': _selectedType,
+      'types': _selectedType,
       'username': _usernameController.text,
       'password': _passwordController.text,
     };
@@ -143,9 +143,9 @@ class _SignupPageState extends State<SignupPage> {
     String jsonData = json.encode(data);
 
     try {
-      // ส่ง request ไปยังเซิร์ฟเวอร์
       var response = await http.post(
-        Uri.parse('http://192.168.9.44:3000/register'),
+        //Uri.parse('http://192.168.9.44:3000/register'),
+        Uri.parse('http://127.0.0.1:8000/api/users/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
