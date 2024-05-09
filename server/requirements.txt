@@ -1,3 +1,5 @@
+corsheaders
+psycopg2
 Django
 djangorestframework
 pandas 

@@ -1,3 +1,4 @@
+# C:\xampp\htdocs\Durian01\server\durianSound\durianSound\urls.py
 """
 URL configuration for durianSound project.
 
@@ -19,5 +20,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', include('audioprediction.urls'))
+    path('', include('audioprediction.urls')),
+    path('api/', include('users.urls')),
+   
 ]
