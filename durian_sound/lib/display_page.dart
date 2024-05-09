@@ -66,7 +66,7 @@ class _DisplayPageState extends State<DisplayPage> {
   Future<void> _initAudioFilePath() async {
     setState(() {
       Directory directory =
-          Directory('/storage/emulated/0/Download/');
+          Directory('/storage/emulated/0/Download/durian_sound/');
       if (directory.existsSync()) {
         if (kDebugMode) {
           print("Directory exists");
@@ -126,7 +126,7 @@ class _DisplayPageState extends State<DisplayPage> {
   }
 
   void _stopRecordingAfter20Seconds() {
-    Timer(const Duration(seconds: 20), () async {
+    Timer(const Duration(seconds: 3), () async {
       if (_isRecording) {
         _stopRecording();
       }
@@ -149,7 +149,7 @@ class _DisplayPageState extends State<DisplayPage> {
         print(fileName);
       }
       String filePath ='$_audioFilePath$fileName';
-      var url = Uri.parse('http://127.0.0.1:8000/predict/');
+      var url = Uri.parse('http://192.168.9.44:8000/predict/');
       // // var url = Uri.parse('/usr/share/nginx/https://erp.365supplychain.com/Durain_Sound/upload');
       // // var url = Uri.parse('http://203.154.74.67:3001/upload');
       var request = http.MultipartRequest('POST', url)
