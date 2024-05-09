@@ -1,4 +1,4 @@
-corsheaders
+django-cors-headers==4.3.1
 psycopg2
 Django
 djangorestframework

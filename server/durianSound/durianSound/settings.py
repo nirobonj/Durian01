@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "audioprediction",
     "users",
+
 ]
 
 MIDDLEWARE = [
@@ -83,13 +84,14 @@ WSGI_APPLICATION = "durianSound.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sounddurian', 
-        'USER': 'postgres',
-        'PASSWORD': '123456789',
-        'HOST': '127.0.0.1', 
+        'NAME': 'cars',
+        'USER': 'bew',
+        'PASSWORD': 'admin123',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -145,12 +147,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # APPEND_SLASH = False
 
 CORS_ALLOWED_ORIGINS = [
-     "http://127.0.0.1:8000",
+    "http://127.0.0.1:8000",
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGIN_REGEXES = [
-     "http://127.0.0.1:8000",
+    "http://127.0.0.1:8000",
 ]
