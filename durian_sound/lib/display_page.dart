@@ -87,8 +87,9 @@ class _DisplayPageState extends State<DisplayPage> {
     _player?.closePlayer();
     super.dispose();
   }
+
   void _startRecording() async {
-     var status = await Permission.microphone.status;
+    var status = await Permission.microphone.status;
     if (!status.isGranted) {
       await Permission.microphone.request();
       status = await Permission.microphone.status;
@@ -148,10 +149,8 @@ class _DisplayPageState extends State<DisplayPage> {
       if (kDebugMode) {
         print(fileName);
       }
-      String filePath ='$_audioFilePath$fileName';
-      var url = Uri.parse('http://192.168.9.44:8000/predict/');
-      // // var url = Uri.parse('/usr/share/nginx/https://erp.365supplychain.com/Durain_Sound/upload');
-      // // var url = Uri.parse('http://203.154.74.67:3001/upload');
+      String filePath = '$_audioFilePath$fileName';
+      var url = Uri.parse('https://zbx5wgnt-8000.asse.devtunnels.ms/predict/');
       var request = http.MultipartRequest('POST', url)
         ..files.add(http.MultipartFile.fromBytes(
             'audio', File(filePath).readAsBytesSync(),
