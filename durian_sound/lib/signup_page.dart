@@ -144,7 +144,7 @@ class _SignupPageState extends State<SignupPage> {
 
     try {
       var response = await http.post(
-        Uri.parse('https://f48c-115-87-222-240.ngrok-free.app/users/register/'),
+        Uri.parse('https://93eb-115-87-222-240.ngrok-free.app/users/register/'),
         // http://127.0.0.1:8000/users/register/
         // Uri.parse('http://127.0.0.1:8000/api/users/'),
         headers: <String, String>{

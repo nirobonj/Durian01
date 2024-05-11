@@ -81,21 +81,8 @@ WSGI_APPLICATION = "durianSound.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-<<<<<<< HEAD
 #localhost
 
-=======
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'cars',
-#         'USER': 'bew',
-#         'PASSWORD': 'admin123',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432',
-#     }
-# }
->>>>>>> cc28ff29ca4b218225e52b73ac0b1d1cb98d9e10
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -106,7 +93,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-<<<<<<< HEAD
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -117,8 +103,6 @@ DATABASES = {
 #         'PORT': '5432',
 #     }
 # }
-=======
->>>>>>> cc28ff29ca4b218225e52b73ac0b1d1cb98d9e10
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

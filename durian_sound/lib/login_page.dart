@@ -4,6 +4,8 @@ import 'signup_page.dart';
 import 'home_page.dart';
 import 'display_page.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatelessWidget {
   final bool isHomePageVisible; // เปลี่ยนเป็น bool?
@@ -14,39 +16,118 @@ class LoginPage extends StatelessWidget {
     TextEditingController usernameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
 
+    // void login(BuildContext context) async {
+    //   // เปลี่ยนให้ฟังก์ชั่น login เป็น asynchronous
+    //   String username = usernameController.text;
+    //   String password = passwordController.text;
+    //   final url = Uri.parse('http://your-django-server.com/login/'); // แก้ URL ให้เป็น URL ของเซิร์ฟเวอร์ Django
+    //   if (username == 'b' && password == 'b') {
+    //     SharedPreferences prefs =
+    //         await SharedPreferences.getInstance(); // อ่านค่า SharedPreferences
+    //     bool? isHomePageVisible = prefs.getBool('isHomePageVisible') ??
+    //         true; // ใช้ค่าจาก SharedPreferences
+    //     if (isHomePageVisible) {
+    //       Navigator.push(
+    //         context,
+    //         MaterialPageRoute(
+    //             builder: (context) => HomePage(
+    //                   isHomePageVisible: isHomePageVisible,
+    //                 )),
+    //       );
+    //     } else {
+    //       Navigator.push(
+    //         context,
+    //         MaterialPageRoute(
+    //             builder: (context) =>
+    //                 DisplayPage(isHomePageVisible: isHomePageVisible)),
+    //       );
+    //     }
+    //     if (kDebugMode) {
+    //       print('Login successful');
+    //     }
+    //   } else {
+    //     if (kDebugMode) {
+    //       print('Login failed');
+    //     }
+    //   }
+    // }
+    void showAlertDialog(BuildContext context, String title, String message) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // ปิด dialog
+                },
+                child: Text('ตกลง'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     void login(BuildContext context) async {
-      // เปลี่ยนให้ฟังก์ชั่น login เป็น asynchronous
       String username = usernameController.text;
       String password = passwordController.text;
 
-      if (username == 'b' && password == 'b') {
-        SharedPreferences prefs =
-            await SharedPreferences.getInstance(); // อ่านค่า SharedPreferences
-        bool? isHomePageVisible = prefs.getBool('isHomePageVisible') ??
-            true; // ใช้ค่าจาก SharedPreferences
-        if (isHomePageVisible) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
+      final url = Uri.parse(
+          'https://93eb-115-87-222-240.ngrok-free.app/users/login/'); // แก้ URL ให้เป็น URL ของเซิร์ฟเวอร์ Django
+
+      try {
+        final response = await http.post(
+          url,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, String>{
+            'username': username,
+            'password': password,
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          // สำเร็จ: ดำเนินการต่อไป
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          bool? isHomePageVisible = prefs.getBool('isHomePageVisible') ?? true;
+          if (isHomePageVisible) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
                 builder: (context) => HomePage(
-                      isHomePageVisible: isHomePageVisible,
-                    )),
-          );
+                  isHomePageVisible: isHomePageVisible,
+                ),
+              ),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DisplayPage(
+                  isHomePageVisible: isHomePageVisible,
+                ),
+              ),
+            );
+          }
+          if (kDebugMode) {
+            print('Login successful');
+          }
         } else {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    DisplayPage(isHomePageVisible: isHomePageVisible)),
-          );
+          // ไม่สำเร็จ: แสดง dialog แจ้งเตือน
+          if (kDebugMode) {
+            print('Login failed');
+          }
+          showAlertDialog(
+              context, 'Login Failed', 'Invalid username or password');
         }
-        if (kDebugMode) {
-          print('Login successful');
-        }
-      } else {
-        if (kDebugMode) {
-          print('Login failed');
-        }
+      } catch (e) {
+        // เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์
+        print('Error: $e');
+        showAlertDialog(context, 'Error', 'An error occurred: $e');
       }
     }
 
@@ -68,7 +149,7 @@ class LoginPage extends StatelessWidget {
             Container(
               width: 220,
               height: 200,
-              color: const Color.fromARGB(255, 255, 214, 92), 
+              color: const Color.fromARGB(255, 255, 214, 92),
             ),
             const SizedBox(height: 25),
             SizedBox(

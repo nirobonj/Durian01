@@ -11,6 +11,7 @@ from django.http import JsonResponse
 from .models import Register,Login
 from rest_framework.decorators import api_view
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password
 
 def hello(request):
     data = {"message": "Hello, Django!"}
@@ -67,3 +68,43 @@ class UsersViewset(APIView):
 
 # def hello(request):
 #     return JsonResponse({"status": "success"})
+
+class LoginViewset(APIView):
+    def get(self, request, id=None):
+        if id:
+            item = get_object_or_404(models.Register, id=id)
+            serializer = serializers.RegisterSerializer(item)
+            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+        items = models.Register.objects.all()
+        serializer = serializers.RegisterSerializer(items, many=True)
+        print("a")
+        return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+    def post(self, request, format=None):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        try:
+            user = models.Register.objects.get(username=username)
+        except models.Register.DoesNotExist:
+            return Response({"status": "error", "message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        if check_password(password, user.password):
+            return Response({"status": "success", "message": "Login successful"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "error", "message": "Invalid username or password"}, status=status.HTTP_401_UNAUTHORIZED)
+        
+    
+    def patch(self, request, id=None):
+        item = get_object_or_404(models.Register, id=id)
+        serializer = serializers.RegisterSerializer(item, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id=None):
+        item = get_object_or_404(models.Register, id=id)
+        item.delete()
+        return Response({"status": "success", "data": "Item Deleted"}, status=status.HTTP_204_NO_CONTENT)
