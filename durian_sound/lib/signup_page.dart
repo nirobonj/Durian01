@@ -127,7 +127,32 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  Future<void> _sendDataToServer() async {
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  void _sendDataToServer() async {
+    // เช็คว่ารหัสผ่านและการยืนยันรหัสผ่านตรงกันหรือไม่
+    if (_passwordController.text != _confirmPasswordController.text) {
+      // ถ้าไม่ตรงกัน แสดงแจ้งเตือน
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('รหัสผ่านไม่ตรงกัน'),
+            content: Text('กรุณาใส่รหัสผ่านและการยืนยันรหัสผ่านให้ตรงกัน'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // ปิด dialog
+                },
+                child: Text('ตกลง'),
+              ),
+            ],
+          );
+        },
+      );
+      return; // ออกจากฟังก์ชัน
+    }
+
     // เตรียมข้อมูลที่จะส่งไปยังเซิร์ฟเวอร์
     Map<String, dynamic> data = {
       'fname': _firstnameController.text,
@@ -145,8 +170,6 @@ class _SignupPageState extends State<SignupPage> {
     try {
       var response = await http.post(
         Uri.parse('https://93eb-115-87-222-240.ngrok-free.app/users/register/'),
-        // http://127.0.0.1:8000/users/register/
-        // Uri.parse('http://127.0.0.1:8000/api/users/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -163,7 +186,6 @@ class _SignupPageState extends State<SignupPage> {
           print('Data sent successfully');
         }
         // นำผู้ใช้ไปยังหน้าถัดไป
-        // next(context);
         setState(() {
           next(context);
         });
@@ -280,6 +302,7 @@ class _SignupPageState extends State<SignupPage> {
               height: 50,
               child: TextField(
                 obscureText: true,
+                controller: _confirmPasswordController,
                 decoration: InputDecoration(
                   hintText: 'ยืนยันรหัสผ่าน',
                   labelText: 'ยืนยันรหัสผ่าน',
