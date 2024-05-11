@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-0u--h2wg8lr7q$jkn+rbn7_*1d@2)2lj!%^+qg8o1q8(7mfxk)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -80,6 +80,8 @@ WSGI_APPLICATION = "durianSound.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+#localhost
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -92,11 +94,12 @@ DATABASES = {
 }
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'restfulapiDB',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'localhost'
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'sounddurian', 
+#         'USER': 'sound_durian',
+#         'PASSWORD': 'sound_durian',
+#         'HOST': '203.154.158.79', 
+#         'PORT': '5432',
 #     }
 # }
 
@@ -117,6 +120,17 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+PASSWORD_HASHERS = (
+    # 'django.contrib.auth.hashers.MyPBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.SHA1PasswordHasher',
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+    # 'django.contrib.auth.hashers.CryptPasswordHasher',
+)
 
 
 # Internationalization
@@ -143,11 +157,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # APPEND_SLASH = False
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
      "http://127.0.0.1:8000",
 ]
-CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
