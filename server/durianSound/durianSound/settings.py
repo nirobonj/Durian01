@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "audioprediction",
     "users",
+
 ]
 
 MIDDLEWARE = [
@@ -80,18 +81,32 @@ WSGI_APPLICATION = "durianSound.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+<<<<<<< HEAD
 #localhost
 
+=======
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'cars',
+#         'USER': 'bew',
+#         'PASSWORD': 'admin123',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
+>>>>>>> cc28ff29ca4b218225e52b73ac0b1d1cb98d9e10
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sounddurian', 
-        'USER': 'postgres',
-        'PASSWORD': '123456789',
-        'HOST': '127.0.0.1', 
+        'NAME': 'sounddurian',
+        'USER': 'sound_durian',
+        'PASSWORD': 'sound_durian',
+        'HOST': '203.154.158.79',
         'PORT': '5432',
     }
 }
+<<<<<<< HEAD
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -102,6 +117,8 @@ DATABASES = {
 #         'PORT': '5432',
 #     }
 # }
+=======
+>>>>>>> cc28ff29ca4b218225e52b73ac0b1d1cb98d9e10
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -160,11 +177,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-     "http://127.0.0.1:8000",
+    "http://127.0.0.1:8000",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGIN_REGEXES = [
-     "http://127.0.0.1:8000",
+    "http://127.0.0.1:8000",
 ]
