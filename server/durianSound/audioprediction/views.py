@@ -28,12 +28,10 @@ def feature_extractor(path):
 def predict_audio(path):
     # Load the trained model
     current_directory = os.path.dirname(os.path.abspath(__file__))
-    # MODEL_PATH = os.path.join(current_directory, '..',
-    #                           '..', 'server', 'audio_classification_model.h5')
-    # MODEL_PATH = "D:/Study/Project/Durian01/server/audio_classification_model.h5"
     MODEL_PATH = 'audio_classification_model.h5'
-    print(MODEL_PATH)
-    model = load_model(MODEL_PATH)
+    current_directory += '/'+MODEL_PATH
+    # print(current_directory)
+    model = load_model(current_directory)
 
     # Extract features from audio file
     audio_features = feature_extractor(path)
