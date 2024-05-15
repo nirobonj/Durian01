@@ -151,12 +151,7 @@ class _DisplayPageState extends State<DisplayPage> {
         print(fileName);
       }
       String filePath = '$_audioFilePath$fileName';
-      // var url = Uri.parse('http://192.168.9.44:8000/predict/');
-      var url = Uri.parse(
-          // 'https://https://93eb-115-87-222-240.ngrok-free.app/predict/');
-          '${AppConfig.connUrl}/predict/');
-      // // var url = Uri.parse('/usr/share/nginx/https://erp.365supplychain.com/Durain_Sound/upload');
-      // // var url = Uri.parse('http://203.154.74.67:3001/upload');
+      var url = Uri.parse('${AppConfig.connUrl}/predict/');
       var request = http.MultipartRequest('POST', url)
         ..files.add(http.MultipartFile.fromBytes(
             'audio', File(filePath).readAsBytesSync(),
