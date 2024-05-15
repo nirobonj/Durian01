@@ -6,6 +6,16 @@ import 'display_page.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'package:durian_sound/config.dart';
+
+class UserController extends GetxController {
+  RxString username = ''.obs;
+  RxString password = ''.obs;
+
+  void setUsername(String value) => username.value = value;
+  void setPassword(String value) => password.value = value;
+}
 
 class LoginPage extends StatelessWidget {
   final bool isHomePageVisible; // เปลี่ยนเป็น bool?
@@ -15,7 +25,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController usernameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
-
+    final UserController userController = Get.put(UserController());
     // void login(BuildContext context) async {
     //   // เปลี่ยนให้ฟังก์ชั่น login เป็น asynchronous
     //   String username = usernameController.text;
@@ -51,6 +61,7 @@ class LoginPage extends StatelessWidget {
     //     }
     //   }
     // }
+
     void showAlertDialog(BuildContext context, String title, String message) {
       showDialog(
         context: context,
@@ -76,7 +87,7 @@ class LoginPage extends StatelessWidget {
       String password = passwordController.text;
 
       final url = Uri.parse(
-          'https://93eb-115-87-222-240.ngrok-free.app/users/login/'); // แก้ URL ให้เป็น URL ของเซิร์ฟเวอร์ Django
+          '${AppConfig.connUrl}/users/login/'); // แก้ URL ให้เป็น URL ของเซิร์ฟเวอร์ Django
 
       try {
         final response = await http.post(
@@ -94,6 +105,10 @@ class LoginPage extends StatelessWidget {
           // สำเร็จ: ดำเนินการต่อไป
           SharedPreferences prefs = await SharedPreferences.getInstance();
           bool? isHomePageVisible = prefs.getBool('isHomePageVisible') ?? true;
+          userController.setUsername(username);
+          userController.setPassword(password);
+          print('Username: $username');
+
           if (isHomePageVisible) {
             Navigator.push(
               context,

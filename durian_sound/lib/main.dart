@@ -38,9 +38,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: _isLoading
           ? const SplashScreen()
-          : const LoginPage(
-              isHomePageVisible:
-                  true),
+          : const LoginPage(isHomePageVisible: true),
       debugShowCheckedModeBanner: false,
     );
   }

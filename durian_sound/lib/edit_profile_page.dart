@@ -1,315 +1,154 @@
+import 'package:durian_sound/config.dart';
+import 'package:durian_sound/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class EditPage extends StatelessWidget {
-  EditPage({super.key});
-  String? _selectedProvince;
+class EditPage extends StatefulWidget {
+  @override
+  _EditPageState createState() => _EditPageState();
+}
 
-  String? _selectedType;
+class _EditPageState extends State<EditPage> {
+  // String username = Get.find<UserController>().username.value;
 
-  final List<String> type = ['ล้ง', 'ผู้บริโภค', 'ผู้ขาย', 'ชาวสวน'];
+  // final String defaultUsername = "saran";
 
-  final List<String> provinces = [
-    'กรุงเทพมหานคร',
-    'กระบี่',
-    'กาญจนบุรี',
-    'ปทุมธานี',
-    'กาฬสินธุ์',
-    'กำแพงเพชร',
-    'ขอนแก่น',
-    'จันทบุรี',
-    'ฉะเชิงเทรา',
-    'ชลบุรี',
-    'ชัยนาท',
-    'ชัยภูมิ',
-    'ชุมพร',
-    'เชียงราย',
-    'เชียงใหม่',
-    'ตรัง',
-    'ตราด',
-    'ตาก',
-    'นครนายก',
-    'นครปฐม',
-    'นครพนม',
-    'นครราชสีมา',
-    'นครศรีธรรมราช',
-    'นครสวรรค์',
-    'นนทบุรี',
-    'นราธิวาส',
-    'น่าน',
-    'บึงกาฬ',
-    'บุรีรัมย์',
-    'ปทุมธาน',
-    'ประจวบคีรีขันธ์',
-    'ปราจีนบุรี',
-    'ปัตตานี',
-    'พระนครศรีอยุธยา',
-    'พังงา',
-    'พัทลุง',
-    'พิจิตร',
-    'พิษณุโลก',
-    'เพชรบุรี',
-    'เพชรบูรณ์',
-    'ปทุมธาน',
-    'ประจวบคีรีขันธ์',
-    'ปราจีนบุรี',
-    'ปัตตานี',
-    'พระนครศรีอยุธยา',
-    'พังงา',
-    'พัทลุง',
-    'พิจิตร',
-    'พิษณุโลก',
-    'เพชรบุรี',
-    'เพชรบูรณ์',
-    'ปทุมธาน',
-    'ประจวบคีรีขันธ์',
-    'ปราจีนบุรี',
-    'ปัตตานี',
-    'พระนครศรีอยุธยา',
-    'พังงา',
-    'พัทลุง',
-    'พิจิตร',
-    'พิษณุโลก',
-    'เพชรบุรี',
-    'เพชรบูรณ์',
-    'แพร่',
-    'พะเยา',
-    'ภูเก็ต',
-    'มหาสารคาม',
-    'มุกดาหาร',
-    'แม่ฮ่องสอน',
-    'ยะลา',
-    'ยโสธร',
-    'ร้อยเอ็ด',
-    'ระนอง',
-    'ระยอง',
-    'ราชบุรี',
-    'ลพบุรี',
-    'ลำปาง',
-    'ลำพูน',
-    'เลย',
-    'ศรีสะเกษ',
-    'สกลนคร',
-    'สงขลา',
-    'สตูล',
-    'สมุทรปราการ',
-    'สมุทรสงคราม',
-    'สมุทรสาคร',
-    'สระแก้ว',
-    'สระบุรี',
-    'สิงห์บุรี',
-    'สุโขทัย',
-    'สุพรรณบุรี',
-    'สุราษฎร์ธานี',
-    'สุรินทร์',
-    'หนองคาย',
-    'หนองบัวลำภู',
-    'อ่างทอง',
-    'อุดรธานี',
-    'อุทัยธานี',
-    'อุตรดิตถ์',
-    'อุบลราชธานี',
-    'อำนาจเจริญ',
-  ];
+  final String defaultUsername = Get.find<UserController>().username.value;
+
+  String message = '';
+  Map<String, dynamic>? userData;
+  TextEditingController _firstnameController = TextEditingController();
+  TextEditingController _lastnameController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _telController = TextEditingController();
+  TextEditingController _provinceController = TextEditingController();
+  TextEditingController _typesController = TextEditingController();
+
+  Future<void> fetchData() async {
+    final response = await http.get(
+      Uri.parse('${AppConfig.connUrl}/users/edit/$defaultUsername'),
+    );
+    print(defaultUsername);
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      setState(() {
+        message = responseData['message'] ?? '';
+        userData = responseData['data'];
+        _firstnameController.text = userData?['firstname'] ?? '';
+        _lastnameController.text = userData?['lastname'] ?? '';
+        _usernameController.text = userData?['username'] ?? '';
+        _telController.text = userData?['tel'] ?? '';
+        _provinceController.text = userData?['province'] ?? '';
+        _typesController.text = userData?['types'] ?? '';
+      });
+    } else {
+      print('Failed to fetch data.');
+    }
+  }
+
+  Future<void> saveData() async {
+    final url = Uri.parse('${AppConfig.connUrl}/users/edit/$defaultUsername');
+
+    try {
+      final response = await http.patch(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'firstname': _firstnameController.text,
+          'lastname': _lastnameController.text,
+          'tel': _telController.text,
+          'province': _provinceController.text,
+          'types': _typesController.text,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // บันทึกข้อมูลสำเร็จ
+        // อาจจะต้องทำการปรับปรุง UI หรือดำเนินการอื่นต่อไปที่เหมาะสม
+        print('Data saved successfully');
+      } else {
+        // ไม่สามารถบันทึกข้อมูลได้
+        print('Failed to save data.');
+      }
+    } catch (e) {
+      // เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์
+      print('Error: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    _firstnameController.dispose();
+    _lastnameController.dispose();
+    _usernameController.dispose();
+    _telController.dispose();
+    _provinceController.dispose();
+    _typesController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(255, 255, 248, 153),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 255, 248, 153),
-        title: const Text(
-          'ข้อมูลส่วนตัว',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: Text('User Edit Page'),
       ),
-      // body: Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: [
-
-      //     ],
-      //   ),
-      // ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              width: 220,
-              height: 50,
-              child: TextField(
-                // controller: _firstnameController,
-                // obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'กรอกชื่อ',
-                  labelText: 'ชื่อ',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  fillColor: Colors.white,
-                ),
-              ),
+            ElevatedButton(
+              onPressed: fetchData,
+              child: Text('Fetch Data'),
             ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: 220,
-              height: 50,
-              child: TextField(
-                // controller: _lastnameController,
-                // obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'กรอกนามสกุล',
-                  labelText: 'นามสกุล',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  fillColor: Colors.white,
-                ),
+            SizedBox(height: 20),
+            Text('Message: $message'),
+            if (userData != null) ...[
+              TextFormField(
+                controller: _firstnameController,
+                decoration: InputDecoration(labelText: 'First Name'),
               ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: 220,
-              height: 50,
-              child: TextField(
-                // controller: _usernameController,
-                decoration: InputDecoration(
-                  hintText: 'กรอกชื่อผู้ใช้',
-                  labelText: 'ชื่อผู้ใช้',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  fillColor: Colors.white,
-                ),
+              TextFormField(
+                controller: _lastnameController,
+                decoration: InputDecoration(labelText: 'Last Name'),
               ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: 220,
-              height: 50,
-              child: TextField(
-                obscureText: true,
-                // controller: _passwordController,
-                decoration: InputDecoration(
-                  hintText: 'กรอกรหัสผ่าน',
-                  labelText: 'รหัสผ่าน',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  fillColor: Colors.white,
-                ),
+              TextFormField(
+                controller: _usernameController,
+                decoration: InputDecoration(labelText: 'Username'),
               ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: 220,
-              height: 50,
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'ยืนยันรหัสผ่าน',
-                  labelText: 'ยืนยันรหัสผ่าน',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  fillColor: Colors.white,
-                ),
+              TextFormField(
+                controller: _telController,
+                decoration: InputDecoration(labelText: 'Telephone'),
               ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: 220,
-              height: 50,
-              child: TextField(
-                // controller: _phoneController,
-                // obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'กรอกเบอร์โทรศัพท์',
-                  labelText: 'เบอร์โทรศัพท์',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  fillColor: Colors.white,
-                ),
+              TextFormField(
+                controller: _provinceController,
+                decoration: InputDecoration(labelText: 'Province'),
               ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: 220,
-              height: 65,
-              child: DropdownButtonFormField<String>(
-                // value: _selectedProvince,
-                onChanged: (String? newValue) {
-                  // Your dropdown button code...
-                  _selectedProvince = newValue;
+              TextFormField(
+                controller: _typesController,
+                decoration: InputDecoration(labelText: 'Types'),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  saveData();
                 },
-                items: provinces.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                hint: const Text('เลือกจังหวัด'),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  fillColor: Colors.white,
-                ),
+                child: Text('Save'),
               ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: 220,
-              height: 65,
-              child: DropdownButtonFormField<String>(
-                value: _selectedType,
-                onChanged: (String? newValue) {
-                  // Your dropdown button code...
-                  _selectedType = newValue;
-                },
-                items: type.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    // value: _selectedType,
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                hint: const Text('เลือกประเภทผู้ใช้'),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  fillColor: Colors.white,
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: 220,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () {}, // Pass context here
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffffea00),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: const Text(
-                  'บันทึกข้อมูล',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
+            ],
           ],
         ),
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: EditPage(),
+  ));
 }
