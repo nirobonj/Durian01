@@ -151,7 +151,8 @@ class _DisplayPageState extends State<DisplayPage> {
         print(fileName);
       }
       String filePath = '$_audioFilePath$fileName';
-      var url = Uri.parse('${AppConfig.connUrl}/predict/');
+      // predict URL
+      var url = Uri.parse('${AppConfig.connUrl}/sounds/upload_file/');
       var request = http.MultipartRequest('POST', url)
         ..files.add(http.MultipartFile.fromBytes(
             'audio', File(filePath).readAsBytesSync(),
@@ -165,6 +166,24 @@ class _DisplayPageState extends State<DisplayPage> {
       } else {
         if (kDebugMode) {
           print('File upload failed');
+        }
+      }
+      // Upload to second URL
+      var secondUrl = Uri.parse(
+          'https://zbx5wgnt-4300.asse.devtunnels.ms/duriansound-backend/uploadByuser');
+      var secondRequest = http.MultipartRequest('POST', secondUrl)
+        ..files.add(http.MultipartFile.fromBytes(
+            'audio', File(filePath).readAsBytesSync(),
+            filename: fileName));
+
+      var secondResponse = await secondRequest.send();
+      if (secondResponse.statusCode == 200) {
+        if (kDebugMode) {
+          print('File uploaded successfully to second URL');
+        }
+      } else {
+        if (kDebugMode) {
+          print('File upload failed to second URL');
         }
       }
     } catch (e) {
