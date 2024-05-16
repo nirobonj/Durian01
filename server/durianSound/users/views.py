@@ -15,7 +15,7 @@ from django.contrib.auth.hashers import check_password
 
 def hello(request):
     # data = {"message": "Hello, Django!"}
-    data= {"message": "สวัสดี"}
+    data= {"cars":["Ford", "BMW", "Fiat"]}
     print(request)
     return JsonResponse(data)
 
@@ -32,26 +32,54 @@ class UsersViewset(APIView):
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
-        serializer = serializers.RegisterSerializer(data=request.data)
-        if serializer.is_valid():
-            password = request.data.get('password')
+        # Serialize data for registration
+        register_serializer = serializers.RegisterSerializer(data=request.data)
+        if register_serializer.is_valid():
+            # Hash the password
+            password = request.data.get('register_password')
             hashed_password = make_password(password)
-            serializer.validated_data['password'] = hashed_password
-            serializer.save()
+            
+            # Save data to register table
+            register_serializer.validated_data['register_password'] = hashed_password
+            register_serializer.save()
+
+            # Prepare data for login table
             login_data = {
-            'username': request.data.get('username'),  
-            'password': hashed_password 
-        }
-            # login_serializer = LoginSerializer(data=request.data)
-            login_serializer = LoginSerializer(data=login_data)
+                'login_username': request.data.get('register_username'),  
+                'login_password': hashed_password 
+            }
+            # Serialize data for login
+            login_serializer = serializers.LoginSerializer(data=login_data)
             if login_serializer.is_valid():
+                # Save data to login table
                 login_serializer.save()
-                return Response({"status": "success", "data": serializer.data}, status=status.HTTP_201_CREATED)
+                return Response({"status": "success", "data": register_serializer.data}, status=status.HTTP_201_CREATED)
             else:
                 return Response({"status": "error", "data": login_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-        
+            return Response({"status": "error", "data": register_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    # def create_user(request):
+    #     if request.method == 'POST':
+    #         data = request.data
+    #         try:
+    #         # ตรวจสอบว่า username ซ้ำหรือไม่
+    #             if Register.objects.filter(username=data['username']).exists():
+    #                 return Response({'status': 'error', 'message': 'ชื่อผู้ใช้นี้ถูกใช้ไปแล้ว'}, status=status.HTTP_400_BAD_REQUEST)
+
+    #         # หากไม่มีการซ้ำ สร้างผู้ใช้ใหม่
+    #             user = Register.objects.create(
+    #                 fname=data.get('fname'),
+    #                 lname=data.get('lname'),
+    #                 tel=data.get('tel'),
+    #                 province=data.get('province'),
+    #                 types=data.get('types'),
+    #                 username=data.get('username'),
+    #                 password=data.get('password')
+    #             )
+    #             return Response({'status': 'success', 'message': 'ลงทะเบียนสำเร็จ'}, status=status.HTTP_201_CREATED)
+    #         except IntegrityError:
+    #             return Response({'status': 'error', 'message': 'มีข้อผิดพลาดในการสร้างผู้ใช้'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     def patch(self, request, id=None):
         item = get_object_or_404(models.Register, id=id)
@@ -83,14 +111,14 @@ class LoginViewset(APIView):
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
-        username = request.data.get('username')
-        password = request.data.get('password')
+        username = request.data.get('login_username')
+        password = request.data.get('login_password')
         try:
-            user = models.Register.objects.get(username=username)
+            user = models.Register.objects.get(register_username=username)
         except models.Register.DoesNotExist:
             return Response({"status": "error", "message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        if check_password(password, user.password):
+        if check_password(password, user.register_password):
             return Response({"status": "success", "message": "Login successful"}, status=status.HTTP_200_OK)
         else:
             return Response({"status": "error", "message": "Invalid username or password"}, status=status.HTTP_401_UNAUTHORIZED)

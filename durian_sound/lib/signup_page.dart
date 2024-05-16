@@ -134,13 +134,13 @@ class _SignupPageState extends State<SignupPage> {
 
     // เตรียมข้อมูลที่จะส่งไปยังเซิร์ฟเวอร์
     Map<String, dynamic> data = {
-      'fname': _firstnameController.text,
-      'lname': _lastnameController.text,
-      'tel': _phoneController.text,
-      'province': _selectedProvince,
-      'types': _selectedType,
-      'username': _usernameController.text,
-      'password': _passwordController.text,
+      'register_fname': _firstnameController.text,
+      'register_lname': _lastnameController.text,
+      'register_tel': _phoneController.text,
+      'register_province': _selectedProvince,
+      'register_types': _selectedType,
+      'register_username': _usernameController.text,
+      'register_password': _passwordController.text,
     };
 
     // แปลงข้อมูลเป็น JSON

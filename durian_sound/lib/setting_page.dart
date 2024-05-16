@@ -1,8 +1,11 @@
+import 'package:durian_sound/login_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'edit_profile_page.dart';
 import 'display_page.dart';
+import 'package:get/get.dart';
+import 'package:durian_sound/edit_form_page.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -13,7 +16,7 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   bool? isHomePageVisible; // เปลี่ยนเป็น null แทน true
-
+  final String defaultUsername = Get.find<UserController>().username.value;
   @override
   void initState() {
     super.initState();
@@ -153,9 +156,16 @@ class _SettingPageState extends State<SettingPage> {
                 ListTile(
                   title: const Text(' แก้ไขข้อมูลส่วนตัว'),
                   onTap: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => EditPage()),
+                    // );
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => EditPage()),
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            EditFormPage(defaultUsername: defaultUsername),
+                      ),
                     );
                   },
                   trailing: const Icon(Icons.edit),

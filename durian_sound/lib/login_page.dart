@@ -96,8 +96,8 @@ class LoginPage extends StatelessWidget {
             'Content-Type': 'application/json; charset=UTF-8',
           },
           body: jsonEncode(<String, String>{
-            'username': username,
-            'password': password,
+            'login_username': username,
+            'login_password': password,
           }),
         );
 
