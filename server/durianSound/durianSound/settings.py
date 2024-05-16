@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "audioprediction",
     "users",
+    "soundAnalysis",
 
 ]
 
@@ -81,7 +82,7 @@ WSGI_APPLICATION = "durianSound.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-#localhost
+# localhost
 
 DATABASES = {
     'default': {
@@ -96,10 +97,10 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'sounddurian', 
+#         'NAME': 'sounddurian',
 #         'USER': 'sound_durian',
 #         'PASSWORD': 'sound_durian',
-#         'HOST': '203.154.158.79', 
+#         'HOST': '203.154.158.79',
 #         'PORT': '5432',
 #     }
 # }
