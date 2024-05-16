@@ -53,7 +53,7 @@ class _EditFormPageState extends State<EditFormPage> {
     final url =
         Uri.parse('${AppConfig.connUrl}/users/edit/${widget.defaultUsername}');
     try {
-      final response = await http.patch(
+      final response = await http.put(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
