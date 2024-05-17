@@ -2,7 +2,7 @@ import 'package:durian_sound/login_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'edit_profile_page.dart';
+import 'edit_profile_page2.dart';
 import 'about_us_page.dart';
 import 'display_page.dart';
 import 'package:get/get.dart';
@@ -171,6 +171,7 @@ class _SettingPageState extends State<SettingPage> {
                   },
                   trailing: const Icon(Icons.edit),
                 ),
+                
                 // const Divider(),
                 // ListTile(
                 //   title: const Text('about us'),

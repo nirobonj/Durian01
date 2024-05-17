@@ -1,11 +1,10 @@
-import 'package:durian_sound/config.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart'; // นำเข้าชุดเครื่องมือเพื่อใช้ TextInputFormatter
 import 'package:flutter/material.dart';
-// import 'signup_next_page.dart';
-// import 'display_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'login_page.dart';
+import 'package:durian_sound/config.dart';
+import 'package:flutter/foundation.dart';
 
 class SignupPage extends StatefulWidget {
   final bool isHomePageVisible;
@@ -16,90 +15,111 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   String? _selectedProvince;
-
   String? _selectedType;
 
   final List<String> type = ['ล้ง', 'ผู้บริโภค', 'ผู้ขาย', 'ชาวสวน'];
-
   final List<String> provinces = [
-  'กรุงเทพมหานคร',
-  'กระบี่',
-  'กาญจนบุรี',
-  'ปทุมธานี',
-  'กาฬสินธุ์',
-  'กำแพงเพชร',
-  'ขอนแก่น',
-  'จันทบุรี',
-  'ฉะเชิงเทรา',
-  'ชลบุรี',
-  'ชัยนาท',
-  'ชัยภูมิ',
-  'ชุมพร',
-  'เชียงราย',
-  'เชียงใหม่',
-  'ตรัง',
-  'ตราด',
-  'ตาก',
-  'นครนายก',
-  'นครปฐม',
-  'นครพนม',
-  'นครราชสีมา',
-  'นครศรีธรรมราช',
-  'นครสวรรค์',
-  'นนทบุรี',
-  'นราธิวาส',
-  'น่าน',
-  'บึงกาฬ',
-  'บุรีรัมย์',
-  'ปทุมธานี',
-  'ประจวบคีรีขันธ์',
-  'ปราจีนบุรี',
-  'ปัตตานี',
-  'พังงา',
-  'พัทลุง',
-  'พิจิตร',
-  'พิษณุโลก',
-  'เพชรบุรี',
-  'เพชรบูรณ์',
-  'แพร่',
-  'พะเยา',
-  'ภูเก็ต',
-  'มหาสารคาม',
-  'มุกดาหาร',
-  'แม่ฮ่องสอน',
-  'ยะลา',
-  'ยโสธร',
-  'ร้อยเอ็ด',
-  'ระนอง',
-  'ระยอง',
-  'ราชบุรี',
-  'ลพบุรี',
-  'ลำปาง',
-  'ลำพูน',
-  'เลย',
-  'ศรีสะเกษ',
-  'สกลนคร',
-  'สงขลา',
-  'สตูล',
-  'สมุทรปราการ',
-  'สมุทรสงคราม',
-  'สมุทรสาคร',
-  'สระแก้ว',
-  'สระบุรี',
-  'สิงห์บุรี',
-  'สุโขทัย',
-  'สุพรรณบุรี',
-  'สุราษฎร์ธานี',
-  'สุรินทร์',
-  'หนองคาย',
-  'หนองบัวลำภู',
-  'อ่างทอง',
-  'อุดรธานี',
-  'อุทัยธานี',
-  'อุตรดิตถ์',
-  'อุบลราชธานี',
-  'อำนาจเจริญ',
-];
+    'กรุงเทพมหานคร',
+    'กระบี่',
+    'กาญจนบุรี',
+    'ปทุมธานี',
+    'กาฬสินธุ์',
+    'กำแพงเพชร',
+    'ขอนแก่น',
+    'จันทบุรี',
+    'ฉะเชิงเทรา',
+    'ชลบุรี',
+    'ชัยนาท',
+    'ชัยภูมิ',
+    'ชุมพร',
+    'เชียงราย',
+    'เชียงใหม่',
+    'ตรัง',
+    'ตราด',
+    'ตาก',
+    'นครนายก',
+    'นครปฐม',
+    'นครพนม',
+    'นครราชสีมา',
+    'นครศรีธรรมราช',
+    'นครสวรรค์',
+    'นนทบุรี',
+    'นราธิวาส',
+    'น่าน',
+    'บึงกาฬ',
+    'บุรีรัมย์',
+    'ปทุมธาน',
+    'ประจวบคีรีขันธ์',
+    'ปราจีนบุรี',
+    'ปัตตานี',
+    'พระนครศรีอยุธยา',
+    'พังงา',
+    'พัทลุง',
+    'พิจิตร',
+    'พิษณุโลก',
+    'เพชรบุรี',
+    'เพชรบูรณ์',
+    'ปทุมธาน',
+    'ประจวบคีรีขันธ์',
+    'ปราจีนบุรี',
+    'ปัตตานี',
+    'พระนครศรีอยุธยา',
+    'พังงา',
+    'พัทลุง',
+    'พิจิตร',
+    'พิษณุโลก',
+    'เพชรบุรี',
+    'เพชรบูรณ์',
+    'ปทุมธาน',
+    'ประจวบคีรีขันธ์',
+    'ปราจีนบุรี',
+    'ปัตตานี',
+    'พระนครศรีอยุธยา',
+    'พังงา',
+    'พัทลุง',
+    'พิจิตร',
+    'พิษณุโลก',
+    'เพชรบุรี',
+    'เพชรบูรณ์',
+    'แพร่',
+    'พะเยา',
+    'ภูเก็ต',
+    'มหาสารคาม',
+    'มุกดาหาร',
+    'แม่ฮ่องสอน',
+    'ยะลา',
+    'ยโสธร',
+    'ร้อยเอ็ด',
+    'ระนอง',
+    'ระยอง',
+    'ราชบุรี',
+    'ลพบุรี',
+    'ลำปาง',
+    'ลำพูน',
+    'เลย',
+    'ศรีสะเกษ',
+    'สกลนคร',
+    'สงขลา',
+    'สตูล',
+    'สมุทรปราการ',
+    'สมุทรสงคราม',
+    'สมุทรสาคร',
+    'สระแก้ว',
+    'สระบุรี',
+    'สิงห์บุรี',
+    'สุโขทัย',
+    'สุพรรณบุรี',
+    'สุราษฎร์ธานี',
+    'สุรินทร์',
+    'หนองคาย',
+    'หนองบัวลำภู',
+    'อ่างทอง',
+    'อุดรธานี',
+    'อุทัยธานี',
+    'อุตรดิตถ์',
+    'อุบลราชธานี',
+    'อำนาจเจริญ',
+  ];
 
   final TextEditingController _firstnameController = TextEditingController();
   final TextEditingController _lastnameController = TextEditingController();
@@ -108,22 +128,21 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+
   void _sendDataToServer() async {
-    // เช็คว่ารหัสผ่านและการยืนยันรหัสผ่านตรงกันหรือไม่
     if (_passwordController.text != _confirmPasswordController.text) {
-      // ถ้าไม่ตรงกัน แสดงแจ้งเตือน
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('รหัสผ่านไม่ตรงกัน'),
-            content: const Text('กรุณาใส่รหัสผ่านและการยืนยันรหัสผ่านให้ตรงกัน'),
+            title: Text('รหัสผ่านไม่ตรงกัน'),
+            content: Text('กรุณาใส่รหัสผ่านและการยืนยันรหัสผ่านให้ตรงกัน'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // ปิด dialog
                 },
-                child: const Text('ตกลง'),
+                child: Text('ตกลง'),
               ),
             ],
           );
@@ -132,7 +151,6 @@ class _SignupPageState extends State<SignupPage> {
       return; // ออกจากฟังก์ชัน
     }
 
-    // เตรียมข้อมูลที่จะส่งไปยังเซิร์ฟเวอร์
     Map<String, dynamic> data = {
       'register_fname': _firstnameController.text,
       'register_lname': _lastnameController.text,
@@ -143,12 +161,10 @@ class _SignupPageState extends State<SignupPage> {
       'register_password': _passwordController.text,
     };
 
-    // แปลงข้อมูลเป็น JSON
     String jsonData = json.encode(data);
 
     try {
       var response = await http.post(
-        // Uri.parse('https://f9cd-115-87-222-240.ngrok-free.app/users/register/'),
         Uri.parse('${AppConfig.connUrl}/users/register/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -159,24 +175,20 @@ class _SignupPageState extends State<SignupPage> {
         print(response.statusCode);
       }
 
-      // ตรวจสอบสถานะการตอบรับจากเซิร์ฟเวอร์
       if (response.statusCode == 201) {
-        // หากสำเร็จแสดงข้อความ
         if (kDebugMode) {
           print('Data sent successfully');
         }
-        // นำผู้ใช้ไปยังหน้าถัดไป
+
         setState(() {
           next(context);
         });
       } else {
-        // หากไม่สำเร็จแสดงข้อความแสดงว่ามีข้อผิดพลาด
         if (kDebugMode) {
           print('Failed to send data. Error: ${response.statusCode}');
         }
       }
     } catch (e) {
-      // หากเกิดข้อผิดพลาดในการส่งข้อมูล
       if (kDebugMode) {
         print('Error sending data: $e');
       }
@@ -197,7 +209,7 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(255, 255, 250, 181),
+      backgroundColor: const Color.fromARGB(255, 255, 248, 153),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -215,7 +227,7 @@ class _SignupPageState extends State<SignupPage> {
               height: 50,
               child: TextField(
                 controller: _firstnameController,
-                // obscureText: true,
+                inputFormatters: [LengthLimitingTextInputFormatter(50)],
                 decoration: InputDecoration(
                   hintText: 'กรอกชื่อ',
                   labelText: 'ชื่อ',
@@ -232,7 +244,7 @@ class _SignupPageState extends State<SignupPage> {
               height: 50,
               child: TextField(
                 controller: _lastnameController,
-                // obscureText: true,
+                inputFormatters: [LengthLimitingTextInputFormatter(50)],
                 decoration: InputDecoration(
                   hintText: 'กรอกนามสกุล',
                   labelText: 'นามสกุล',
@@ -249,6 +261,7 @@ class _SignupPageState extends State<SignupPage> {
               height: 50,
               child: TextField(
                 controller: _usernameController,
+                inputFormatters: [LengthLimitingTextInputFormatter(20)],
                 decoration: InputDecoration(
                   hintText: 'กรอกชื่อผู้ใช้',
                   labelText: 'ชื่อผู้ใช้',
@@ -266,6 +279,7 @@ class _SignupPageState extends State<SignupPage> {
               child: TextField(
                 obscureText: true,
                 controller: _passwordController,
+                inputFormatters: [LengthLimitingTextInputFormatter(20)],
                 decoration: InputDecoration(
                   hintText: 'กรอกรหัสผ่าน',
                   labelText: 'รหัสผ่าน',
@@ -283,6 +297,7 @@ class _SignupPageState extends State<SignupPage> {
               child: TextField(
                 obscureText: true,
                 controller: _confirmPasswordController,
+                inputFormatters: [LengthLimitingTextInputFormatter(20)],
                 decoration: InputDecoration(
                   hintText: 'ยืนยันรหัสผ่าน',
                   labelText: 'ยืนยันรหัสผ่าน',
@@ -299,7 +314,11 @@ class _SignupPageState extends State<SignupPage> {
               height: 50,
               child: TextField(
                 controller: _phoneController,
-                // obscureText: true,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(10)
+                ],
                 decoration: InputDecoration(
                   hintText: 'กรอกเบอร์โทรศัพท์',
                   labelText: 'เบอร์โทรศัพท์',
@@ -317,8 +336,9 @@ class _SignupPageState extends State<SignupPage> {
               child: DropdownButtonFormField<String>(
                 value: _selectedProvince,
                 onChanged: (String? newValue) {
-                  // Your dropdown button code...
-                  _selectedProvince = newValue;
+                  setState(() {
+                    _selectedProvince = newValue;
+                  });
                 },
                 items: provinces.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
@@ -342,12 +362,12 @@ class _SignupPageState extends State<SignupPage> {
               child: DropdownButtonFormField<String>(
                 value: _selectedType,
                 onChanged: (String? newValue) {
-                  // Your dropdown button code...
-                  _selectedType = newValue;
+                  setState(() {
+                    _selectedType = newValue;
+                  });
                 },
                 items: type.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
-                    // value: _selectedType,
                     value: value,
                     child: Text(value),
                   );
@@ -361,40 +381,9 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            // const SizedBox(height: 25),
-            // SizedBox(
-            //   width: 220,
-            //   height: 50,
-            //   child: ElevatedButton(
-            //     onPressed: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //             builder: (context) => DisplayPage(
-            //                   isHomePageVisible: false,
-            //                 )),
-            //       );
-            //     }, // Pass context here
-            //     style: ElevatedButton.styleFrom(
-            //       backgroundColor: const Color(0xffffea00),
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(8),
-            //       ),
-            //     ),
-            //     child: const Text(
-            //       'ลงทะเบียน',
-            //       style: TextStyle(
-            //         color: Colors.black,
-            //         fontWeight: FontWeight.bold,
-            //         fontSize: 20,
-            //       ),
-            //     ),
-            //   ),
-            // ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed:
-                  _sendDataToServer, // เรียกใช้ _sendDataToServer() เมื่อกดปุ่ม
+              onPressed: _sendDataToServer,
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xffffea00),
                 shape: RoundedRectangleBorder(

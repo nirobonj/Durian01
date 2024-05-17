@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:durian_sound/config.dart';
@@ -122,8 +123,14 @@ class _EditFormPageState extends State<EditFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: const Color.fromARGB(255, 255, 248, 153),
       appBar: AppBar(
-        title: const Text('Edit User Data'),
+        backgroundColor: const Color.fromARGB(255, 255, 248, 153),
+        title: const Text(
+          'ข้อมูลส่วนตัว',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Center(
         child: userData == null
@@ -131,135 +138,167 @@ class _EditFormPageState extends State<EditFormPage> {
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextFormField(
-                    controller: _firstnameController,
-                    decoration: const InputDecoration(labelText: 'First Name'),
+                  SizedBox(
+                    width: 220,
+                    height: 50,
+                    child: TextFormField(
+                      controller: _usernameController,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        hintText: 'กรอกชื่อผู้ใช้',
+                        labelText: 'ชื่อผู้ใช้',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        filled: true,
+                        fillColor: const Color.fromARGB(255, 218, 218, 218),
+                      ),
+                    ),
                   ),
-                  TextFormField(
-                    controller: _lastnameController,
-                    decoration: const InputDecoration(labelText: 'Last Name'),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: 220,
+                    height: 50,
+                    child: TextFormField(
+                      controller: _firstnameController,
+                      decoration: InputDecoration(
+                        hintText: 'กรอกชื่อ',
+                        labelText: 'ชื่อ',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        fillColor: Colors.white,
+                      ),
+                    ),
                   ),
-                  TextFormField(
-                    controller: _usernameController,
-                    decoration: const InputDecoration(labelText: 'Username'),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: 220,
+                    height: 50,
+                    child: TextFormField(
+                      controller: _lastnameController,
+                      decoration: InputDecoration(
+                        hintText: 'กรอกนามสกุล',
+                        labelText: 'นามสกุล',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        fillColor: Colors.white,
+                      ),
+                    ),
                   ),
-                  TextFormField(
-                    controller: _telController,
-                    decoration: const InputDecoration(labelText: 'Telephone'),
+                  // TextFormField(
+                  //   controller: _usernameController,
+                  //   decoration: const InputDecoration(labelText: 'Username'),
+                  // ),
+                  const SizedBox(height: 10),
+                  
+                  SizedBox(
+                    width: 220,
+                    height: 50,
+                    child: TextFormField(
+                      controller: _telController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(10),
+                      ],
+                      decoration: InputDecoration(
+                        hintText: 'กรอกเบอร์โทรศัพท์',
+                        labelText: 'เบอร์โทรศัพท์',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        fillColor: Colors.white,
+                      ),
+                    ),
                   ),
-                  DropdownButtonFormField<String>(
-                    value: _provinceController.text,
-                    onChanged: (String? value) {
-                      setState(() {
-                        _provinceController.text = value!;
-                      });
-                    },
-                    items: <String>[
-                      'กรุงเทพมหานคร',
-                      'กระบี่',
-                      'กาญจนบุรี',
-                      'ปทุมธานี',
-                      'กาฬสินธุ์',
-                      'กำแพงเพชร',
-                      'ขอนแก่น',
-                      'จันทบุรี',
-                      'ฉะเชิงเทรา',
-                      'ชลบุรี',
-                      'ชัยนาท',
-                      'ชัยภูมิ',
-                      'ชุมพร',
-                      'เชียงราย',
-                      'เชียงใหม่',
-                      'ตรัง',
-                      'ตราด',
-                      'ตาก',
-                      'นครนายก',
-                      'นครปฐม',
-                      'นครพนม',
-                      'นครราชสีมา',
-                      'นครศรีธรรมราช',
-                      'นครสวรรค์',
-                      'นนทบุรี',
-                      'นราธิวาส',
-                      'น่าน',
-                      'บึงกาฬ',
-                      'บุรีรัมย์',
-                      'ปทุมธานี',
-                      'ประจวบคีรีขันธ์',
-                      'ปราจีนบุรี',
-                      'ปัตตานี',
-                      'พังงา',
-                      'พัทลุง',
-                      'พิจิตร',
-                      'พิษณุโลก',
-                      'เพชรบุรี',
-                      'เพชรบูรณ์',
-                      'แพร่',
-                      'พะเยา',
-                      'ภูเก็ต',
-                      'มหาสารคาม',
-                      'มุกดาหาร',
-                      'แม่ฮ่องสอน',
-                      'ยะลา',
-                      'ยโสธร',
-                      'ร้อยเอ็ด',
-                      'ระนอง',
-                      'ระยอง',
-                      'ราชบุรี',
-                      'ลพบุรี',
-                      'ลำปาง',
-                      'ลำพูน',
-                      'เลย',
-                      'ศรีสะเกษ',
-                      'สกลนคร',
-                      'สงขลา',
-                      'สตูล',
-                      'สมุทรปราการ',
-                      'สมุทรสงคราม',
-                      'สมุทรสาคร',
-                      'สระแก้ว',
-                      'สระบุรี',
-                      'สิงห์บุรี',
-                      'สุโขทัย',
-                      'สุพรรณบุรี',
-                      'สุราษฎร์ธานี',
-                      'สุรินทร์',
-                      'หนองคาย',
-                      'หนองบัวลำภู',
-                      'อ่างทอง',
-                      'อุดรธานี',
-                      'อุทัยธานี',
-                      'อุตรดิตถ์',
-                      'อุบลราชธานี',
-                      'อำนาจเจริญ',
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: 220,
+                    height: 65,
+                    child: DropdownButtonFormField<String>(
+                      value: _provinceController.text,
+                      onChanged: (String? value) {
+                        setState(() {
+                          _provinceController.text = value!;
+                        });
+                      },
+                      items: <String>[
+                      'กรุงเทพมหานคร','กระบี่','กาญจนบุรี','ปทุมธานี','กาฬสินธุ์','กำแพงเพชร',
+                      'ขอนแก่น','จันทบุรี','ฉะเชิงเทรา','ชลบุรี','ชัยนาท','ชัยภูมิ','ชุมพร','เชียงราย',
+                      'เชียงใหม่','ตรัง','ตราด','ตาก','นครนายก','นครปฐม','นครพนม','นครราชสีมา',
+                      'นครศรีธรรมราช','นครสวรรค์','นนทบุรี','นราธิวาส','น่าน','บึงกาฬ','บุรีรัมย์',
+                      'ปทุมธานี','ประจวบคีรีขันธ์','ปราจีนบุรี','ปัตตานี','พังงา','พัทลุง','พิจิตร',
+                      'พิษณุโลก','เพชรบุรี','เพชรบูรณ์','แพร่','พะเยา','ภูเก็ต','มหาสารคาม',
+                      'มุกดาหาร','แม่ฮ่องสอน','ยะลา','ยโสธร','ร้อยเอ็ด','ระนอง','ระยอง','ราชบุรี',
+                      'ลพบุรี','ลำปาง','ลำพูน','เลย','ศรีสะเกษ','สกลนคร','สงขลา','สตูล',
+                      'สมุทรปราการ','สมุทรสงคราม','สมุทรสาคร','สระแก้ว','สระบุรี','สิงห์บุรี',
+                      'สุโขทัย','สุพรรณบุรี','สุราษฎร์ธานี','สุรินทร์','หนองคาย','หนองบัวลำภู',
+                      'อ่างทอง','อุดรธานี','อุทัยธานี','อุตรดิตถ์','อุบลราชธานี','อำนาจเจริญ',
                     ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    decoration: const InputDecoration(labelText: 'Province'),
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      hint: const Text('เลือกจังหวัด'),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        fillColor: Colors.white,
+                      ),
+                    ),
                   ),
-                  DropdownButtonFormField<String>(
-                    value: _typesController.text,
-                    onChanged: (String? value) {
-                      setState(() {
-                        _typesController.text = value!;
-                      });
-                    },
-                    items: <String>['ล้ง', 'ผู้บริโภค', 'ผู้ขาย', 'ชาวสวน']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    decoration: const InputDecoration(labelText: 'Types'),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: 220,
+                    height: 65,
+                    child: DropdownButtonFormField<String>(
+                      value: _typesController.text,
+                      onChanged: (String? value) {
+                        setState(() {
+                          _typesController.text = value!;
+                        });
+                      },
+                      items: <String>['ล้ง', 'ผู้บริโภค', 'ผู้ขาย', 'ชาวสวน']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      hint: const Text('เลือกประเภทผู้ใช้'),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        fillColor: Colors.white,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: saveData,
-                    child: const Text('บันทึก'),
+                  SizedBox(
+                    width: 220,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: saveData, // Pass context here
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xffffea00),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text(
+                        'บันทึกข้อมูล',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

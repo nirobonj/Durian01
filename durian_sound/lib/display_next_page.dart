@@ -3,6 +3,8 @@ import 'setting_page.dart';
 
 class DisplayNextPage extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
+
+  DisplayNextPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +38,10 @@ class DisplayNextPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 50),
+                  // const SizedBox(height: 50),
                   SizedBox(
                     width: 350,
-                    height: 1000,
+                    height: 650,
                     child: Column(
                       children: [
                         SizedBox(
@@ -68,7 +70,7 @@ class DisplayNextPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 10),
                         Container(
                           decoration: const BoxDecoration(
                             color: Color(0xffffea00),
@@ -186,11 +188,12 @@ class DisplayNextPage extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(height: 30),
-                                  SizedBox(
-                                    width: 120,
-                                    height: 120,
-                                    child: Image.asset('assets/image/lv6.png'),
-                                  ),
+                                  // SizedBox(
+                                  //   width: 120,
+                                  //   height: 120,
+                                  //   child: Image.asset('assets/image/lv6.png'),
+                                  // ),
+
                                   // const Divider(),
                                   // Container(
                                   //   width: 56,

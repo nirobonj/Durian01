@@ -224,33 +224,33 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              width: 220,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(
-                      isHomePageVisible: isHomePageVisible,
-                    ),
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffffea00),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: const Text(
-                  'เข้าสู่ระบบบบบ',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
-              ),
-            ),
+            // SizedBox(
+            //   width: 220,
+            //   height: 50,
+            //   child: ElevatedButton(
+            //     onPressed: () => Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => HomePage(
+            //           isHomePageVisible: isHomePageVisible,
+            //         ),
+            //       ),
+            //     ),
+            //     style: ElevatedButton.styleFrom(
+            //       backgroundColor: const Color(0xffffea00),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(8),
+            //       ),
+            //     ),
+            //     child: const Text(
+            //       'เข้าสู่ระบบบบบ',
+            //       style: TextStyle(
+            //           color: Colors.black,
+            //           fontWeight: FontWeight.bold,
+            //           fontSize: 20),
+            //     ),
+            //   ),
+            // ),
             const SizedBox(height: 25),
             SizedBox(
               width: 220,
