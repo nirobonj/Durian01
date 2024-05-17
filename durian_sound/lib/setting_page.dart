@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'edit_profile_page.dart';
+import 'about_us_page.dart';
 import 'display_page.dart';
 
 class SettingPage extends StatefulWidget {
@@ -59,7 +60,7 @@ class _SettingPageState extends State<SettingPage> {
       body: Center(
         child: SizedBox(
           width: 350,
-          height: 730,
+          height: 700,
           child: Card(
             child: ListView(
               children: <Widget>[
@@ -160,7 +161,18 @@ class _SettingPageState extends State<SettingPage> {
                   },
                   trailing: const Icon(Icons.edit),
                 ),
-
+                // const Divider(),
+                // ListTile(
+                //   title: const Text('about us'),
+                //   onTap: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(builder: (context) => EditPage()),
+                //     );
+                //   },
+                //   // trailing: const Icon(Icons.add),
+                // ),
+                
                 const Divider(),
                 ListTile(
                   title: const Row(
@@ -176,6 +188,116 @@ class _SettingPageState extends State<SettingPage> {
                 ),
 
                 const Divider(),
+                ListTile(
+                  title: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('เกี่ยวกับเรา'),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AboutUsPage()),
+                    );
+                  },
+                ),
+
+                const Divider(),
+                const SizedBox(height: 320),
+
+                // const Text(
+                //   'about us',
+                //   style: TextStyle(
+                //       color: Colors.black,
+                //       fontSize: 16,
+                //       fontWeight: FontWeight.bold),
+                //   textAlign: TextAlign.center,
+                // ),
+                // Container(
+                //   width: 25,
+                //   height: 25,
+                //   child: Image.asset(
+                //     'assets/DoubleM.png',
+                //     fit: BoxFit
+                //         .contain, // หรือใช้ BoxFit.fill, BoxFit.cover, หรือตัวเลือกอื่น ๆ ตามความต้องการ
+                //   ),
+                // ),
+                // const SizedBox(height: 5),
+                // const Text(
+                //   'Develop by Double M Technology Management Co.ltd\nCopyright 2024',
+                //   style: TextStyle(
+                //     color: Colors.black,
+                //     fontSize: 12,
+                //   ),
+                //   textAlign: TextAlign.center,
+                // ),
+                // const SizedBox(height: 15),
+
+                // const SizedBox(height: 20),
+
+                // // ข้อความ "เกี่ยวกับเรา"
+                // Text(
+                //   'About Us',
+                //   style: TextStyle(
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                //   textAlign: TextAlign.center,
+                // ),
+                // const SizedBox(height: 10),
+
+                // // ข้อความเนื้อหา
+                // Text(
+                //   'Develop by Double M Technology Management Co.ltd\ncopyright 2024',
+                //   style: TextStyle(
+                //     fontSize: 12,
+                //   ),
+                //   textAlign: TextAlign.center,
+                // ),
+                // Container(
+                //   width: 25,
+                //   height: 25,
+                //   child: Image.asset('assets/DoubleM.png'),
+                // ),
+                const SizedBox(width: 10),
+                // Column(
+                //   mainAxisAlignment: MainAxisAlignment.center, // จัดกึ่งกลาง
+                //   children: [
+                //     // const Divider(),
+                //     Text(
+                //       'About Us',
+                //       style: TextStyle(
+                //         fontSize: 16,
+                //         fontWeight: FontWeight.bold,
+                //       ),
+                //     ),
+                //     // const Divider(),
+                //     const SizedBox(width: 10),
+                //     Text(
+                //       'Develop by Double M Technology Management Co.ltd \nwww.doublemtech.com',
+                //       style: TextStyle(
+                //         fontSize: 12,
+                //       ),
+                //       textAlign: TextAlign.center,
+                //     ),
+                //     const SizedBox(width: 10),
+                //     Container(
+                //       width: 100,
+                //       height: 40,
+                //       child: Image.asset('assets/image/DoubleM.png'),
+                //     ),
+                //     const SizedBox(width: 10),
+                //     Text(
+                //       '©copyright 2024',
+                //       style: TextStyle(
+                //         fontSize: 10,
+                //       ),
+                //       textAlign: TextAlign.right,
+                //     ),
+                //   ],
+                // ),
+                
                 // เพิ่มรายการอื่นๆ ตามต้องการ
               ],
             ),

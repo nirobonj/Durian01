@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class EditPage extends StatelessWidget {
   EditPage({super.key});
-  String? _selectedProvince;
 
   String? _selectedType;
 
@@ -114,9 +113,9 @@ class EditPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(255, 255, 248, 153),
+      backgroundColor: const Color.fromARGB(255, 255, 250, 181),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 255, 248, 153),
+        backgroundColor: const Color.fromARGB(255, 255, 250, 181),
         title: const Text(
           'ข้อมูลส่วนตัว',
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -241,7 +240,6 @@ class EditPage extends StatelessWidget {
                 // value: _selectedProvince,
                 onChanged: (String? newValue) {
                   // Your dropdown button code...
-                  _selectedProvince = newValue;
                 },
                 items: provinces.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(

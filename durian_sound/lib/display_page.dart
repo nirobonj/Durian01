@@ -1,16 +1,15 @@
-import 'package:flutter/material.dart';
-import 'setting_page.dart';
-import 'login_page.dart';
-import 'dart:async';
 import 'dart:io';
+import 'dart:async';
+import 'setting_page.dart';
+import 'display_next_page.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_sound/flutter_sound.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:intl/intl.dart';
+import 'package:durian_sound/ripple_animation.dart' as durian;
 import 'package:permission_handler/permission_handler.dart';
-import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
-import 'app_state.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class DisplayPage extends StatefulWidget {
   final bool isHomePageVisible;
@@ -23,31 +22,21 @@ class DisplayPage extends StatefulWidget {
 
 class _DisplayPageState extends State<DisplayPage> {
   final ScrollController _scrollController = ScrollController();
-  static const IconData settings =
-      IconData(0xe57f, fontFamily: 'MaterialIcons');
-
-  bool _isExpanded = false;
   bool isPressed = false;
   FlutterSoundRecorder? _recorder;
   FlutterSoundPlayer? _player;
   bool _isRecording = false;
 
-  late AppState _appState;
   late String _audioFilePath;
   late String recordingTimeStamp;
-  late List<int> _recordedAudio;
-  late List<int> _tempRecordedAudio;
   late String file_path;
   late String username;
   late String password;
   late String storeName;
-  late Timer _timer;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _tempRecordedAudio = [];
-  // }
+  late AnimationController _controller;
+  FlutterSoundPlayer _audioPlayer = FlutterSoundPlayer();
+
   @override
   void initState() {
     super.initState();
@@ -57,12 +46,6 @@ class _DisplayPageState extends State<DisplayPage> {
     _initAudioFilePath();
   }
 
-  // Future<void> _initAudioFilePath() async {
-  //   setState(() {
-  //     // _audioFilePath = '${directory!.path}/Download/';
-  //     _audioFilePath = '/storage/emulated/0/Download/';
-  //   });
-  // }
   Future<void> _initAudioFilePath() async {
     setState(() {
       Directory directory =
@@ -83,6 +66,7 @@ class _DisplayPageState extends State<DisplayPage> {
 
   @override
   void dispose() {
+    _controller.dispose();
     _recorder?.closeRecorder();
     _player?.closePlayer();
     super.dispose();
@@ -127,7 +111,7 @@ class _DisplayPageState extends State<DisplayPage> {
   }
 
   void _stopRecordingAfter20Seconds() {
-    Timer(const Duration(seconds: 3), () async {
+    Timer(const Duration(seconds: 10), () async {
       if (_isRecording) {
         _stopRecording();
       }
@@ -140,7 +124,7 @@ class _DisplayPageState extends State<DisplayPage> {
       setState(() {
         _isRecording = false;
       });
-
+      playSound();
       if (kDebugMode) {
         print('Recording time stamp: $recordingTimeStamp');
       }
@@ -150,11 +134,7 @@ class _DisplayPageState extends State<DisplayPage> {
         print(fileName);
       }
       String filePath = '$_audioFilePath$fileName';
-      // var url = Uri.parse('http://192.168.9.44:8000/predict/');
-      var url = Uri.parse(
-          'https://https://93eb-115-87-222-240.ngrok-free.app/predict/');
-      // // var url = Uri.parse('/usr/share/nginx/https://erp.365supplychain.com/Durain_Sound/upload');
-      // // var url = Uri.parse('http://203.154.74.67:3001/upload');
+      var url = Uri.parse('https://cb5dhsk3-8000.asse.devtunnels.ms/predict/');
       var request = http.MultipartRequest('POST', url)
         ..files.add(http.MultipartFile.fromBytes(
             'audio', File(filePath).readAsBytesSync(),
@@ -165,19 +145,31 @@ class _DisplayPageState extends State<DisplayPage> {
         if (kDebugMode) {
           print('File uploaded successfully');
         }
+        // Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => DisplayNextPage()),
+        //     );
       } else {
         if (kDebugMode) {
           print('File upload failed');
         }
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DisplayNextPage()),
+        );
       }
     } catch (e) {
       if (kDebugMode) {
         print('Error stopping recording: $e');
       }
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DisplayNextPage()),
+      );
     }
   }
 
-  void _playRecording() async {
+  Future<void> playSound() async {
     var status = await Permission.storage.status;
     if (!status.isGranted) {
       await Permission.storage.request();
@@ -190,15 +182,19 @@ class _DisplayPageState extends State<DisplayPage> {
       }
     }
 
+    String audioFilePath = 'assets/image/voice.wav';
     try {
-      await _player?.openPlayer();
-      await _player?.startPlayer(
-        fromURI: '$_audioFilePath$recordingTimeStamp.wav',
+      ByteData bytes = await rootBundle.load(audioFilePath);
+      Uint8List soundbytes = bytes.buffer.asUint8List();
+
+      await _audioPlayer.openPlayer();
+      await _audioPlayer.startPlayer(
+        fromDataBuffer: soundbytes,
         codec: Codec.pcm16WAV,
       );
     } catch (e) {
       if (kDebugMode) {
-        print('Error playing recording: $e');
+        print('เกิดข้อผิดพลาดในการเล่นไฟล์เสียง: $e');
       }
     }
   }
@@ -207,20 +203,9 @@ class _DisplayPageState extends State<DisplayPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(255, 255, 248, 153),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _scrollController.animateTo(
-            _scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-          );
-        },
-        backgroundColor: const Color(0xffffea00),
-        child: const Icon(Icons.arrow_downward),
-      ),
+      backgroundColor: const Color.fromARGB(255, 255, 250, 181),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 255, 248, 153),
+        backgroundColor: const Color.fromARGB(255, 255, 250, 181),
         automaticallyImplyLeading: false,
         actions: [
           GestureDetector(
@@ -247,85 +232,133 @@ class _DisplayPageState extends State<DisplayPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 100),
+                const SizedBox(height: 50),
                 SizedBox(
                   width: 350,
-                  height: 5000,
+                  // height: 500,
                   child: Column(
-                    children: [
+                    children: <Widget>[
                       const SizedBox(height: 15),
-                      GestureDetector(
-                        onTapDown: (TapDownDetails details) {
-                          setState(() {
-                            isPressed = true;
-                          });
-                        },
-                        onTapUp: (TapUpDetails details) {
-                          setState(() {
-                            isPressed = false;
-                          });
-                        },
-                        onTap: _isRecording ? null : _startRecording,
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          width: 200.0,
-                          height: 200.0,
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 255, 223, 61),
-                            shape: BoxShape.circle,
-                            boxShadow: isPressed
-                                ? [
-                                    BoxShadow(
-                                      color:
-                                          const Color.fromARGB(255, 255, 180, 5)
-                                              .withOpacity(0.2),
-                                      blurRadius: 200.0,
-                                      spreadRadius: 100.0,
-                                      offset: const Offset(
-                                        0.0,
-                                        3.0,
+                      _isRecording
+                          ? SizedBox(
+                              width: 200.0,
+                              height: 200.0,
+                              child: Stack(
+                                alignment: Alignment
+                                    .center, // Align all children in the center
+                                children: [
+                                  Positioned(
+                                    top: 10,
+                                    left: 10,
+                                    child: AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 200),
+                                      width: 180.0,
+                                      height: 180.0,
+                                      decoration: const BoxDecoration(
+                                        color:
+                                            Color.fromARGB(255, 255, 220, 63),
+                                        shape: BoxShape.circle,
                                       ),
                                     ),
-                                  ]
-                                : [],
-                          ),
-                          child: Center(
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                  top: 15,
-                                  left: 15,
-                                  child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200),
-                                    width: 170.0,
-                                    height: 170.0,
-                                    decoration: const BoxDecoration(
-                                      color: Color.fromARGB(255, 255, 171, 54),
-                                      shape: BoxShape.circle,
+                                  ),
+                                  Positioned(
+                                    top: 25,
+                                    left: 25,
+                                    child: AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 200),
+                                      width: 150.0,
+                                      height: 150.0,
+                                      decoration: const BoxDecoration(
+                                        color:
+                                            Color.fromARGB(255, 255, 171, 54),
+                                        shape: BoxShape.circle,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Positioned(
-                                  top: 20,
-                                  left: 20,
-                                  child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200),
-                                    width: 160.0,
-                                    height: 160.0,
-                                    decoration: const BoxDecoration(
-                                      color: Color.fromARGB(255, 255, 106, 13),
-                                      shape: BoxShape.circle,
+                                  durian.RippleAnimation(
+                                    color: Color.fromARGB(255, 255, 106, 13),
+                                    delay: Duration(milliseconds: 300),
+                                    repeat: true,
+                                    minRadius: 70,
+                                    ripplesCount: 6,
+                                    duration: Duration(milliseconds: 10 * 300),
+                                    child: GestureDetector(
+                                      onTap:
+                                          _isRecording ? null : _startRecording,
+                                      child: CircleAvatar(
+                                        minRadius: 70,
+                                        maxRadius: 70,
+                                        backgroundColor:
+                                            Color.fromARGB(255, 255, 106, 13),
+                                      ),
                                     ),
-                                  ),
+                                  )
+                                ],
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: _isRecording ? null : _startRecording,
+                              child: SizedBox(
+                                width: 200.0,
+                                height: 200.0,
+                                child: Stack(
+                                  alignment: Alignment
+                                      .center, // Align all children in the center
+                                  children: [
+                                    Positioned(
+                                      top: 10,
+                                      left: 10,
+                                      child: AnimatedContainer(
+                                        duration:
+                                            const Duration(milliseconds: 200),
+                                        width: 180.0,
+                                        height: 180.0,
+                                        decoration: const BoxDecoration(
+                                          color:
+                                              Color.fromARGB(255, 255, 220, 63),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 25,
+                                      left: 25,
+                                      child: AnimatedContainer(
+                                        duration:
+                                            const Duration(milliseconds: 200),
+                                        width: 150.0,
+                                        height: 150.0,
+                                        decoration: const BoxDecoration(
+                                          color:
+                                              Color.fromARGB(255, 255, 171, 54),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 30,
+                                      left: 30,
+                                      child: AnimatedContainer(
+                                        duration:
+                                            const Duration(milliseconds: 200),
+                                        width: 140.0,
+                                        height: 140.0,
+                                        decoration: const BoxDecoration(
+                                          color:
+                                              Color.fromARGB(255, 255, 106, 13),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
 
                       // Text('isHomePageVisible: ${widget.isHomePageVisible}'),
-                      const SizedBox(height: 50),
+                      SizedBox(height: 50),
                       const Text(
                         'กรุณาเคาะอย่างน้อย 2 ครั้ง',
                         style: TextStyle(
@@ -343,60 +376,12 @@ class _DisplayPageState extends State<DisplayPage> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: 150,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _scrollController.animateTo(
-                        0.0,
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 255, 198, 54),
-                    ),
-                    child: const Text(
-                      'เคาะอีกครั้ง',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
+                const SizedBox(height: 50),
                 const SizedBox(height: 50),
                 Text(
-                  'ชื่อไฟล์ : ${recordingTimeStamp ?? 'ไม่มีชื่อไฟล์'}',
+                  'ชื่อไฟล์ : ${recordingTimeStamp}',
                   style: const TextStyle(fontSize: 16),
                 ),
-                _isRecording
-                    ? ElevatedButton(
-                        onPressed: _stopRecording,
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: const Text('Stop Recording'),
-                      )
-                    : ElevatedButton(
-                        onPressed: _startRecording,
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: const Text('Start Recording'),
-                      ),
-                !_isRecording
-                    ? ElevatedButton(
-                        onPressed: _playRecording,
-                        child: const Text('Play Recording'),
-                      )
-                    : Container(),
               ],
             ),
           ),

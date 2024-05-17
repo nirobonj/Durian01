@@ -76,7 +76,7 @@ class LoginPage extends StatelessWidget {
       String password = passwordController.text;
 
       final url = Uri.parse(
-          'https://93eb-115-87-222-240.ngrok-free.app/users/login/'); // แก้ URL ให้เป็น URL ของเซิร์ฟเวอร์ Django
+          'https://cb5dhsk3-8000.asse.devtunnels.ms/users/login/'); // แก้ URL ให้เป็น URL ของเซิร์ฟเวอร์ Django
 
       try {
         final response = await http.post(
@@ -141,7 +141,7 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(255, 255, 248, 153),
+      backgroundColor: Color.fromARGB(255, 255, 250, 181),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -149,7 +149,8 @@ class LoginPage extends StatelessWidget {
             Container(
               width: 220,
               height: 200,
-              color: const Color.fromARGB(255, 255, 214, 92),
+              // color: const Color.fromARGB(255, 255, 214, 92),
+              child: Image.asset('assets/image/icon.PNG'),
             ),
             const SizedBox(height: 25),
             SizedBox(
@@ -198,6 +199,33 @@ class LoginPage extends StatelessWidget {
                 ),
                 child: const Text(
                   'เข้าสู่ระบบ',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 220,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomePage(
+                      isHomePageVisible: isHomePageVisible,
+                    ),
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xffffea00),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text(
+                  'เข้าสู่ระบบบบบ',
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
