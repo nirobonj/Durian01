@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:durian_sound/config.dart'; // ตรวจสอบให้แน่ใจว่าได้ import config อย่างถูกต้อง
+import 'package:durian_sound/config.dart';
+import 'package:durian_sound/setting_page.dart'; // Import the SettingPage
 
 class EditFormPage extends StatefulWidget {
   final String defaultUsername;
@@ -68,13 +69,37 @@ class _EditFormPageState extends State<EditFormPage> {
       );
 
       if (response.statusCode == 200) {
-        print('Data saved successfully');
+        showSuccessDialog();
       } else {
         print('Failed to save data.');
       }
     } catch (e) {
       print('Error: $e');
     }
+  }
+
+  void showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('สำเร็จ'),
+          content: Text('บันทึกข้อมูลสำเร็จ'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingPage()),
+                );
+              },
+              child: Text('ตกลง'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -116,14 +141,6 @@ class _EditFormPageState extends State<EditFormPage> {
                     controller: _telController,
                     decoration: InputDecoration(labelText: 'Telephone'),
                   ),
-                  // TextFormField(
-                  //   controller: _provinceController,
-                  //   decoration: InputDecoration(labelText: 'Province'),
-                  // ),
-                  // TextFormField(
-                  //   controller: _typesController,
-                  //   decoration: InputDecoration(labelText: 'Types'),
-                  // ),
                   DropdownButtonFormField<String>(
                     value: _provinceController.text,
                     onChanged: (String? value) {

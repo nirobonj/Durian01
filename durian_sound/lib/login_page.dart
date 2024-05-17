@@ -102,7 +102,6 @@ class LoginPage extends StatelessWidget {
         );
 
         if (response.statusCode == 200) {
-          // สำเร็จ: ดำเนินการต่อไป
           SharedPreferences prefs = await SharedPreferences.getInstance();
           bool? isHomePageVisible = prefs.getBool('isHomePageVisible') ?? true;
           userController.setUsername(username);
