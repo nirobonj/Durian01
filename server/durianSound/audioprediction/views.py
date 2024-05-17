@@ -10,8 +10,10 @@ from keras.models import load_model
 import os
 
 # Define classes
-classes = ['air_conditioner', 'car_horn', 'children_playing', 'dog_bark', 'drilling',
-           'engine_idling', 'gun_shot', 'jackhammer', 'siren', 'street_music']
+# classes = ['air_conditioner', 'car_horn', 'children_playing', 'dog_bark', 'drilling',
+#            'engine_idling', 'gun_shot', 'jackhammer', 'siren', 'street_music']
+
+classes = ['ดิบ', 'กึ่งสุกกึ่งดิบ', 'สุกกรอบนอกนุ่มใน', 'sdfds', 'ddd']
 
 # Function to extract features from audio file
 
@@ -28,12 +30,11 @@ def feature_extractor(path):
 def predict_audio(path):
     # Load the trained model
     current_directory = os.path.dirname(os.path.abspath(__file__))
-    # MODEL_PATH = os.path.join(current_directory, '..',
-    #                           '..', 'server', 'audio_classification_model.h5')
-    # MODEL_PATH = "D:/Study/Project/Durian01/server/audio_classification_model.h5"
-    MODEL_PATH = 'audio_classification_model.h5'
-    print(MODEL_PATH)
-    model = load_model(MODEL_PATH)
+    # MODEL_PATH = 'audio_classification_model.h5'
+    MODEL_PATH = 'soundCheck.h5'
+    current_directory += '/'+MODEL_PATH
+    # print(current_directory)
+    model = load_model(current_directory)
 
     # Extract features from audio file
     audio_features = feature_extractor(path)

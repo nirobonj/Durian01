@@ -1,3 +1,4 @@
+import 'package:durian_sound/config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'signup_next_page.dart';
@@ -115,14 +116,14 @@ class _SignupPageState extends State<SignupPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('รหัสผ่านไม่ตรงกัน'),
-            content: Text('กรุณาใส่รหัสผ่านและการยืนยันรหัสผ่านให้ตรงกัน'),
+            title: const Text('รหัสผ่านไม่ตรงกัน'),
+            content: const Text('กรุณาใส่รหัสผ่านและการยืนยันรหัสผ่านให้ตรงกัน'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // ปิด dialog
                 },
-                child: Text('ตกลง'),
+                child: const Text('ตกลง'),
               ),
             ],
           );
@@ -133,13 +134,13 @@ class _SignupPageState extends State<SignupPage> {
 
     // เตรียมข้อมูลที่จะส่งไปยังเซิร์ฟเวอร์
     Map<String, dynamic> data = {
-      'fname': _firstnameController.text,
-      'lname': _lastnameController.text,
-      'tel': _phoneController.text,
-      'province': _selectedProvince,
-      'types': _selectedType,
-      'username': _usernameController.text,
-      'password': _passwordController.text,
+      'register_fname': _firstnameController.text,
+      'register_lname': _lastnameController.text,
+      'register_tel': _phoneController.text,
+      'register_province': _selectedProvince,
+      'register_types': _selectedType,
+      'register_username': _usernameController.text,
+      'register_password': _passwordController.text,
     };
 
     // แปลงข้อมูลเป็น JSON
@@ -147,7 +148,8 @@ class _SignupPageState extends State<SignupPage> {
 
     try {
       var response = await http.post(
-        Uri.parse('https://7ee9-115-87-222-240.ngrok-free.app/users/register/'),
+        // Uri.parse('https://f9cd-115-87-222-240.ngrok-free.app/users/register/'),
+        Uri.parse('${AppConfig.connUrl}/users/register/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

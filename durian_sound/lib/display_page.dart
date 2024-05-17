@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:durian_sound/config.dart';
+
 import 'setting_page.dart';
 import 'display_next_page.dart';
 import 'package:intl/intl.dart';
@@ -14,7 +16,7 @@ import 'package:flutter/services.dart' show rootBundle;
 class DisplayPage extends StatefulWidget {
   final bool isHomePageVisible;
 
-  DisplayPage({Key? key, required this.isHomePageVisible}) : super(key: key);
+  const DisplayPage({super.key, required this.isHomePageVisible});
 
   @override
   _DisplayPageState createState() => _DisplayPageState();
@@ -134,7 +136,8 @@ class _DisplayPageState extends State<DisplayPage> {
         print(fileName);
       }
       String filePath = '$_audioFilePath$fileName';
-      var url = Uri.parse('https://cb5dhsk3-8000.asse.devtunnels.ms/predict/');
+      // predict URL
+      var url = Uri.parse('${AppConfig.connUrl}/sounds/upload_file/');
       var request = http.MultipartRequest('POST', url)
         ..files.add(http.MultipartFile.fromBytes(
             'audio', File(filePath).readAsBytesSync(),
@@ -157,6 +160,24 @@ class _DisplayPageState extends State<DisplayPage> {
           context,
           MaterialPageRoute(builder: (context) => DisplayNextPage()),
         );
+      }
+      // Upload to second URL
+      var secondUrl = Uri.parse(
+          'https://zbx5wgnt-4300.asse.devtunnels.ms/duriansound-backend/uploadByuser');
+      var secondRequest = http.MultipartRequest('POST', secondUrl)
+        ..files.add(http.MultipartFile.fromBytes(
+            'audio', File(filePath).readAsBytesSync(),
+            filename: fileName));
+
+      var secondResponse = await secondRequest.send();
+      if (secondResponse.statusCode == 200) {
+        if (kDebugMode) {
+          print('File uploaded successfully to second URL');
+        }
+      } else {
+        if (kDebugMode) {
+          print('File upload failed to second URL');
+        }
       }
     } catch (e) {
       if (kDebugMode) {
@@ -278,16 +299,16 @@ class _DisplayPageState extends State<DisplayPage> {
                                     ),
                                   ),
                                   durian.RippleAnimation(
-                                    color: Color.fromARGB(255, 255, 106, 13),
-                                    delay: Duration(milliseconds: 300),
+                                    color: const Color.fromARGB(255, 255, 106, 13),
+                                    delay: const Duration(milliseconds: 300),
                                     repeat: true,
                                     minRadius: 70,
                                     ripplesCount: 6,
-                                    duration: Duration(milliseconds: 10 * 300),
+                                    duration: const Duration(milliseconds: 10 * 300),
                                     child: GestureDetector(
                                       onTap:
                                           _isRecording ? null : _startRecording,
-                                      child: CircleAvatar(
+                                      child: const CircleAvatar(
                                         minRadius: 70,
                                         maxRadius: 70,
                                         backgroundColor:
@@ -358,7 +379,7 @@ class _DisplayPageState extends State<DisplayPage> {
                             ),
 
                       // Text('isHomePageVisible: ${widget.isHomePageVisible}'),
-                      SizedBox(height: 50),
+                      const SizedBox(height: 50),
                       const Text(
                         'กรุณาเคาะอย่างน้อย 2 ครั้ง',
                         style: TextStyle(
@@ -379,7 +400,7 @@ class _DisplayPageState extends State<DisplayPage> {
                 const SizedBox(height: 50),
                 const SizedBox(height: 50),
                 Text(
-                  'ชื่อไฟล์ : ${recordingTimeStamp}',
+                  'ชื่อไฟล์ : $recordingTimeStamp',
                   style: const TextStyle(fontSize: 16),
                 ),
               ],
