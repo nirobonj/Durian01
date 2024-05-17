@@ -42,7 +42,7 @@ class _CarDropdownState extends State<CarDropdown> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Car Dropdown'),
+        title: const Text('Car Dropdown'),
       ),
       body: Center(
         child: DropdownButton<String?>(

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -6,8 +7,7 @@ import 'package:durian_sound/setting_page.dart'; // Import the SettingPage
 
 class EditFormPage extends StatefulWidget {
   final String defaultUsername;
-  const EditFormPage({required this.defaultUsername, Key? key})
-      : super(key: key);
+  const EditFormPage({required this.defaultUsername, super.key});
 
   @override
   _EditFormPageState createState() => _EditFormPageState();
@@ -16,12 +16,12 @@ class EditFormPage extends StatefulWidget {
 class _EditFormPageState extends State<EditFormPage> {
   String message = '';
   Map<String, dynamic>? userData;
-  TextEditingController _firstnameController = TextEditingController();
-  TextEditingController _lastnameController = TextEditingController();
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _telController = TextEditingController();
-  TextEditingController _provinceController = TextEditingController();
-  TextEditingController _typesController = TextEditingController();
+  final TextEditingController _firstnameController = TextEditingController();
+  final TextEditingController _lastnameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _telController = TextEditingController();
+  final TextEditingController _provinceController = TextEditingController();
+  final TextEditingController _typesController = TextEditingController();
 
   @override
   void initState() {
@@ -46,7 +46,9 @@ class _EditFormPageState extends State<EditFormPage> {
         _typesController.text = userData?['types'] ?? '';
       });
     } else {
-      print('Failed to fetch data.');
+      if (kDebugMode) {
+        print('Failed to fetch data.');
+      }
     }
   }
 
@@ -71,10 +73,14 @@ class _EditFormPageState extends State<EditFormPage> {
       if (response.statusCode == 200) {
         showSuccessDialog();
       } else {
-        print('Failed to save data.');
+        if (kDebugMode) {
+          print('Failed to save data.');
+        }
       }
     } catch (e) {
-      print('Error: $e');
+      if (kDebugMode) {
+        print('Error: $e');
+      }
     }
   }
 
@@ -83,18 +89,18 @@ class _EditFormPageState extends State<EditFormPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('สำเร็จ'),
-          content: Text('บันทึกข้อมูลสำเร็จ'),
+          title: const Text('สำเร็จ'),
+          content: const Text('บันทึกข้อมูลสำเร็จ'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => SettingPage()),
+                  MaterialPageRoute(builder: (context) => const SettingPage()),
                 );
               },
-              child: Text('ตกลง'),
+              child: const Text('ตกลง'),
             ),
           ],
         );
@@ -117,29 +123,29 @@ class _EditFormPageState extends State<EditFormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit User Data'),
+        title: const Text('Edit User Data'),
       ),
       body: Center(
         child: userData == null
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextFormField(
                     controller: _firstnameController,
-                    decoration: InputDecoration(labelText: 'First Name'),
+                    decoration: const InputDecoration(labelText: 'First Name'),
                   ),
                   TextFormField(
                     controller: _lastnameController,
-                    decoration: InputDecoration(labelText: 'Last Name'),
+                    decoration: const InputDecoration(labelText: 'Last Name'),
                   ),
                   TextFormField(
                     controller: _usernameController,
-                    decoration: InputDecoration(labelText: 'Username'),
+                    decoration: const InputDecoration(labelText: 'Username'),
                   ),
                   TextFormField(
                     controller: _telController,
-                    decoration: InputDecoration(labelText: 'Telephone'),
+                    decoration: const InputDecoration(labelText: 'Telephone'),
                   ),
                   DropdownButtonFormField<String>(
                     value: _provinceController.text,
@@ -232,7 +238,7 @@ class _EditFormPageState extends State<EditFormPage> {
                         child: Text(value),
                       );
                     }).toList(),
-                    decoration: InputDecoration(labelText: 'Province'),
+                    decoration: const InputDecoration(labelText: 'Province'),
                   ),
                   DropdownButtonFormField<String>(
                     value: _typesController.text,
@@ -248,12 +254,12 @@ class _EditFormPageState extends State<EditFormPage> {
                         child: Text(value),
                       );
                     }).toList(),
-                    decoration: InputDecoration(labelText: 'Types'),
+                    decoration: const InputDecoration(labelText: 'Types'),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: saveData,
-                    child: Text('บันทึก'),
+                    child: const Text('บันทึก'),
                   ),
                 ],
               ),

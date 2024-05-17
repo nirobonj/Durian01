@@ -3,7 +3,7 @@ import 'dart:async';
 
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 250, 181),
+      backgroundColor: const Color.fromARGB(255, 255, 250, 181),
       body: Center(
         child: AnimatedSwitcher(
           duration:

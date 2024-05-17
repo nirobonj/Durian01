@@ -2,7 +2,7 @@ import 'package:durian_sound/login_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'edit_profile_page.dart';
+// import 'edit_profile_page.dart';
 import 'about_us_page.dart';
 import 'display_page.dart';
 import 'package:get/get.dart';
@@ -208,7 +208,7 @@ class _SettingPageState extends State<SettingPage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AboutUsPage()),
+                      MaterialPageRoute(builder: (context) => const AboutUsPage()),
                     );
                   },
                 ),

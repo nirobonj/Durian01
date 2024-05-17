@@ -2,13 +2,14 @@
 //useeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 import 'package:durian_sound/config.dart';
 import 'package:durian_sound/login_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get/get.dart';
 
 class EditPage extends StatefulWidget {
-  EditPage({Key? key}) : super(key: key);
+  const EditPage({super.key});
 
   @override
   _EditPageState createState() => _EditPageState();
@@ -152,10 +153,14 @@ class _EditPageState extends State<EditPage> {
         var data = json.decode(response.body);
         fillFormFields(data); // เรียกใช้ fillFormFields เพื่อแสดงข้อมูลที่ได้
       } else {
-        print('Failed to fetch data. Error: ${response.statusCode}');
+        if (kDebugMode) {
+          print('Failed to fetch data. Error: ${response.statusCode}');
+        }
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      if (kDebugMode) {
+        print('Error fetching data: $e');
+      }
     }
   }
 
@@ -171,17 +176,25 @@ class _EditPageState extends State<EditPage> {
           'password': userController.password.value,
         },
       );
-      print('Username: ${userController.username.value}');
-      print('Password: ${userController.password.value}');
+      if (kDebugMode) {
+        print('Username: ${userController.username.value}');
+      }
+      if (kDebugMode) {
+        print('Password: ${userController.password.value}');
+      }
 
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         // ดำเนินการต่อไปเมื่อได้รับข้อมูลจากเซิร์ฟเวอร์
       } else {
-        print('Failed to fetch data. Error: ${response.statusCode}');
+        if (kDebugMode) {
+          print('Failed to fetch data. Error: ${response.statusCode}');
+        }
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      if (kDebugMode) {
+        print('Error fetching data: $e');
+      }
     }
   }
 
