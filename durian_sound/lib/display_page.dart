@@ -148,10 +148,10 @@ class _DisplayPageState extends State<DisplayPage> {
         if (kDebugMode) {
           print('File uploaded successfully');
         }
-        // Navigator.push(
-        //       context,
-        //       MaterialPageRoute(builder: (context) => DisplayNextPage()),
-        //     );
+        Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DisplayNextPage()),
+            );
       } else {
         if (kDebugMode) {
           print('File upload failed');
