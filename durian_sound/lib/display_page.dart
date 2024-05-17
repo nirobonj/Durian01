@@ -1,13 +1,12 @@
 import 'dart:io';
 import 'dart:async';
-import 'package:durian_sound/config.dart';
-
 import 'setting_page.dart';
 import 'display_next_page.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
+import 'package:durian_sound/config.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:durian_sound/ripple_animation.dart' as durian;
 import 'package:permission_handler/permission_handler.dart';
@@ -15,7 +14,6 @@ import 'package:flutter/services.dart' show rootBundle;
 
 class DisplayPage extends StatefulWidget {
   final bool isHomePageVisible;
-
   const DisplayPage({super.key, required this.isHomePageVisible});
 
   @override
@@ -31,13 +29,12 @@ class _DisplayPageState extends State<DisplayPage> {
 
   late String _audioFilePath;
   late String recordingTimeStamp;
-  late String file_path;
   late String username;
   late String password;
   late String storeName;
 
   late AnimationController _controller;
-  FlutterSoundPlayer _audioPlayer = FlutterSoundPlayer();
+  final FlutterSoundPlayer _audioPlayer = FlutterSoundPlayer();
 
   @override
   void initState() {
@@ -89,11 +86,9 @@ class _DisplayPageState extends State<DisplayPage> {
         return;
       }
     }
-
     await _initAudioFilePath();
     try {
       recordingTimeStamp = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
-
       await _recorder?.openRecorder();
       await _recorder?.startRecorder(
         toFile: '$_audioFilePath$recordingTimeStamp.wav',
@@ -113,7 +108,7 @@ class _DisplayPageState extends State<DisplayPage> {
   }
 
   void _stopRecordingAfter20Seconds() {
-    Timer(const Duration(seconds: 10), () async {
+    Timer(const Duration(seconds: 20), () async {
       if (_isRecording) {
         _stopRecording();
       }
@@ -127,12 +122,9 @@ class _DisplayPageState extends State<DisplayPage> {
         _isRecording = false;
       });
       playSound();
+      String fileName = '$recordingTimeStamp' '.wav';
       if (kDebugMode) {
         print('Recording time stamp: $recordingTimeStamp');
-      }
-      String fileName = '$recordingTimeStamp' '.wav';
-
-      if (kDebugMode) {
         print(fileName);
       }
       String filePath = '$_audioFilePath$fileName';
@@ -156,10 +148,6 @@ class _DisplayPageState extends State<DisplayPage> {
         if (kDebugMode) {
           print('File upload failed');
         }
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => DisplayNextPage()),
-        // );
       }
       // Upload to second URL
       var secondUrl = Uri.parse(
@@ -183,10 +171,6 @@ class _DisplayPageState extends State<DisplayPage> {
       if (kDebugMode) {
         print('Error stopping recording: $e');
       }
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => DisplayNextPage()),
-      );
     }
   }
 
@@ -202,12 +186,10 @@ class _DisplayPageState extends State<DisplayPage> {
         return;
       }
     }
-
     String audioFilePath = 'assets/image/voice.wav';
     try {
       ByteData bytes = await rootBundle.load(audioFilePath);
       Uint8List soundbytes = bytes.buffer.asUint8List();
-
       await _audioPlayer.openPlayer();
       await _audioPlayer.startPlayer(
         fromDataBuffer: soundbytes,
@@ -256,7 +238,6 @@ class _DisplayPageState extends State<DisplayPage> {
                 const SizedBox(height: 50),
                 SizedBox(
                   width: 350,
-                  // height: 500,
                   child: Column(
                     children: <Widget>[
                       const SizedBox(height: 15),
@@ -265,8 +246,7 @@ class _DisplayPageState extends State<DisplayPage> {
                               width: 200.0,
                               height: 200.0,
                               child: Stack(
-                                alignment: Alignment
-                                    .center, // Align all children in the center
+                                alignment: Alignment.center,
                                 children: [
                                   Positioned(
                                     top: 10,
@@ -325,8 +305,7 @@ class _DisplayPageState extends State<DisplayPage> {
                                 width: 200.0,
                                 height: 200.0,
                                 child: Stack(
-                                  alignment: Alignment
-                                      .center, // Align all children in the center
+                                  alignment: Alignment.center,
                                   children: [
                                     Positioned(
                                       top: 10,
@@ -377,21 +356,19 @@ class _DisplayPageState extends State<DisplayPage> {
                                 ),
                               ),
                             ),
-
-                      // Text('isHomePageVisible: ${widget.isHomePageVisible}'),
                       const SizedBox(height: 50),
                       const Text(
                         'กรุณาเคาะอย่างน้อย 2 ครั้ง',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18, // กำหนดสีข้อความใน Body
+                          fontSize: 18, 
                         ),
                       ),
                       const Text(
-                        'กรุณาเคาะไม่เกินระยะ __ เซนติเมตร',
+                        'กรุณาเคาะไม่เกินระยะ 7 เซนติเมตร',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18, // กำหนดสีข้อความใน Body
+                          fontSize: 18, 
                         ),
                       ),
                     ],

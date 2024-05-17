@@ -38,7 +38,6 @@ class DisplayNextPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // const SizedBox(height: 50),
                   SizedBox(
                     width: 350,
                     height: 650,
@@ -70,7 +69,7 @@ class DisplayNextPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 20),
                         Container(
                           decoration: const BoxDecoration(
                             color: Color(0xffffea00),
@@ -149,13 +148,13 @@ class DisplayNextPage extends StatelessWidget {
                                           ),
                                           child: const Center(
                                             child: Text(
-                                              'DD MM YYYY', // ข้อความสำหรับสี่เหลี่ยมแรก
+                                              'DD MM YYYY', 
                                               style: TextStyle(
-                                                fontSize: 25, // ขนาดตัวอักษร
+                                                fontSize: 25, 
                                                 color: Colors
-                                                    .black, // สีของข้อความ
+                                                    .black, 
                                                 fontWeight: FontWeight
-                                                    .bold, // ลักษณะตัวอักษร
+                                                    .bold, 
                                               ),
                                             ),
                                           ),
@@ -173,13 +172,13 @@ class DisplayNextPage extends StatelessWidget {
                                           ),
                                           child: const Center(
                                             child: Text(
-                                              'Text 1', // ข้อความสำหรับสี่เหลี่ยมแรก
+                                              'Text 1', 
                                               style: TextStyle(
-                                                fontSize: 16, // ขนาดตัวอักษร
+                                                fontSize: 16,
                                                 color: Colors
-                                                    .black, // สีของข้อความ
+                                                    .black, 
                                                 fontWeight: FontWeight
-                                                    .bold, // ลักษณะตัวอักษร
+                                                    .bold, 
                                               ),
                                             ),
                                           ),
@@ -188,33 +187,6 @@ class DisplayNextPage extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(height: 30),
-                                  // SizedBox(
-                                  //   width: 120,
-                                  //   height: 120,
-                                  //   child: Image.asset('assets/image/lv6.png'),
-                                  // ),
-
-                                  // const Divider(),
-                                  // Container(
-                                  //   width: 56,
-                                  //   height: 56,
-                                  //   decoration: BoxDecoration(
-                                  //     color: const Color.fromARGB(
-                                  //         255, 178, 178, 178),
-                                  //     borderRadius: BorderRadius.circular(10.0),
-                                  //   ),
-                                  // ),
-                                  // const SizedBox(height: 30),
-                                  // Container(
-                                  //   width: 300,
-                                  //   height: 300,
-                                  //   // child: Image.asset('assets/shirt.png'),
-                                  //   decoration: BoxDecoration(
-                                  //     color: const Color.fromARGB(
-                                  //         255, 178, 178, 178),
-                                  //     borderRadius: BorderRadius.circular(10.0),
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                             ),

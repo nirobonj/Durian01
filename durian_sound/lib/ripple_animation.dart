@@ -2,10 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-/// You can use whatever widget as a [child], when you don't need to provide any
-/// [child], just provide an empty Container().
-/// [delay] is using a [Timer] for delaying the animation, it's zero by default.
-/// You can set [repeat] to true for making a paulsing effect.
 class RippleAnimation extends StatefulWidget {
   ///initialize the ripple animation
   const RippleAnimation({
@@ -19,25 +15,12 @@ class RippleAnimation extends StatefulWidget {
     super.key,
   });
 
-  ///[Widget] this widget will placed at center of the animation
   final Widget child;
-
-  ///[Duration] delay of the animation
   final Duration delay;
-
-  /// [double] minimum radius of the animation
   final double minRadius;
-
-  /// [Color] color of the animation
   final Color color;
-
-  /// [int] number of circle that u want to display in the animation
   final int ripplesCount;
-
-  /// [Duration]  of the animation
   final Duration duration;
-
-  /// [bool] provide true if u want repeat ani9mation
   final bool repeat;
 
   @override
@@ -60,10 +43,8 @@ class RippleAnimationState extends State<RippleAnimation>
 
     animationTimer = Timer(widget.delay, () {
       if (_controller != null && mounted) {
-        // repeating or just forwarding the animation once.
         widget.repeat ? _controller!.repeat() : _controller!.forward();
       }
-      // Cancel the timer when it's no longer needed.
       animationTimer?.cancel();
     });
 
@@ -88,9 +69,7 @@ class RippleAnimationState extends State<RippleAnimation>
       );
 }
 
-/// Creating a Circular painter for clipping the rects and creating circle shape
 class CirclePainter extends CustomPainter {
-  ///initialize the painter
   CirclePainter(
     this.animation, {
     required this.wavesCount,
@@ -98,16 +77,9 @@ class CirclePainter extends CustomPainter {
     this.minRadius,
   }) : super(repaint: animation);
 
-  ///[Color] of the painter
   final Color color;
-
-  ///[double] minimum radius of the painter
   final double? minRadius;
-
-  ///[int] number of wave count in the animation
   final int wavesCount;
-
-  ///[Color] of the painter
   final Animation<double>? animation;
 
   @override
@@ -125,8 +97,6 @@ class CirclePainter extends CustomPainter {
       );
     }
   }
-
-  /// animating the opacity according to min radius and waves count.
   void circle(
     Canvas canvas,
     Rect rect,

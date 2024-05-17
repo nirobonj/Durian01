@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'signup_page.dart';
 import 'home_page.dart';
 import 'display_page.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
+import 'package:shared_preferences/shared_preferences.dart'; 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
@@ -18,7 +18,7 @@ class UserController extends GetxController {
 }
 
 class LoginPage extends StatelessWidget {
-  final bool isHomePageVisible; // เปลี่ยนเป็น bool?
+  final bool isHomePageVisible;
   const LoginPage({super.key, required this.isHomePageVisible});
 
   @override
@@ -26,41 +26,6 @@ class LoginPage extends StatelessWidget {
     TextEditingController usernameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     final UserController userController = Get.put(UserController());
-    // void login(BuildContext context) async {
-    //   // เปลี่ยนให้ฟังก์ชั่น login เป็น asynchronous
-    //   String username = usernameController.text;
-    //   String password = passwordController.text;
-    //   final url = Uri.parse('http://your-django-server.com/login/'); // แก้ URL ให้เป็น URL ของเซิร์ฟเวอร์ Django
-    //   if (username == 'b' && password == 'b') {
-    //     SharedPreferences prefs =
-    //         await SharedPreferences.getInstance(); // อ่านค่า SharedPreferences
-    //     bool? isHomePageVisible = prefs.getBool('isHomePageVisible') ??
-    //         true; // ใช้ค่าจาก SharedPreferences
-    //     if (isHomePageVisible) {
-    //       Navigator.push(
-    //         context,
-    //         MaterialPageRoute(
-    //             builder: (context) => HomePage(
-    //                   isHomePageVisible: isHomePageVisible,
-    //                 )),
-    //       );
-    //     } else {
-    //       Navigator.push(
-    //         context,
-    //         MaterialPageRoute(
-    //             builder: (context) =>
-    //                 DisplayPage(isHomePageVisible: isHomePageVisible)),
-    //       );
-    //     }
-    //     if (kDebugMode) {
-    //       print('Login successful');
-    //     }
-    //   } else {
-    //     if (kDebugMode) {
-    //       print('Login failed');
-    //     }
-    //   }
-    // }
 
     void showAlertDialog(BuildContext context, String title, String message) {
       showDialog(
@@ -87,7 +52,7 @@ class LoginPage extends StatelessWidget {
       String password = passwordController.text;
 
       final url = Uri.parse(
-          '${AppConfig.connUrl}/users/login/'); // แก้ URL ให้เป็น URL ของเซิร์ฟเวอร์ Django
+          '${AppConfig.connUrl}/users/login/');
 
       try {
         final response = await http.post(
@@ -167,7 +132,6 @@ class LoginPage extends StatelessWidget {
             SizedBox(
               width: 220,
               height: 200,
-              // color: const Color.fromARGB(255, 255, 214, 92),
               child: Image.asset('assets/image/icon.PNG'),
             ),
             const SizedBox(height: 25),
@@ -224,33 +188,6 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-            // SizedBox(
-            //   width: 220,
-            //   height: 50,
-            //   child: ElevatedButton(
-            //     onPressed: () => Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (context) => HomePage(
-            //           isHomePageVisible: isHomePageVisible,
-            //         ),
-            //       ),
-            //     ),
-            //     style: ElevatedButton.styleFrom(
-            //       backgroundColor: const Color(0xffffea00),
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(8),
-            //       ),
-            //     ),
-            //     child: const Text(
-            //       'เข้าสู่ระบบบบบ',
-            //       style: TextStyle(
-            //           color: Colors.black,
-            //           fontWeight: FontWeight.bold,
-            //           fontSize: 20),
-            //     ),
-            //   ),
-            // ),
             const SizedBox(height: 25),
             SizedBox(
               width: 220,

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:durian_sound/config.dart';
-import 'package:durian_sound/setting_page.dart'; // Import the SettingPage
+import 'package:durian_sound/setting_page.dart';
 
 class EditFormPage extends StatefulWidget {
   final String defaultUsername;
@@ -187,12 +187,7 @@ class _EditFormPageState extends State<EditFormPage> {
                       ),
                     ),
                   ),
-                  // TextFormField(
-                  //   controller: _usernameController,
-                  //   decoration: const InputDecoration(labelText: 'Username'),
-                  // ),
                   const SizedBox(height: 10),
-                  
                   SizedBox(
                     width: 220,
                     height: 50,

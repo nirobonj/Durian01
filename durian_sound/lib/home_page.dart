@@ -20,17 +20,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 250, 181),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     _scrollController.animateTo(
-      //       _scrollController.position.maxScrollExtent,
-      //       duration: const Duration(milliseconds: 500),
-      //       curve: Curves.easeInOut,
-      //     );
-      //   },
-      //   backgroundColor: const Color(0xffffea00),
-      //   child: const Icon(Icons.arrow_downward),
-      // ),
       body: Scrollbar(
         controller: _scrollController,
         thumbVisibility: true,

@@ -19,17 +19,9 @@ class AboutUsPage extends StatelessWidget {
           width: 320,
           height: 1000,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, // จัดกึ่งกลางแนวนอน
-            crossAxisAlignment: CrossAxisAlignment.start, // จัดให้อยู่ทางขวา
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Text(
-              //   'About Us',
-              //   style: TextStyle(
-              //     fontSize: 25,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              //   textAlign: TextAlign.left,
-              // ),
               const SizedBox(height: 20),
               SizedBox(
                 width: 150,

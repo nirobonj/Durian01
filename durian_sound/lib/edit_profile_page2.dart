@@ -22,114 +22,22 @@ class _EditPageState extends State<EditPage> {
   final List<String> type = ['ล้ง', 'ผู้บริโภค', 'ผู้ขาย', 'ชาวสวน'];
 
   final List<String> provinces = [
-    'กรุงเทพมหานคร',
-    'กระบี่',
-    'กาญจนบุรี',
-    'ปทุมธานี',
-    'กาฬสินธุ์',
-    'กำแพงเพชร',
-    'ขอนแก่น',
-    'จันทบุรี',
-    'ฉะเชิงเทรา',
-    'ชลบุรี',
-    'ชัยนาท',
-    'ชัยภูมิ',
-    'ชุมพร',
-    'เชียงราย',
-    'เชียงใหม่',
-    'ตรัง',
-    'ตราด',
-    'ตาก',
-    'นครนายก',
-    'นครปฐม',
-    'นครพนม',
-    'นครราชสีมา',
-    'นครศรีธรรมราช',
-    'นครสวรรค์',
-    'นนทบุรี',
-    'นราธิวาส',
-    'น่าน',
-    'บึงกาฬ',
-    'บุรีรัมย์',
-    'ปทุมธาน',
-    'ประจวบคีรีขันธ์',
-    'ปราจีนบุรี',
-    'ปัตตานี',
-    'พระนครศรีอยุธยา',
-    'พังงา',
-    'พัทลุง',
-    'พิจิตร',
-    'พิษณุโลก',
-    'เพชรบุรี',
-    'เพชรบูรณ์',
-    'ปทุมธาน',
-    'ประจวบคีรีขันธ์',
-    'ปราจีนบุรี',
-    'ปัตตานี',
-    'พระนครศรีอยุธยา',
-    'พังงา',
-    'พัทลุง',
-    'พิจิตร',
-    'พิษณุโลก',
-    'เพชรบุรี',
-    'เพชรบูรณ์',
-    'ปทุมธาน',
-    'ประจวบคีรีขันธ์',
-    'ปราจีนบุรี',
-    'ปัตตานี',
-    'พระนครศรีอยุธยา',
-    'พังงา',
-    'พัทลุง',
-    'พิจิตร',
-    'พิษณุโลก',
-    'เพชรบุรี',
-    'เพชรบูรณ์',
-    'แพร่',
-    'พะเยา',
-    'ภูเก็ต',
-    'มหาสารคาม',
-    'มุกดาหาร',
-    'แม่ฮ่องสอน',
-    'ยะลา',
-    'ยโสธร',
-    'ร้อยเอ็ด',
-    'ระนอง',
-    'ระยอง',
-    'ราชบุรี',
-    'ลพบุรี',
-    'ลำปาง',
-    'ลำพูน',
-    'เลย',
-    'ศรีสะเกษ',
-    'สกลนคร',
-    'สงขลา',
-    'สตูล',
-    'สมุทรปราการ',
-    'สมุทรสงคราม',
-    'สมุทรสาคร',
-    'สระแก้ว',
-    'สระบุรี',
-    'สิงห์บุรี',
-    'สุโขทัย',
-    'สุพรรณบุรี',
-    'สุราษฎร์ธานี',
-    'สุรินทร์',
-    'หนองคาย',
-    'หนองบัวลำภู',
-    'อ่างทอง',
-    'อุดรธานี',
-    'อุทัยธานี',
-    'อุตรดิตถ์',
-    'อุบลราชธานี',
-    'อำนาจเจริญ',
+    'กรุงเทพมหานคร','กระบี่','กาญจนบุรี','ปทุมธานี','กาฬสินธุ์','กำแพงเพชร',
+    'ขอนแก่น','จันทบุรี','ฉะเชิงเทรา','ชลบุรี','ชัยนาท','ชัยภูมิ','ชุมพร','เชียงราย',
+    'เชียงใหม่','ตรัง','ตราด','ตาก','นครนายก','นครปฐม','นครพนม','นครราชสีมา',
+    'นครศรีธรรมราช','นครสวรรค์','นนทบุรี','นราธิวาส','น่าน','บึงกาฬ','บุรีรัมย์',
+    'ปทุมธานี','ประจวบคีรีขันธ์','ปราจีนบุรี','ปัตตานี','พังงา','พัทลุง','พิจิตร',
+    'พิษณุโลก','เพชรบุรี','เพชรบูรณ์','แพร่','พะเยา','ภูเก็ต','มหาสารคาม',
+    'มุกดาหาร','แม่ฮ่องสอน','ยะลา','ยโสธร','ร้อยเอ็ด','ระนอง','ระยอง','ราชบุรี',
+    'ลพบุรี','ลำปาง','ลำพูน','เลย','ศรีสะเกษ','สกลนคร','สงขลา','สตูล',
+    'สมุทรปราการ','สมุทรสงคราม','สมุทรสาคร','สระแก้ว','สระบุรี','สิงห์บุรี',
+    'สุโขทัย','สุพรรณบุรี','สุราษฎร์ธานี','สุรินทร์','หนองคาย','หนองบัวลำภู',
+     'อ่างทอง','อุดรธานี','อุทัยธานี','อุตรดิตถ์','อุบลราชธานี','อำนาจเจริญ',
   ];
   final TextEditingController _firstnameController = TextEditingController();
   final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
 
 // ฟังก์ชันเพิ่มเติมเพื่อแสดงข้อมูลใน TextField หรือ DropdownButtonFormField
   void fillFormFields(Map<String, dynamic> userData) {
@@ -146,12 +54,10 @@ class _EditPageState extends State<EditPage> {
   Future<void> fetchData() async {
     try {
       var response = await http.get(
-          // Uri.parse('https://f9cd-115-87-222-240.ngrok-free.app/users/edit/'));
           Uri.parse('${AppConfig.connUrl}/users/edit/'));
-
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
-        fillFormFields(data); // เรียกใช้ fillFormFields เพื่อแสดงข้อมูลที่ได้
+        fillFormFields(data);
       } else {
         if (kDebugMode) {
           print('Failed to fetch data. Error: ${response.statusCode}');
@@ -167,25 +73,19 @@ class _EditPageState extends State<EditPage> {
   Future<void> sendDataToServer() async {
     try {
       var response = await http.get(
-        // Uri.parse('https://93eb-115-87-222-240.ngrok-free.app/users/edit/'),
         Uri.parse('${AppConfig.connUrl}/users/edit/'),
         headers: {
-          // 'username': _usernameController.text,
-          // 'password': _passwordController.text,
           'username': userController.username.value,
           'password': userController.password.value,
         },
       );
       if (kDebugMode) {
         print('Username: ${userController.username.value}');
-      }
-      if (kDebugMode) {
         print('Password: ${userController.password.value}');
       }
 
       if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        // ดำเนินการต่อไปเมื่อได้รับข้อมูลจากเซิร์ฟเวอร์
+        json.decode(response.body);
       } else {
         if (kDebugMode) {
           print('Failed to fetch data. Error: ${response.statusCode}');
