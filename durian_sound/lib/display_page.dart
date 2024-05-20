@@ -168,6 +168,7 @@ class _DisplayPageState extends State<DisplayPage> {
           print('File upload failed');
         }
       }
+
       // Upload to second URL
       var secondUrl = Uri.parse(
           'https://zbx5wgnt-4300.asse.devtunnels.ms/duriansound-backend/uploadByuser');
