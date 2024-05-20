@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'setting_page.dart';
@@ -108,7 +109,7 @@ class _DisplayPageState extends State<DisplayPage> {
   }
 
   void _stopRecordingAfter20Seconds() {
-    Timer(const Duration(seconds: 20), () async {
+    Timer(const Duration(seconds: 5), () async {
       if (_isRecording) {
         _stopRecording();
       }
@@ -129,21 +130,24 @@ class _DisplayPageState extends State<DisplayPage> {
       }
       String filePath = '$_audioFilePath$fileName';
       // predict URL
-      var url = Uri.parse('${AppConfig.connUrl}/sounds/upload_file/');
+      var url = Uri.parse('${AppConfig.connUrl}/sounds/predict/');
       var request = http.MultipartRequest('POST', url)
         ..files.add(http.MultipartFile.fromBytes(
             'audio', File(filePath).readAsBytesSync(),
             filename: fileName));
 
       var response = await request.send();
+      var responseBody = await response.stream.transform(utf8.decoder).join();
+      print(responseBody);
+
       if (response.statusCode == 200) {
         if (kDebugMode) {
           print('File uploaded successfully');
         }
         Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => DisplayNextPage()),
-            );
+          context,
+          MaterialPageRoute(builder: (context) => DisplayNextPage()),
+        );
       } else {
         if (kDebugMode) {
           print('File upload failed');
@@ -280,12 +284,14 @@ class _DisplayPageState extends State<DisplayPage> {
                                     ),
                                   ),
                                   durian.RippleAnimation(
-                                    color: const Color.fromARGB(255, 255, 106, 13),
+                                    color:
+                                        const Color.fromARGB(255, 255, 106, 13),
                                     delay: const Duration(milliseconds: 300),
                                     repeat: true,
                                     minRadius: 70,
                                     ripplesCount: 6,
-                                    duration: const Duration(milliseconds: 10 * 300),
+                                    duration:
+                                        const Duration(milliseconds: 10 * 300),
                                     child: GestureDetector(
                                       onTap:
                                           _isRecording ? null : _startRecording,
@@ -362,14 +368,14 @@ class _DisplayPageState extends State<DisplayPage> {
                         'กรุณาเคาะอย่างน้อย 2 ครั้ง',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18, 
+                          fontSize: 18,
                         ),
                       ),
                       const Text(
                         'กรุณาเคาะไม่เกินระยะ 7 เซนติเมตร',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18, 
+                          fontSize: 18,
                         ),
                       ),
                     ],

@@ -40,7 +40,7 @@ def feature_extraction(file_path):
 
 
 @csrf_exempt
-def upload_and_predict(request):
+def predict(request):
     if request.method == 'POST' and 'audio' in request.FILES:
         # Receive the audio file
         audio_file = request.FILES['audio']
@@ -60,7 +60,8 @@ def upload_and_predict(request):
         new_data_reshaped = np.array(new_data).reshape(1, -1)
         predictions = knn_model.predict(new_data_reshaped)
         print(predictions)
+
         # Return the predictions
-        return JsonResponse({'predictions': 'l;l'})
+        return JsonResponse({'predictions': '1'})
     else:
         return JsonResponse({'error': 'No file uploaded'}, status=400)
