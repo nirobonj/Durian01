@@ -82,7 +82,7 @@ class SignupNextPage extends StatelessWidget {
                   } else {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DisplayPage(isHomePageVisible: false,)),
+                      MaterialPageRoute(builder: (context) => const DisplayPage(isHomePageVisible: false,)),
                     );
                   }
                 },

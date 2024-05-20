@@ -1,8 +1,11 @@
+import 'package:durian_sound/login_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'edit_profile_page.dart';
+import 'about_us_page.dart';
 import 'display_page.dart';
+import 'package:get/get.dart';
+import 'package:durian_sound/edit_form_page.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -12,8 +15,8 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  bool? isHomePageVisible; // เปลี่ยนเป็น null แทน true
-
+  bool? isHomePageVisible;
+  final String defaultUsername = Get.find<UserController>().username.value;
   @override
   void initState() {
     super.initState();
@@ -24,7 +27,7 @@ class _SettingPageState extends State<SettingPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       isHomePageVisible =
-          prefs.getBool('isHomePageVisible'); // ไม่มีการกำหนดค่าเริ่มต้น
+          prefs.getBool('isHomePageVisible');
     });
   }
 
@@ -59,62 +62,10 @@ class _SettingPageState extends State<SettingPage> {
       body: Center(
         child: SizedBox(
           width: 350,
-          height: 730,
+          height: 700,
           child: Card(
             child: ListView(
               children: <Widget>[
-                // Text('isHomePageVisible: ${isHomePageVisible ?? "null"}'),
-
-                // ListTile(
-                //   title: Text(
-                //       ' หน้าคำอธิบาย ${isHomePageVisible ?? true ? 'เปิด' : 'ปิด'}'),
-                //   onTap: () async {
-                //     final newValue = !(isHomePageVisible ?? true);
-                //     SharedPreferences prefs =
-                //         await SharedPreferences.getInstance();
-                //     await prefs.setBool('isHomePageVisible',
-                //         newValue); // บันทึกค่าใหม่ใน SharedPreferences
-                //     setState(() {
-                //       isHomePageVisible = newValue;
-                //       if (kDebugMode) {
-                //         print(
-                //             'Setting Page is now ${newValue ? 'open' : 'closed'}');
-                //       }
-                //     });
-                //   },
-                // ),
-                // ListTile(
-                //   title: Row(
-                //     children: [
-                //       const Text(' หน้าคำอธิบาย '),
-                //       Switch(
-                //         value: isHomePageVisible ?? true,
-                //         onChanged: (bool value) async {
-                //           SharedPreferences prefs =
-                //               await SharedPreferences.getInstance();
-                //           await prefs.setBool('isHomePageVisible', value);
-                //           setState(() {
-                //             isHomePageVisible = value;
-                //           });
-                //         },
-                //         activeColor: Color.fromARGB(255, 66, 204, 144),
-                //       ),
-                //     ],
-                //   ),
-                //   onTap: () async {
-                //     final newValue = !(isHomePageVisible ?? true);
-                //     SharedPreferences prefs =
-                //         await SharedPreferences.getInstance();
-                //     await prefs.setBool('isHomePageVisible', newValue);
-                //     setState(() {
-                //       isHomePageVisible = newValue;
-                //       if (kDebugMode) {
-                //         print(
-                //             'Setting Page is now ${newValue ? 'open' : 'closed'}');
-                //       }
-                //     });
-                //   },
-                // ),
                 ListTile(
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -155,12 +106,14 @@ class _SettingPageState extends State<SettingPage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => EditPage()),
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            EditFormPage(defaultUsername: defaultUsername),
+                      ),
                     );
                   },
                   trailing: const Icon(Icons.edit),
                 ),
-
                 const Divider(),
                 ListTile(
                   title: const Row(
@@ -171,12 +124,25 @@ class _SettingPageState extends State<SettingPage> {
                     ],
                   ),
                   onTap: () {
-                    // ใส่โค้ดที่ต้องการให้ทำงานเมื่อคลิกที่รายการ Privacy ตรงนี้
                   },
                 ),
 
                 const Divider(),
-                // เพิ่มรายการอื่นๆ ตามต้องการ
+                ListTile(
+                  title: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('เกี่ยวกับเรา'),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AboutUsPage()),
+                    );
+                  },
+                ),
+                const Divider(),
               ],
             ),
           ),

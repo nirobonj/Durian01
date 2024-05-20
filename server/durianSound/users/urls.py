@@ -10,7 +10,7 @@ urlpatterns = [
     path('login/', LoginViewset.as_view()),
     path('edit/',EditViewset.as_view()),
     # path('edit/<str:username>', EditViewset.as_view),
-    path('edit/<str:username>/', EditViewset.as_view(), name='edit_user'),
+    path('edit/<str:username>', EditViewset.as_view(), name='edit_user'),
     path('get-register/',EditViewset.as_view(), name='get_register'),
     # path('api/users/', UserCreateAPIView.as_view(), name='user-create'),
     # path('api/users/', register_user, name='register_user'),

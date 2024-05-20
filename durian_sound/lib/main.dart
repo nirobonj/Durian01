@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'login_page.dart';
+import 'SplashScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +16,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
@@ -21,6 +24,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _loadIsHomePageVisible() async {
+    // ทำการ delay 5 วินาที
+    await Future.delayed(const Duration(seconds: 8));
     setState(() {
       _isLoading = false;
     });
@@ -32,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Durian Sound Classify',
       theme: ThemeData(
         inputDecorationTheme: const InputDecorationTheme(
-          fillColor: Colors.white,
+          fillColor: Color.fromARGB(255, 255, 250, 181),
           filled: true,
         ),
       ),
@@ -44,8 +49,6 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,4 +58,4 @@ class SplashScreen extends StatelessWidget {
       ),
     );
   }
-}
+

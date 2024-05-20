@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'signup_page.dart';
 import 'home_page.dart';
 import 'display_page.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
+import 'package:shared_preferences/shared_preferences.dart'; 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
@@ -18,7 +18,7 @@ class UserController extends GetxController {
 }
 
 class LoginPage extends StatelessWidget {
-  final bool isHomePageVisible; // เปลี่ยนเป็น bool?
+  final bool isHomePageVisible;
   const LoginPage({super.key, required this.isHomePageVisible});
 
   @override
@@ -26,41 +26,6 @@ class LoginPage extends StatelessWidget {
     TextEditingController usernameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     final UserController userController = Get.put(UserController());
-    // void login(BuildContext context) async {
-    //   // เปลี่ยนให้ฟังก์ชั่น login เป็น asynchronous
-    //   String username = usernameController.text;
-    //   String password = passwordController.text;
-    //   final url = Uri.parse('http://your-django-server.com/login/'); // แก้ URL ให้เป็น URL ของเซิร์ฟเวอร์ Django
-    //   if (username == 'b' && password == 'b') {
-    //     SharedPreferences prefs =
-    //         await SharedPreferences.getInstance(); // อ่านค่า SharedPreferences
-    //     bool? isHomePageVisible = prefs.getBool('isHomePageVisible') ??
-    //         true; // ใช้ค่าจาก SharedPreferences
-    //     if (isHomePageVisible) {
-    //       Navigator.push(
-    //         context,
-    //         MaterialPageRoute(
-    //             builder: (context) => HomePage(
-    //                   isHomePageVisible: isHomePageVisible,
-    //                 )),
-    //       );
-    //     } else {
-    //       Navigator.push(
-    //         context,
-    //         MaterialPageRoute(
-    //             builder: (context) =>
-    //                 DisplayPage(isHomePageVisible: isHomePageVisible)),
-    //       );
-    //     }
-    //     if (kDebugMode) {
-    //       print('Login successful');
-    //     }
-    //   } else {
-    //     if (kDebugMode) {
-    //       print('Login failed');
-    //     }
-    //   }
-    // }
 
     void showAlertDialog(BuildContext context, String title, String message) {
       showDialog(
@@ -74,7 +39,7 @@ class LoginPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pop(); // ปิด dialog
                 },
-                child: Text('ตกลง'),
+                child: const Text('ตกลง'),
               ),
             ],
           );
@@ -87,7 +52,7 @@ class LoginPage extends StatelessWidget {
       String password = passwordController.text;
 
       final url = Uri.parse(
-          '${AppConfig.connUrl}/users/login/'); // แก้ URL ให้เป็น URL ของเซิร์ฟเวอร์ Django
+          '${AppConfig.connUrl}/users/login/');
 
       try {
         final response = await http.post(
@@ -96,18 +61,19 @@ class LoginPage extends StatelessWidget {
             'Content-Type': 'application/json; charset=UTF-8',
           },
           body: jsonEncode(<String, String>{
-            'username': username,
-            'password': password,
+            'login_username': username,
+            'login_password': password,
           }),
         );
 
         if (response.statusCode == 200) {
-          // สำเร็จ: ดำเนินการต่อไป
           SharedPreferences prefs = await SharedPreferences.getInstance();
           bool? isHomePageVisible = prefs.getBool('isHomePageVisible') ?? true;
           userController.setUsername(username);
           userController.setPassword(password);
-          print('Username: $username');
+          if (kDebugMode) {
+            print('Username: $username');
+          }
 
           if (isHomePageVisible) {
             Navigator.push(
@@ -141,7 +107,9 @@ class LoginPage extends StatelessWidget {
         }
       } catch (e) {
         // เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์
-        print('Error: $e');
+        if (kDebugMode) {
+          print('Error: $e');
+        }
         showAlertDialog(context, 'Error', 'An error occurred: $e');
       }
     }
@@ -156,15 +124,15 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(255, 255, 248, 153),
+      backgroundColor: const Color.fromARGB(255, 255, 250, 181),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
+            SizedBox(
               width: 220,
               height: 200,
-              color: const Color.fromARGB(255, 255, 214, 92),
+              child: Image.asset('assets/image/icon.PNG'),
             ),
             const SizedBox(height: 25),
             SizedBox(
