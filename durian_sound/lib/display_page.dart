@@ -165,7 +165,7 @@ class _DisplayPageState extends State<DisplayPage> {
       var secondUrl = Uri.parse(
           'https://zbx5wgnt-4300.asse.devtunnels.ms/duriansound-backend/uploadByuser');
       var secondRequest = http.MultipartRequest('POST', secondUrl)
-        ..fields['username'] = username // Add username here
+        ..fields['username'] = username
         ..files.add(http.MultipartFile.fromBytes(
             'audio', File(filePath).readAsBytesSync(),
             filename: fileName));
