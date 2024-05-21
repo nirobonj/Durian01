@@ -194,7 +194,9 @@ class _DisplayPageState extends State<DisplayPage>
                   )),
         );
       } else {
-        print('Request failed with status: ${response.statusCode}');
+        if (kDebugMode) {
+          print('Request failed with status: ${response.statusCode}');
+        }
       }
 
       var secondUrl =
@@ -483,9 +485,9 @@ class _DisplayPageState extends State<DisplayPage>
                   adDateOnly.isAtSameMomentAs(todayOnly);
             }).toList();
 
-            filteredAds.forEach((ad) {
-              print('\n\n\nImageUrl: ${ad.imageUrl},\n LinkUrl: ${ad.linkUrl},\n DisplayDuration: ${ad.displayDuration},');
-            });
+            // filteredAds.forEach((ad) {
+            //   print('\n\n\nImageUrl: ${ad.imageUrl},\n LinkUrl: ${ad.linkUrl},\n DisplayDuration: ${ad.displayDuration},');
+            // });
 
             _updateAds(filteredAds);
             return Container(

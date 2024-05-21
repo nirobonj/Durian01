@@ -273,8 +273,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
     List<Widget> widgets = [];
     // for (int i = predict; i <= 6; i++) {
     for (int i = predict; i <= 6 && i <= predict + 5; i++) {
-      DateTime currentDate =
-          (i == predict) ? date : date.add(Duration(days: i - predict));
+      DateTime currentDate = (i == predict) ? date : date.add(Duration(days: i - predict));
       // _buildRipenessWidget(i);
       print(i);
       switch (i) {
@@ -352,10 +351,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
   ) {
     String formattedDate = DateFormat('dd MMMM yyyy').format(dateTime);
     String formattedTime = DateFormat('HH:mm').format(DateTime.now());
-    DateTime today = DateTime.now();
-    String formattedToday = DateFormat('dd MMMM yyyy').format(today);
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      
       Container(
         width: 350,
         decoration: const BoxDecoration(
@@ -368,31 +364,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (formattedDate != formattedToday)
-              Container(
-                decoration: const BoxDecoration(
-                  color: Color(0xffffea00),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    topRight: Radius.circular(10.0),
-                  ),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'ระดับความสุกของทุเรียนระดับถัดไป',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
+            SizedBox(height: 40),
             Text(
               'ความสุกระดับที่ $levelText \n$detail\n',
               style: const TextStyle(
@@ -428,7 +400,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
                       color: const Color.fromARGB(255, 255, 255, 255),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: Center(
+                    child:  Center(
                       child: Text(
                         formattedDate,
                         style: const TextStyle(
@@ -448,7 +420,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
                       color: const Color.fromARGB(255, 255, 255, 255),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: Center(
+                    child:  Center(
                       child: Text(
                         formattedTime,
                         style: const TextStyle(
@@ -463,7 +435,6 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
               ),
             ),
             const SizedBox(height: 30),
-            
           ],
         ),
       ),
