@@ -134,7 +134,7 @@ class _DisplayPageState extends State<DisplayPage> {
         print(fileName);
       }
       String filePath = '$_audioFilePath$fileName';
-      // predict URL
+
       var url = Uri.parse('${AppConfig.connUrl}/sounds/predict/');
       var request = http.MultipartRequest('POST', url)
         ..files.add(http.MultipartFile.fromBytes(
@@ -142,21 +142,19 @@ class _DisplayPageState extends State<DisplayPage> {
             filename: fileName));
 
       var response = await request.send();
-      var responseBody = await response.stream.transform(utf8.decoder).join();
-      print(responseBody);
-
       if (response.statusCode == 200) {
-        if (kDebugMode) {
-          print('File uploaded successfully');
-        }
+        final data = await response.stream.transform(utf8.decoder).join();
+        final jsonData = json.decode(data);
+        // print(jsonData['predictions']);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => DisplayNextPage()),
+          MaterialPageRoute(
+              builder: (context) => DisplayNextPage(
+                    predict: jsonData['predictions'],
+                  )),
         );
       } else {
-        if (kDebugMode) {
-          print('File upload failed');
-        }
+        print('Request failed with status: ${response.statusCode}');
       }
 
       var secondUrl =
@@ -170,7 +168,7 @@ class _DisplayPageState extends State<DisplayPage> {
       var secondResponse = await secondRequest.send();
       if (secondResponse.statusCode == 200) {
         if (kDebugMode) {
-          print('File uploaded successfully to second URL');
+          print('File uploaded successfully');
         }
       } else {
         if (kDebugMode) {
