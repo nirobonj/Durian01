@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
+import 'package:durian_sound/login_page.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
 import 'setting_page.dart';
 import 'display_next_page.dart';
 import 'package:intl/intl.dart';
@@ -44,6 +48,7 @@ class _DisplayPageState extends State<DisplayPage>
   late Future<List<Ad>> adsFuture;
   Timer? _timer;
   int currentIndex = 0;
+  final String defaultUsername = Get.find<UserController>().username.value;
 
   @override
   void initState() {
@@ -149,7 +154,7 @@ class _DisplayPageState extends State<DisplayPage>
   }
 
   void _stopRecordingAfter20Seconds() {
-    Timer(const Duration(seconds: 20), () async {
+    Timer(const Duration(seconds: 5), () async {
       if (_isRecording) {
         _stopRecording();
       }
@@ -169,8 +174,8 @@ class _DisplayPageState extends State<DisplayPage>
         print(fileName);
       }
       String filePath = '$_audioFilePath$fileName';
-      // predict URL
-      var url = Uri.parse('${AppConfig.connUrl}/sounds/upload_file/');
+
+      var url = Uri.parse('${AppConfig.connUrl}/sounds/predict/');
       var request = http.MultipartRequest('POST', url)
         ..files.add(http.MultipartFile.fromBytes(
             'audio', File(filePath).readAsBytesSync(),
@@ -178,22 +183,24 @@ class _DisplayPageState extends State<DisplayPage>
 
       var response = await request.send();
       if (response.statusCode == 200) {
-        if (kDebugMode) {
-          print('File uploaded successfully');
-        }
+        final data = await response.stream.transform(utf8.decoder).join();
+        final jsonData = json.decode(data);
+        // print(jsonData['predictions']);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => DisplayNextPage()),
+          MaterialPageRoute(
+              builder: (context) => DisplayNextPage(
+                    predict: jsonData['predictions'],
+                  )),
         );
       } else {
-        if (kDebugMode) {
-          print('File upload failed');
-        }
+        print('Request failed with status: ${response.statusCode}');
       }
-      // Upload to second URL
+
       var secondUrl =
-          Uri.parse('${AppConfig.connUrl}/duriansound-backend/uploadByuser');
+          Uri.parse('http://203.154.158.79/duriansound-backend/uploadByuser');
       var secondRequest = http.MultipartRequest('POST', secondUrl)
+        ..fields['username'] = defaultUsername
         ..files.add(http.MultipartFile.fromBytes(
             'audio', File(filePath).readAsBytesSync(),
             filename: fileName));
@@ -201,7 +208,7 @@ class _DisplayPageState extends State<DisplayPage>
       var secondResponse = await secondRequest.send();
       if (secondResponse.statusCode == 200) {
         if (kDebugMode) {
-          print('File uploaded successfully to second URL');
+          print('File uploaded successfully');
         }
       } else {
         if (kDebugMode) {

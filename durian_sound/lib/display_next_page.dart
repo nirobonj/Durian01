@@ -4,9 +4,12 @@ import 'setting_page.dart';
 class DisplayNextPage extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
 
-  DisplayNextPage({super.key});
+  var predict;
+
+  DisplayNextPage({super.key, required this.predict});
   @override
   Widget build(BuildContext context) {
+    print(predict);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromARGB(255, 255, 250, 181),
@@ -40,7 +43,7 @@ class DisplayNextPage extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: 350,
-                    height: 650,
+                    height: 4050,
                     child: Column(
                       children: [
                         SizedBox(
@@ -148,13 +151,11 @@ class DisplayNextPage extends StatelessWidget {
                                           ),
                                           child: const Center(
                                             child: Text(
-                                              'DD MM YYYY', 
+                                              'DD MM YYYY',
                                               style: TextStyle(
-                                                fontSize: 25, 
-                                                color: Colors
-                                                    .black, 
-                                                fontWeight: FontWeight
-                                                    .bold, 
+                                                fontSize: 25,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                           ),
@@ -172,13 +173,11 @@ class DisplayNextPage extends StatelessWidget {
                                           ),
                                           child: const Center(
                                             child: Text(
-                                              'Text 1', 
+                                              'Text 1',
                                               style: TextStyle(
                                                 fontSize: 16,
-                                                color: Colors
-                                                    .black, 
-                                                fontWeight: FontWeight
-                                                    .bold, 
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                           ),

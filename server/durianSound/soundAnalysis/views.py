@@ -2,6 +2,17 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import os
+import pandas as pd
+import numpy as np
+import librosa as lb
+
+class_means = {
+    4: 1.241317,
+    3: 1.289005,
+    5: 1.664476,
+    2: 1.858263,
+    6: 2.175524
+}
 
 
 def hello(request):
@@ -9,22 +20,24 @@ def hello(request):
     return JsonResponse(data)
 
 
+def feature_extraction(file_path):
+    data, sample_rate = lb.load(file_path)
+    mfccs = lb.feature.mfcc(y=data, sr=sample_rate, n_mfcc=13)
+    mfccs_mean = np.mean(mfccs)
+    return mfccs_mean
+
+
 @csrf_exempt
-def upload_file(request):
+def predict(request):
     if request.method == 'POST' and 'audio' in request.FILES:
+        # Receive the audio file
         audio_file = request.FILES['audio']
-        # Process the uploaded file as needed
-        # For example, save it to the filesystem
-        current_dir = os.getcwd()
-        upload_dir = os.path.join(current_dir, 'uploads')
 
-        # Create the 'uploads' directory if it doesn't exist
-        if not os.path.exists(upload_dir):
-            os.makedirs(upload_dir)
+        mfccs_mean = feature_extraction(audio_file)
+        nearest_class = min(class_means, key=lambda x: abs(
+            class_means[x] - mfccs_mean))
 
-        with open(os.path.join(upload_dir, audio_file.name), 'wb') as destination:
-            for chunk in audio_file.chunks():
-                destination.write(chunk)
-        return JsonResponse({'message': 'File uploaded successfully'})
+        print(nearest_class)
+        return JsonResponse({'predictions': nearest_class})
     else:
         return JsonResponse({'error': 'No file uploaded'}, status=400)
