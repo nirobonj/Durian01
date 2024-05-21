@@ -135,14 +135,14 @@ class _SignupPageState extends State<SignupPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('รหัสผ่านไม่ตรงกัน'),
-            content: Text('กรุณาใส่รหัสผ่านและการยืนยันรหัสผ่านให้ตรงกัน'),
+            title: const Text('รหัสผ่านไม่ตรงกัน'),
+            content: const Text('กรุณาใส่รหัสผ่านและการยืนยันรหัสผ่านให้ตรงกัน'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // ปิด dialog
                 },
-                child: Text('ตกลง'),
+                child: const Text('ตกลง'),
               ),
             ],
           );

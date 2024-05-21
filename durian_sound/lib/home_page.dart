@@ -94,7 +94,7 @@ class HomePage extends StatelessWidget {
                                   SizedBox(
                                     width: 120,
                                     height: 120,
-                                    child: Image.asset('assets/image/lv1.png'),
+                                    child: Image.asset('assets/image/ระดับ 1.png'),
                                   ),
                                   const SizedBox(height: 40),
                                   const Divider(),
@@ -111,7 +111,7 @@ class HomePage extends StatelessWidget {
                                   SizedBox(
                                     width: 120,
                                     height: 120,
-                                    child: Image.asset('assets/image/lv2.png'),
+                                    child: Image.asset('assets/image/ระดับ 2.png'),
                                   ),
                                   const SizedBox(height: 40),
                                   const Divider(),
@@ -128,7 +128,7 @@ class HomePage extends StatelessWidget {
                                   SizedBox(
                                     width: 120,
                                     height: 120,
-                                    child: Image.asset('assets/image/lv3.png'),
+                                    child: Image.asset('assets/image/ระดับ 3.png'),
                                   ),
                                   const SizedBox(height: 40),
                                   const Divider(),
@@ -145,7 +145,7 @@ class HomePage extends StatelessWidget {
                                   SizedBox(
                                     width: 120,
                                     height: 120,
-                                    child: Image.asset('assets/image/lv4.png'),
+                                    child: Image.asset('assets/image/ระดับ 4.png'),
                                   ),
                                   const SizedBox(height: 40),
                                   const Divider(),
@@ -162,7 +162,7 @@ class HomePage extends StatelessWidget {
                                   SizedBox(
                                     width: 120,
                                     height: 120,
-                                    child: Image.asset('assets/image/lv5.png'),
+                                    child: Image.asset('assets/image/ระดับ 5.png'),
                                   ),
                                   const SizedBox(height: 40),
                                   const Divider(),
@@ -179,7 +179,7 @@ class HomePage extends StatelessWidget {
                                   SizedBox(
                                     width: 120,
                                     height: 120,
-                                    child: Image.asset('assets/image/lv6.png'),
+                                    child: Image.asset('assets/image/ระดับ 6.png'),
                                   ),
                                 ],
                               ),

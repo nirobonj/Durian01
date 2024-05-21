@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'setting_page.dart';
@@ -11,16 +12,20 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:durian_sound/ripple_animation.dart' as durian;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:url_launcher/url_launcher.dart';
+import 'ad.dart';
 
 class DisplayPage extends StatefulWidget {
   final bool isHomePageVisible;
+
   const DisplayPage({super.key, required this.isHomePageVisible});
 
   @override
   _DisplayPageState createState() => _DisplayPageState();
 }
 
-class _DisplayPageState extends State<DisplayPage> {
+class _DisplayPageState extends State<DisplayPage>
+    with SingleTickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
   bool isPressed = false;
   FlutterSoundRecorder? _recorder;
@@ -35,6 +40,10 @@ class _DisplayPageState extends State<DisplayPage> {
 
   late AnimationController _controller;
   final FlutterSoundPlayer _audioPlayer = FlutterSoundPlayer();
+  late Future<List<Ad>> futureAds;
+  late Future<List<Ad>> adsFuture;
+  Timer? _timer;
+  int currentIndex = 0;
 
   @override
   void initState() {
@@ -43,6 +52,7 @@ class _DisplayPageState extends State<DisplayPage> {
     _player = FlutterSoundPlayer();
     recordingTimeStamp = '';
     _initAudioFilePath();
+    adsFuture = fetchAds();
   }
 
   Future<void> _initAudioFilePath() async {
@@ -63,11 +73,43 @@ class _DisplayPageState extends State<DisplayPage> {
     });
   }
 
+  void _updateAds(List<Ad> ads) {
+    if (_timer != null) {
+      _timer!.cancel();
+    }
+    _timer = Timer.periodic(Duration(seconds: ads[currentIndex].transitionTime),
+        (timer) {
+      setState(() {
+        currentIndex = (currentIndex + 1) % ads.length;
+      });
+    });
+  }
+
+  Future<List<Ad>> fetchAds() async {
+    final response = await http.get(Uri.parse('${AppConfig.connUrl}/api/ads/'));
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body);
+      List<Ad> ads = data.map((json) => Ad.fromJson(json)).toList();
+
+      // Print all received ads
+      // ads.forEach((ad) {
+      //   print(
+      //       'ImageUrl: ${ad.imageUrl}, \nLinkUrl: ${ad.linkUrl}, \nDisplayDuration: ${ad.displayDuration}, \nTransitionTime: ${ad.transitionTime}');
+      // });
+
+      return ads;
+    } else {
+      throw Exception('Failed to load ads');
+    }
+  }
+
   @override
   void dispose() {
     _controller.dispose();
     _recorder?.closeRecorder();
     _player?.closePlayer();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -96,8 +138,7 @@ class _DisplayPageState extends State<DisplayPage> {
       );
       setState(() {
         _isRecording = true;
-        recordingTimeStamp =
-            DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+        // recordingTimeStamp = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
       });
       _stopRecordingAfter20Seconds();
     } catch (e) {
@@ -141,17 +182,17 @@ class _DisplayPageState extends State<DisplayPage> {
           print('File uploaded successfully');
         }
         Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => DisplayNextPage()),
-            );
+          context,
+          MaterialPageRoute(builder: (context) => DisplayNextPage()),
+        );
       } else {
         if (kDebugMode) {
           print('File upload failed');
         }
       }
       // Upload to second URL
-      var secondUrl = Uri.parse(
-          'https://zbx5wgnt-4300.asse.devtunnels.ms/duriansound-backend/uploadByuser');
+      var secondUrl =
+          Uri.parse('${AppConfig.connUrl}/duriansound-backend/uploadByuser');
       var secondRequest = http.MultipartRequest('POST', secondUrl)
         ..files.add(http.MultipartFile.fromBytes(
             'audio', File(filePath).readAsBytesSync(),
@@ -186,7 +227,7 @@ class _DisplayPageState extends State<DisplayPage> {
         return;
       }
     }
-    String audioFilePath = 'assets/image/voice.wav';
+    String audioFilePath = 'assets/voice/voice.wav';
     try {
       ByteData bytes = await rootBundle.load(audioFilePath);
       Uint8List soundbytes = bytes.buffer.asUint8List();
@@ -279,12 +320,14 @@ class _DisplayPageState extends State<DisplayPage> {
                                     ),
                                   ),
                                   durian.RippleAnimation(
-                                    color: const Color.fromARGB(255, 255, 106, 13),
+                                    color:
+                                        const Color.fromARGB(255, 255, 171, 54),
                                     delay: const Duration(milliseconds: 300),
                                     repeat: true,
                                     minRadius: 70,
                                     ripplesCount: 6,
-                                    duration: const Duration(milliseconds: 10 * 300),
+                                    duration:
+                                        const Duration(milliseconds: 10 * 300),
                                     child: GestureDetector(
                                       onTap:
                                           _isRecording ? null : _startRecording,
@@ -361,14 +404,14 @@ class _DisplayPageState extends State<DisplayPage> {
                         'กรุณาเคาะอย่างน้อย 2 ครั้ง',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18, 
+                          fontSize: 18,
                         ),
                       ),
                       const Text(
                         'กรุณาเคาะไม่เกินระยะ 7 เซนติเมตร',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18, 
+                          fontSize: 18,
                         ),
                       ),
                     ],
@@ -385,13 +428,105 @@ class _DisplayPageState extends State<DisplayPage> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        color: Colors.grey,
+      bottomNavigationBar: FutureBuilder<List<Ad>>(
+        future: adsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container(
+              color: const Color.fromARGB(255, 255, 250, 181),
+              height: 100,
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Container(
+              color: const Color.fromARGB(255, 255, 250, 181),
+              height: 100,
+              child: const Center(
+                child: Text(
+                  'Error loading ads',
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                ),
+              ),
+            );
+          } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+            // List<Ad> ads = snapshot.data!;
+            // List<Ad> filteredAds = ads.where((ad) {
+            //   DateTime adDate = DateTime.parse(ad.displayDuration);
+            //   DateTime today = DateTime.now();
+            //   DateTime adDateOnly =
+            //       DateTime(adDate.year, adDate.month, adDate.day);
+            //   DateTime todayOnly = DateTime(today.year, today.month, today.day);
+            //   return adDateOnly.isAfter(todayOnly) ||
+            //       adDateOnly.isAtSameMomentAs(todayOnly);
+            // }).toList();
+
+            // filteredAds.forEach((ad) {
+            //   print('ImageUrl: ${ad.imageUrl}, LinkUrl: ${ad.linkUrl}');
+            // });
+            List<Ad> ads = snapshot.data!;
+            DateTime today = DateTime.now();
+            List<Ad> filteredAds = ads.where((ad) {
+              DateTime adDate = DateTime.parse(ad.displayDuration);
+              DateTime adDateOnly =
+                  DateTime(adDate.year, adDate.month, adDate.day);
+              DateTime todayOnly = DateTime(today.year, today.month, today.day);
+              return adDateOnly.isAfter(todayOnly) ||
+                  adDateOnly.isAtSameMomentAs(todayOnly);
+            }).toList();
+
+            filteredAds.forEach((ad) {
+              print('\n\n\nImageUrl: ${ad.imageUrl},\n LinkUrl: ${ad.linkUrl},\n DisplayDuration: ${ad.displayDuration},');
+            });
+
+            _updateAds(filteredAds);
+            return Container(
+              color: const Color.fromARGB(255, 255, 250, 181),
+              height: 100,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildAdWidget(filteredAds, currentIndex),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return Container(
+              color: const Color.fromARGB(255, 255, 250, 181),
+              height: 100,
+              child: const Center(
+                child: Text(
+                  'No ads available',
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                ),
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildAdWidget(List<Ad> ads, int index) {
+    return GestureDetector(
+      onTap: () async {
+        Uri uri = Uri.parse(ads[index].linkUrl);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri);
+        } else {
+          throw 'Could not launch ${ads[index].linkUrl}';
+        }
+      },
+      child: Container(
+        width: 411,
         height: 100,
-        child: const Center(
-          child: Text(
-            'Your advertisement content here',
-            style: TextStyle(color: Colors.black, fontSize: 18),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(ads[index].imageUrl),
+            fit: BoxFit.cover,
           ),
         ),
       ),

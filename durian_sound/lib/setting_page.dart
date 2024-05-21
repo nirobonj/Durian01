@@ -26,9 +26,11 @@ class _SettingPageState extends State<SettingPage> {
   Future<void> _loadHomePageVisibility() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isHomePageVisible =
-          prefs.getBool('isHomePageVisible');
+      isHomePageVisible = prefs.getBool('isHomePageVisible');
     });
+    if (kDebugMode) {
+      print(defaultUsername);
+    }
   }
 
   @override
@@ -123,10 +125,8 @@ class _SettingPageState extends State<SettingPage> {
                       Text('1.0'),
                     ],
                   ),
-                  onTap: () {
-                  },
+                  onTap: () {},
                 ),
-
                 const Divider(),
                 ListTile(
                   title: const Row(
@@ -138,7 +138,8 @@ class _SettingPageState extends State<SettingPage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const AboutUsPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const AboutUsPage()),
                     );
                   },
                 ),

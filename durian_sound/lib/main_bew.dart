@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     title: 'Car Dropdown',
     home: CarDropdown(),
   ));
 }
 
 class CarDropdown extends StatefulWidget {
+  const CarDropdown({super.key});
+
   @override
   _CarDropdownState createState() => _CarDropdownState();
 }

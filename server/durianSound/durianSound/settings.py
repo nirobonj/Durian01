@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "audioprediction",
     "users",
     "soundAnalysis",
+    "ads",
 
 ]
 
