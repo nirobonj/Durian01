@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
+import 'package:durian_sound/login_page.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
 import 'setting_page.dart';
 import 'display_next_page.dart';
 import 'package:intl/intl.dart';
@@ -36,6 +40,7 @@ class _DisplayPageState extends State<DisplayPage> {
 
   late AnimationController _controller;
   final FlutterSoundPlayer _audioPlayer = FlutterSoundPlayer();
+  final String defaultUsername = Get.find<UserController>().username.value;
 
   @override
   void initState() {
@@ -154,18 +159,10 @@ class _DisplayPageState extends State<DisplayPage> {
         }
       }
 
-      // // Upload to second URL
-      // var secondUrl = Uri.parse(
-      //     'https://zbx5wgnt-4300.asse.devtunnels.ms/duriansound-backend/uploadByuser');
-      // var secondRequest = http.MultipartRequest('POST', secondUrl)
-      //   ..files.add(http.MultipartFile.fromBytes(
-      //       'audio', File(filePath).readAsBytesSync(),
-      //       filename: fileName));
-
       var secondUrl = Uri.parse(
           'https://zbx5wgnt-4300.asse.devtunnels.ms/duriansound-backend/uploadByuser');
       var secondRequest = http.MultipartRequest('POST', secondUrl)
-        ..fields['username'] = username
+        ..fields['username'] = defaultUsername
         ..files.add(http.MultipartFile.fromBytes(
             'audio', File(filePath).readAsBytesSync(),
             filename: fileName));
