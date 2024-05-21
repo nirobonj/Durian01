@@ -159,8 +159,8 @@ class _DisplayPageState extends State<DisplayPage> {
         }
       }
 
-      var secondUrl = Uri.parse(
-          'https://zbx5wgnt-4300.asse.devtunnels.ms/duriansound-backend/uploadByuser');
+      var secondUrl =
+          Uri.parse('http://203.154.158.79/duriansound-backend/uploadByuser');
       var secondRequest = http.MultipartRequest('POST', secondUrl)
         ..fields['username'] = defaultUsername
         ..files.add(http.MultipartFile.fromBytes(
