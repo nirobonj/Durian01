@@ -154,10 +154,18 @@ class _DisplayPageState extends State<DisplayPage> {
         }
       }
 
-      // Upload to second URL
+      // // Upload to second URL
+      // var secondUrl = Uri.parse(
+      //     'https://zbx5wgnt-4300.asse.devtunnels.ms/duriansound-backend/uploadByuser');
+      // var secondRequest = http.MultipartRequest('POST', secondUrl)
+      //   ..files.add(http.MultipartFile.fromBytes(
+      //       'audio', File(filePath).readAsBytesSync(),
+      //       filename: fileName));
+
       var secondUrl = Uri.parse(
           'https://zbx5wgnt-4300.asse.devtunnels.ms/duriansound-backend/uploadByuser');
       var secondRequest = http.MultipartRequest('POST', secondUrl)
+        ..fields['username'] = username // Add username here
         ..files.add(http.MultipartFile.fromBytes(
             'audio', File(filePath).readAsBytesSync(),
             filename: fileName));
