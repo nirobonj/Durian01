@@ -135,7 +135,6 @@ class _DisplayPageState extends State<DisplayPage>
       );
       setState(() {
         _isRecording = true;
-        // recordingTimeStamp = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
       });
       _stopRecordingAfter20Seconds();
     } catch (e) {
@@ -177,7 +176,6 @@ class _DisplayPageState extends State<DisplayPage>
       if (response.statusCode == 200) {
         final data = await response.stream.transform(utf8.decoder).join();
         final jsonData = json.decode(data);
-        // print(jsonData['predictions']);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -419,11 +417,6 @@ class _DisplayPageState extends State<DisplayPage>
                   ),
                 ),
                 const SizedBox(height: 50),
-                // const SizedBox(height: 50),
-                // Text(
-                //   'ชื่อไฟล์ : $recordingTimeStamp',
-                //   style: const TextStyle(fontSize: 16),
-                // ),
               ],
             ),
           ),
@@ -452,20 +445,6 @@ class _DisplayPageState extends State<DisplayPage>
               ),
             );
           } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-            // List<Ad> ads = snapshot.data!;
-            // List<Ad> filteredAds = ads.where((ad) {
-            //   DateTime adDate = DateTime.parse(ad.displayDuration);
-            //   DateTime today = DateTime.now();
-            //   DateTime adDateOnly =
-            //       DateTime(adDate.year, adDate.month, adDate.day);
-            //   DateTime todayOnly = DateTime(today.year, today.month, today.day);
-            //   return adDateOnly.isAfter(todayOnly) ||
-            //       adDateOnly.isAtSameMomentAs(todayOnly);
-            // }).toList();
-
-            // filteredAds.forEach((ad) {
-            //   print('ImageUrl: ${ad.imageUrl}, LinkUrl: ${ad.linkUrl}');
-            // });
             List<Ad> ads = snapshot.data!;
             DateTime today = DateTime.now();
             List<Ad> filteredAds = ads.where((ad) {
@@ -476,10 +455,6 @@ class _DisplayPageState extends State<DisplayPage>
               return adDateOnly.isAfter(todayOnly) ||
                   adDateOnly.isAtSameMomentAs(todayOnly);
             }).toList();
-
-            // filteredAds.forEach((ad) {
-            //   print('\n\n\nImageUrl: ${ad.imageUrl},\n LinkUrl: ${ad.linkUrl},\n DisplayDuration: ${ad.displayDuration},');
-            // });
 
             _updateAds(filteredAds);
             return Container(
