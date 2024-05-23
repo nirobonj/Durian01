@@ -1,17 +1,14 @@
+import 'ad.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'setting_page.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:durian_sound/config.dart';
-// import 'package:durian_sound/login_page.dart';
-import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:get/get_core/src/get_main.dart';
-// import 'Predict.dart';
-import 'setting_page.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'ad.dart';
-import 'package:intl/intl.dart';
+
 
 class DisplayNextPage extends StatefulWidget {
   final int predict;

@@ -1,23 +1,22 @@
-import 'dart:convert';
 import 'dart:io';
+import 'ad.dart';
 import 'dart:async';
-import 'package:durian_sound/login_page.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
+import 'dart:convert';
 import 'setting_page.dart';
+import 'package:get/get.dart';
 import 'display_next_page.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:durian_sound/config.dart';
+import 'package:durian_sound/login_page.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:durian_sound/ripple_animation.dart' as durian;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:url_launcher/url_launcher.dart';
-import 'ad.dart';
 
 class DisplayPage extends StatefulWidget {
   final bool isHomePageVisible;
@@ -96,13 +95,6 @@ class _DisplayPageState extends State<DisplayPage>
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
       List<Ad> ads = data.map((json) => Ad.fromJson(json)).toList();
-
-      // Print all received ads
-      // ads.forEach((ad) {
-      //   print(
-      //       'ImageUrl: ${ad.imageUrl}, \nLinkUrl: ${ad.linkUrl}, \nDisplayDuration: ${ad.displayDuration}, \nTransitionTime: ${ad.transitionTime}');
-      // });
-
       return ads;
     } else {
       throw Exception('Failed to load ads');
