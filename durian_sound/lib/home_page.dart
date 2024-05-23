@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 25),
                 SizedBox(
                   width: 350,
-                  height: 1820,
+                  height: 2020,
                   child: Card(
                     color: const Color.fromARGB(255, 255, 255, 255),
                     child: Column(
@@ -82,7 +82,7 @@ class HomePage extends StatelessWidget {
                                 children: [
                                   const SizedBox(height: 40),
                                   const Text(
-                                    'ระดับที่ 1 : ดิบ1 ดิบมากเนื้อสีครีม อ่อนๆ',
+                                    'ระดับที่ 1 : ดิบมาก \nยังรับประทานไม่ได้',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
@@ -94,13 +94,14 @@ class HomePage extends StatelessWidget {
                                   SizedBox(
                                     width: 120,
                                     height: 120,
-                                    child: Image.asset('assets/image/ระดับ 1.png'),
+                                    child:
+                                        Image.asset('assets/image/ระดับ 1.png'),
                                   ),
                                   const SizedBox(height: 40),
                                   const Divider(),
                                   const SizedBox(height: 40),
                                   const Text(
-                                    'ระดับที่ 2 : ดิบ2 ดิบรองลงมา สีเริ่มเหลืองนิดๆ',
+                                    'ระดับที่ 2 : ดิบมาก \nยังรับประทานไม่ได้',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
@@ -111,13 +112,14 @@ class HomePage extends StatelessWidget {
                                   SizedBox(
                                     width: 120,
                                     height: 120,
-                                    child: Image.asset('assets/image/ระดับ 2.png'),
+                                    child:
+                                        Image.asset('assets/image/ระดับ 2.png'),
                                   ),
                                   const SizedBox(height: 40),
                                   const Divider(),
                                   const SizedBox(height: 40),
                                   const Text(
-                                    'ระดับที่ 3 : กึ่งสุกกึ่งดิบ สีเหลืองมากกว่าดิบ2\nเนื้อกรอบๆ ใกล้จะสุก',
+                                    'ระดับที่ 3 : กึ่งสุกกึ่งดิบ \nกรอบนอก กรอบใน \nเนื้อเป็นเส้น เหมือนเนื้อไก่ฉีก \nกลิ่นอ่อน ๆ หวานมัน',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
@@ -128,13 +130,14 @@ class HomePage extends StatelessWidget {
                                   SizedBox(
                                     width: 120,
                                     height: 120,
-                                    child: Image.asset('assets/image/ระดับ 3.png'),
+                                    child:
+                                        Image.asset('assets/image/ระดับ 3.png'),
                                   ),
                                   const SizedBox(height: 40),
                                   const Divider(),
                                   const SizedBox(height: 40),
                                   const Text(
-                                    'ระดับที่ 4 : สุก1 กรอบนอกนุ่มใน สีเหลืองมากขึ้น \nกรอบข้างนอกหน่อยๆ ข้างในนุ่มแล้ว',
+                                    'ระดับที่ 4 : สุก \nเนื้อยอดนิยม \nนอกกรอบ ในนุ่ม \nหอมกำลังดี',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
@@ -145,13 +148,14 @@ class HomePage extends StatelessWidget {
                                   SizedBox(
                                     width: 120,
                                     height: 120,
-                                    child: Image.asset('assets/image/ระดับ 4.png'),
+                                    child:
+                                        Image.asset('assets/image/ระดับ 4.png'),
                                   ),
                                   const SizedBox(height: 40),
                                   const Divider(),
                                   const SizedBox(height: 40),
                                   const Text(
-                                    'ระดับที่ 5 : สุก2 สุกนุ่มกำลังดี\nเนื้อเป็นครีมมี่นุ่มนวล สีเหลืองสวย',
+                                    'ระดับที่ 5 : สุกมาก สุกนุ่มกำลังดี\nเนื้อนิ่มเป็นครีมนุ่มนวล \nหวานฉ่ำ กลิ่นแรง',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
@@ -162,13 +166,14 @@ class HomePage extends StatelessWidget {
                                   SizedBox(
                                     width: 120,
                                     height: 120,
-                                    child: Image.asset('assets/image/ระดับ 5.png'),
+                                    child:
+                                        Image.asset('assets/image/ระดับ 5.png'),
                                   ),
                                   const SizedBox(height: 40),
                                   const Divider(),
                                   const SizedBox(height: 40),
                                   const Text(
-                                    'ระดับที่ 6 : สุก3 สุกมาก งอม \nนิยมนำไปทำทุเรียนกวน เพราะเนื้อค่อนข้างเละ',
+                                    'ระดับที่ 6 : สุกมาก ๆ  \nเนื้อนิ่มจนเละ \nรสขมเล็กน้อย ปลายลิ้น \nกลิ่นแรงมาก',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
@@ -179,7 +184,8 @@ class HomePage extends StatelessWidget {
                                   SizedBox(
                                     width: 120,
                                     height: 120,
-                                    child: Image.asset('assets/image/ระดับ 6.png'),
+                                    child:
+                                        Image.asset('assets/image/ระดับ 6.png'),
                                   ),
                                 ],
                               ),

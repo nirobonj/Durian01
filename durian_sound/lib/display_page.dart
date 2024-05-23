@@ -318,6 +318,7 @@ class _DisplayPageState extends State<DisplayPage>
                                             Color.fromARGB(255, 255, 171, 54),
                                         shape: BoxShape.circle,
                                       ),
+                                      // child: Image.asset('assets/image/icon.PNG'),
                                     ),
                                   ),
                                   durian.RippleAnimation(
@@ -338,8 +339,25 @@ class _DisplayPageState extends State<DisplayPage>
                                         backgroundColor:
                                             Color.fromARGB(255, 255, 106, 13),
                                       ),
+                                      
                                     ),
-                                  )
+                                  ),
+                                  Positioned(
+                                    top: 30,
+                                    left: 30,
+                                    child: AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 200),
+                                      width: 140.0,
+                                      height: 140.0,
+                                      decoration: const BoxDecoration(
+                                        color:
+                                            Color.fromARGB(255, 255, 106, 13),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Image.asset('assets/image/icon.PNG'),
+                                    ),
+                                  ),
                                 ],
                               ),
                             )
@@ -375,6 +393,8 @@ class _DisplayPageState extends State<DisplayPage>
                                         width: 150.0,
                                         height: 150.0,
                                         decoration: const BoxDecoration(
+                                          // color:
+                                          //     Color.fromARGB(255, 255, 171, 54),
                                           color:
                                               Color.fromARGB(255, 255, 171, 54),
                                           shape: BoxShape.circle,
@@ -394,6 +414,7 @@ class _DisplayPageState extends State<DisplayPage>
                                               Color.fromARGB(255, 255, 106, 13),
                                           shape: BoxShape.circle,
                                         ),
+                                        child: Image.asset('assets/image/icon.PNG'),
                                       ),
                                     ),
                                   ],
@@ -402,14 +423,21 @@ class _DisplayPageState extends State<DisplayPage>
                             ),
                       const SizedBox(height: 50),
                       const Text(
-                        'กรุณาเคาะอย่างน้อย 2 ครั้ง',
+                        'กดปุ่ม 1 ครั้ง',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
                         ),
                       ),
                       const Text(
-                        'กรุณาเคาะไม่เกินระยะ 7 เซนติเมตร',
+                        'เคาะอย่างน้อย 2 ครั้ง',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                        ),
+                      ),
+                      const Text(
+                        'ระยะ 7 เซนติเมตร',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
