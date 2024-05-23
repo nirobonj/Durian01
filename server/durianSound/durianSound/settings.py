@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "users",
     "soundAnalysis",
     "ads",
+    'rest_framework_swagger',
 
 ]
 
