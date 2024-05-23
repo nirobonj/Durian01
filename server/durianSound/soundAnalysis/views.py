@@ -15,11 +15,6 @@ class_means = {
 }
 
 
-def hello(request):
-    data = {"name": "Hello"}
-    return JsonResponse(data)
-
-
 def feature_extraction(file_path):
     data, sample_rate = lb.load(file_path)
     mfccs = lb.feature.mfcc(y=data, sr=sample_rate, n_mfcc=13)
