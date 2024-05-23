@@ -154,7 +154,7 @@ class _DisplayPageState extends State<DisplayPage>
   }
 
   void _stopRecordingAfter20Seconds() {
-    Timer(const Duration(seconds: 20), () async {
+    Timer(const Duration(seconds: 5), () async {
       if (_isRecording) {
         _stopRecording();
       }

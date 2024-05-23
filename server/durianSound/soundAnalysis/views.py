@@ -5,6 +5,7 @@ import os
 import pandas as pd
 import numpy as np
 import librosa as lb
+import tempfile
 
 class_means = {
     4: 1.241317,
@@ -16,10 +17,15 @@ class_means = {
 
 
 def feature_extraction(file_path):
-    data, sample_rate = lb.load(file_path)
-    mfccs = lb.feature.mfcc(y=data, sr=sample_rate, n_mfcc=13)
-    mfccs_mean = np.mean(mfccs)
-    return mfccs_mean
+    try:
+        # sr=None keeps the original sample rate
+        data, sample_rate = lb.load(file_path, sr=None)
+        mfccs = lb.feature.mfcc(y=data, sr=sample_rate, n_mfcc=13)
+        mfccs_mean = np.mean(mfccs)
+        return mfccs_mean
+    except Exception as e:
+        print(f"Error during feature extraction: {e}")
+        return None
 
 
 @csrf_exempt
@@ -28,11 +34,21 @@ def predict(request):
         # Receive the audio file
         audio_file = request.FILES['audio']
 
-        mfccs_mean = feature_extraction(audio_file)
-        nearest_class = min(class_means, key=lambda x: abs(
-            class_means[x] - mfccs_mean))
+        with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+            for chunk in audio_file.chunks():
+                tmp_file.write(chunk)
+            tmp_file_path = tmp_file.name
 
-        print(nearest_class)
-        return JsonResponse({'predictions': nearest_class})
+        mfccs_mean = feature_extraction(tmp_file_path)
+
+        # Delete the temporary file after feature extraction
+        os.remove(tmp_file_path)
+
+        if mfccs_mean is not None:
+            nearest_class = min(class_means, key=lambda x: abs(
+                class_means[x] - mfccs_mean))
+            return JsonResponse({'predictions': nearest_class})
+        else:
+            return JsonResponse({'error': 'Error in feature extraction'}, status=500)
     else:
         return JsonResponse({'error': 'No file uploaded'}, status=400)
