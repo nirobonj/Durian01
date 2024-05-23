@@ -8,16 +8,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import JsonResponse
-from .models import Register,Login
+from .models import Register, Login
 from rest_framework.decorators import api_view
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
 
-def hello(request):
-    # data = {"message": "Hello, Django!"}
-    data= {"cars":["Ford", "BMW", "Fiat"]}
-    print(request)
-    return JsonResponse(data)
 
 class UsersViewset(APIView):
     def get(self, request, id=None):
@@ -38,15 +33,15 @@ class UsersViewset(APIView):
             # Hash the password
             password = request.data.get('register_password')
             hashed_password = make_password(password)
-            
+
             # Save data to register table
             register_serializer.validated_data['register_password'] = hashed_password
             register_serializer.save()
 
             # Prepare data for login table
             login_data = {
-                'login_username': request.data.get('register_username'),  
-                'login_password': hashed_password 
+                'login_username': request.data.get('register_username'),
+                'login_password': hashed_password
             }
             # Serialize data for login
             login_serializer = serializers.LoginSerializer(data=login_data)
@@ -80,10 +75,11 @@ class UsersViewset(APIView):
     #             return Response({'status': 'success', 'message': 'ลงทะเบียนสำเร็จ'}, status=status.HTTP_201_CREATED)
     #         except IntegrityError:
     #             return Response({'status': 'error', 'message': 'มีข้อผิดพลาดในการสร้างผู้ใช้'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+
     def patch(self, request, id=None):
         item = get_object_or_404(models.Register, id=id)
-        serializer = serializers.RegisterSerializer(item, data=request.data, partial=True)
+        serializer = serializers.RegisterSerializer(
+            item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
@@ -95,8 +91,6 @@ class UsersViewset(APIView):
         item.delete()
         return Response({"status": "success", "data": "Item Deleted"}, status=status.HTTP_204_NO_CONTENT)
 
-# def hello(request):
-#     return JsonResponse({"status": "success"})
 
 class LoginViewset(APIView):
     def get(self, request, id=None):
@@ -122,11 +116,11 @@ class LoginViewset(APIView):
             return Response({"status": "success", "message": "Login successful"}, status=status.HTTP_200_OK)
         else:
             return Response({"status": "error", "message": "Invalid username or password"}, status=status.HTTP_401_UNAUTHORIZED)
-        
-    
+
     def patch(self, request, id=None):
         item = get_object_or_404(models.Register, id=id)
-        serializer = serializers.RegisterSerializer(item, data=request.data, partial=True)
+        serializer = serializers.RegisterSerializer(
+            item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
@@ -137,13 +131,13 @@ class LoginViewset(APIView):
         item = get_object_or_404(models.Register, id=id)
         item.delete()
         return Response({"status": "success", "data": "Item Deleted"}, status=status.HTTP_204_NO_CONTENT)
-    
 
 
-class EditViewset(APIView):    
+class EditViewset(APIView):
     def get(self, request, username):
         try:
-            user = get_object_or_404(models.Register, register_username=username)
+            user = get_object_or_404(
+                models.Register, register_username=username)
             return JsonResponse({'status': 'success', 'data': {
                 'firstname': user.register_fname,
                 'lastname': user.register_lname,
@@ -157,17 +151,17 @@ class EditViewset(APIView):
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
-
     def post(self, request):
         data = request.data
         username = data.get('username')
-       
+
         try:
             user = models.Register.objects.get(register_username=username)
             user.register_fname = data.get('firstname', user.register_fname)
             user.register_lname = data.get('lastname', user.register_lname)
             user.register_tel = data.get('tel', user.register_tel)
-            user.register_province = data.get('province', user.register_province)
+            user.register_province = data.get(
+                'province', user.register_province)
             user.register_types = data.get('types', user.register_types)
             user.save()  # บันทึกการเปลี่ยนแปลง
 
@@ -181,7 +175,7 @@ class EditViewset(APIView):
             }}, status=status.HTTP_200_OK)
         except models.Register.DoesNotExist:
             return Response({'message': 'Failed', 'data': None}, status=status.HTTP_400_BAD_REQUEST)
-        
+
     def put(self, request, username):
         data = request.data
         try:
@@ -189,7 +183,8 @@ class EditViewset(APIView):
             user.register_fname = data.get('firstname', user.register_fname)
             user.register_lname = data.get('lastname', user.register_lname)
             user.register_tel = data.get('tel', user.register_tel)
-            user.register_province = data.get('province', user.register_province)
+            user.register_province = data.get(
+                'province', user.register_province)
             user.register_types = data.get('types', user.register_types)
             user.save()  # บันทึกการเปลี่ยนแปลง
             return JsonResponse({'status': 'success', 'message': 'อัปเดตข้อมูลสำเร็จ'})
@@ -197,7 +192,6 @@ class EditViewset(APIView):
             return JsonResponse({'status': 'error', 'message': 'ไม่พบข้อมูลผู้ใช้'}, status=404)
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-    
 
     # def get_register(request):
     #     if request.method == 'POST':
