@@ -40,6 +40,7 @@ class _DisplayPageState extends State<DisplayPage>
   late String username;
   late String password;
   late String storeName;
+  late DateTime today;
 
   late AnimationController _controller;
   final FlutterSoundPlayer _audioPlayer = FlutterSoundPlayer();
@@ -57,6 +58,7 @@ class _DisplayPageState extends State<DisplayPage>
     recordingTimeStamp = '';
     _initAudioFilePath();
     adsFuture = fetchAds();
+    today = DateTime.now();
   }
 
   Future<void> _initAudioFilePath() async {
@@ -446,7 +448,6 @@ class _DisplayPageState extends State<DisplayPage>
             );
           } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             List<Ad> ads = snapshot.data!;
-            DateTime today = DateTime.now();
             List<Ad> filteredAds = ads.where((ad) {
               DateTime adDate = DateTime.parse(ad.displayDuration);
               DateTime adDateOnly =

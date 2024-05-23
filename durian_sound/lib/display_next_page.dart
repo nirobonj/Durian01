@@ -26,12 +26,14 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
   Timer? _timer;
   int currentIndex = 0;
   late final int predict;
+  late DateTime today;
 
   @override
   void initState() {
     super.initState();
     predict = widget.predict;
     adsFuture = fetchAds();
+    today = DateTime.now();
   }
 
   void _updateAds(List<Ad> ads) {
@@ -202,7 +204,6 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
             );
           } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             List<Ad> ads = snapshot.data!;
-            DateTime today = DateTime.now();
             List<Ad> filteredAds = ads.where((ad) {
               DateTime adDate = DateTime.parse(ad.displayDuration);
               DateTime adDateOnly =
@@ -266,14 +267,10 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
   }
 
   Widget _buildRipenessWidget(int predict) {
-    DateTime date = DateTime.now();
     List<Widget> widgets = [];
-    // for (int i = predict; i <= 6; i++) {
     for (int i = predict; i <= 6 && i <= predict + 5; i++) {
       DateTime currentDate =
-          (i == predict) ? date : date.add(Duration(days: i - predict));
-      // _buildRipenessWidget(i);
-      print(i);
+          (i == predict) ? today : today.add(Duration(days: i - predict));
       switch (i) {
         case 1:
           widgets.add(_buildLevelWidget(
@@ -348,8 +345,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
     DateTime dateTime,
   ) {
     String formattedDate = DateFormat('dd MMMM yyyy').format(dateTime);
-    String formattedTime = DateFormat('HH:mm').format(DateTime.now());
-    DateTime today = DateTime.now();
+    String formattedTime = DateFormat('HH:mm').format(today);
     String formattedToday = DateFormat('dd MMMM yyyy').format(today);
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       
