@@ -290,37 +290,6 @@ class _DisplayPageState extends State<DisplayPage>
                               child: Stack(
                                 alignment: Alignment.center,
                                 children: [
-                                  Positioned(
-                                    top: 10,
-                                    left: 10,
-                                    child: AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 200),
-                                      width: 180.0,
-                                      height: 180.0,
-                                      decoration: const BoxDecoration(
-                                        color:
-                                            Color.fromARGB(255, 255, 220, 63),
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 25,
-                                    left: 25,
-                                    child: AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 200),
-                                      width: 150.0,
-                                      height: 150.0,
-                                      decoration: const BoxDecoration(
-                                        color:
-                                            Color.fromARGB(255, 255, 171, 54),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      // child: Image.asset('assets/image/icon.PNG'),
-                                    ),
-                                  ),
                                   durian.RippleAnimation(
                                     color:
                                         const Color.fromARGB(255, 255, 171, 54),
@@ -334,25 +303,21 @@ class _DisplayPageState extends State<DisplayPage>
                                       onTap:
                                           _isRecording ? null : _startRecording,
                                       child: const CircleAvatar(
-                                        minRadius: 70,
-                                        maxRadius: 70,
+                                        minRadius: 100,
+                                        maxRadius: 100,
                                         backgroundColor:
-                                            Color.fromARGB(255, 255, 106, 13),
+                                            Color.fromARGB(255, 255, 250, 181),
                                       ),
                                       
                                     ),
                                   ),
                                   Positioned(
-                                    top: 30,
-                                    left: 30,
                                     child: AnimatedContainer(
                                       duration:
                                           const Duration(milliseconds: 200),
-                                      width: 140.0,
-                                      height: 140.0,
+                                      width: 200.0,
+                                      height: 200.0,
                                       decoration: const BoxDecoration(
-                                        color:
-                                            Color.fromARGB(255, 255, 106, 13),
                                         shape: BoxShape.circle,
                                       ),
                                       child: Image.asset('assets/image/icon.PNG'),
@@ -370,48 +335,12 @@ class _DisplayPageState extends State<DisplayPage>
                                   alignment: Alignment.center,
                                   children: [
                                     Positioned(
-                                      top: 10,
-                                      left: 10,
                                       child: AnimatedContainer(
                                         duration:
                                             const Duration(milliseconds: 200),
-                                        width: 180.0,
-                                        height: 180.0,
+                                        width: 200.0,
+                                        height: 200.0,
                                         decoration: const BoxDecoration(
-                                          color:
-                                              Color.fromARGB(255, 255, 220, 63),
-                                          shape: BoxShape.circle,
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 25,
-                                      left: 25,
-                                      child: AnimatedContainer(
-                                        duration:
-                                            const Duration(milliseconds: 200),
-                                        width: 150.0,
-                                        height: 150.0,
-                                        decoration: const BoxDecoration(
-                                          // color:
-                                          //     Color.fromARGB(255, 255, 171, 54),
-                                          color:
-                                              Color.fromARGB(255, 255, 171, 54),
-                                          shape: BoxShape.circle,
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 30,
-                                      left: 30,
-                                      child: AnimatedContainer(
-                                        duration:
-                                            const Duration(milliseconds: 200),
-                                        width: 140.0,
-                                        height: 140.0,
-                                        decoration: const BoxDecoration(
-                                          color:
-                                              Color.fromARGB(255, 255, 106, 13),
                                           shape: BoxShape.circle,
                                         ),
                                         child: Image.asset('assets/image/icon.PNG'),

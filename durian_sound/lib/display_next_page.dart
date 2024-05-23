@@ -106,29 +106,6 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
                   child: Column(
                     children: [
                       const SizedBox(height: 20),
-                      // Container(
-                      //   decoration: const BoxDecoration(
-                      //     color: Color(0xffffea00),
-                      //     borderRadius: BorderRadius.only(
-                      //       topLeft: Radius.circular(10.0),
-                      //       topRight: Radius.circular(10.0),
-                      //     ),
-                      //   ),
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.all(8.0),
-                      //     child: Align(
-                      //       alignment: Alignment.center,
-                      //       child: Text(
-                      //         'ความสุกระดับ $predict',
-                      //         style: const TextStyle(
-                      //           fontWeight: FontWeight.bold,
-                      //           fontSize: 25,
-                      //           color: Colors.black,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                       _buildRipenessWidget(predict),
                     ],
                   ),
@@ -325,7 +302,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
           children: [
             if (formattedDate == formattedToday)
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xffffea00),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10.0),
@@ -338,7 +315,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
                     alignment: Alignment.center,
                     child: Text(
                       'ความสุกระดับ $predict',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
                         color: Colors.black,
