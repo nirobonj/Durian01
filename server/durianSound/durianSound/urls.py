@@ -22,5 +22,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('duriansound-analyisis/users/', include('users.urls')),
     path('duriansound-analyisis/sounds/', include('soundAnalysis.urls')),
-
+    path('duriansound-analyisis/api/', include('ads.urls')),
 ]

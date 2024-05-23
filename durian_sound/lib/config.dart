@@ -1,3 +1,3 @@
 class AppConfig {
-  static const String connUrl = 'https://zbx5wgnt-8000.asse.devtunnels.ms';
+  static const String connUrl = 'https://cb5dhsk3-8000.asse.devtunnels.ms';
 }

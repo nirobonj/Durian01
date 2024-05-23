@@ -48,6 +48,7 @@ dependencies:
   audioplayers: ^6.0.0
   get: ^4.6.6
   thai: ^1.0.0+2
+  url_launcher: ^6.2.6
 dev_dependencies:
   flutter_lints: ^4.0.0
   flutter_test:
@@ -71,7 +72,7 @@ flutter_icons:
 flutter:
   assets:
     - assets/image/
-    - assets/image/voice.wav
+    - assets/voice/voice.wav
     
     # - assets/icon
   # The following line ensures that the Material Icons font is

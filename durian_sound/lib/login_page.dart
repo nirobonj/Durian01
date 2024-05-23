@@ -76,7 +76,7 @@ class LoginPage extends StatelessWidget {
           }
 
           if (isHomePageVisible) {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => HomePage(
@@ -85,7 +85,7 @@ class LoginPage extends StatelessWidget {
               ),
             );
           } else {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => DisplayPage(
