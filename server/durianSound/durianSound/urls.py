@@ -23,5 +23,5 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('sounds/', include('soundAnalysis.urls')),
     # path('api/', include('ads.urls')),
-    path('api/', include('ads.urls')),
+    path('ad/', include('ads.urls')),
 ]

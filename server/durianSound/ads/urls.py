@@ -8,5 +8,5 @@ router.register(r'ads', AdViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('ads/add/', views.add_ad, name='add_ad'),
+    path('ad/add/', views.add_ad, name='add_ad'),
 ]

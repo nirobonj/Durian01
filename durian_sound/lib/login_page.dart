@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'signup_page.dart';
 import 'home_page.dart';
 import 'display_page.dart';
-import 'package:shared_preferences/shared_preferences.dart'; 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
@@ -51,8 +51,7 @@ class LoginPage extends StatelessWidget {
       String username = usernameController.text;
       String password = passwordController.text;
 
-      final url = Uri.parse(
-          '${AppConfig.connUrl}/users/login/');
+      final url = Uri.parse('${AppConfig.connUrl}/users/login/');
 
       try {
         final response = await http.post(

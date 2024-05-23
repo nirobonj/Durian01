@@ -50,7 +50,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
   }
 
   Future<List<Ad>> fetchAds() async {
-    final response = await http.get(Uri.parse('${AppConfig.connUrl}/api/ads/'));
+    final response = await http.get(Uri.parse('${AppConfig.connUrl}/ad/ads/'));
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);

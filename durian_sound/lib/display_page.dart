@@ -91,7 +91,7 @@ class _DisplayPageState extends State<DisplayPage>
   }
 
   Future<List<Ad>> fetchAds() async {
-    final response = await http.get(Uri.parse('${AppConfig.connUrl}/api/ads/'));
+    final response = await http.get(Uri.parse('${AppConfig.connUrl}/ad/ads/'));
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
@@ -427,11 +427,11 @@ class _DisplayPageState extends State<DisplayPage>
                   ),
                 ),
                 const SizedBox(height: 50),
-                const SizedBox(height: 50),
-                Text(
-                  'ชื่อไฟล์ : $recordingTimeStamp',
-                  style: const TextStyle(fontSize: 16),
-                ),
+                // const SizedBox(height: 50),
+                // Text(
+                //   'ชื่อไฟล์ : $recordingTimeStamp',
+                //   style: const TextStyle(fontSize: 16),
+                // ),
               ],
             ),
           ),
