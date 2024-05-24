@@ -4,11 +4,9 @@ import 'dart:convert';
 import 'setting_page.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:durian_sound/config.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 
 class DisplayNextPage extends StatefulWidget {
   final int predict;
@@ -69,6 +67,15 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 255, 250, 181),
         automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SettingPage()),
+            );
+          },
+        ),
         actions: [
           GestureDetector(
             onTap: () {
@@ -98,79 +105,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
                   width: 350,
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _scrollController.animateTo(
-                              0.0,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeInOut,
-                            );
-                            Navigator.of(context).pop();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 255, 198, 54),
-                          ),
-                          child: const Text(
-                            'เคาะอีกครั้ง',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
                       const SizedBox(height: 20),
-                      Container(
-                        decoration: const BoxDecoration(
-                          color: Color(0xffffea00),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0),
-                          ),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              'ระดับความสุกของทุเรียน : ปัจจุบัน',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      // _buildRipenessWidget(predict),
-                      // Container(
-                      //   decoration: const BoxDecoration(
-                      //     color: Color(0xffffea00),
-                      //     borderRadius: BorderRadius.only(
-                      //       topLeft: Radius.circular(10.0),
-                      //       topRight: Radius.circular(10.0),
-                      //     ),
-                      //   ),
-                      //   child: const Padding(
-                      //     padding: EdgeInsets.all(8.0),
-                      //     child: Align(
-                      //       alignment: Alignment.center,
-                      //       child: Text(
-                      //         'ระดับความสุกของทุเรียนระดับถัดไป',
-                      //         style: TextStyle(
-                      //           fontWeight: FontWeight.bold,
-                      //           fontSize: 20,
-                      //           color: Colors.black,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                       _buildRipenessWidget(predict),
                     ],
                   ),
@@ -269,13 +204,15 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
   Widget _buildRipenessWidget(int predict) {
     List<Widget> widgets = [];
     for (int i = predict; i <= 6 && i <= predict + 5; i++) {
-      DateTime currentDate =
-          (i == predict) ? today : today.add(Duration(days: i - predict));
+      DateTime currentDate = (i == predict)
+          ? today
+          : today.add(Duration(hours: (i - predict) * 10));
+      // print(currentDate);
       switch (i) {
         case 1:
           widgets.add(_buildLevelWidget(
             '1',
-            'ดิบมากเนื้อสีครีม อ่อนๆ',
+            'ดิบมาก \nยังรับประทานไม่ได้',
             'assets/image/ระดับ 1.png',
             currentDate,
           ));
@@ -283,7 +220,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         case 2:
           widgets.add(_buildLevelWidget(
             '2',
-            'ดิบรองลงมา สีเริ่มเหลืองนิดๆ',
+            'ดิบมาก \nยังรับประทานไม่ได้',
             'assets/image/ระดับ 2.png',
             currentDate,
           ));
@@ -291,7 +228,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         case 3:
           widgets.add(_buildLevelWidget(
             '3',
-            'สีเหลืองมากกว่าดิบ2\nเนื้อกรอบๆ ใกล้จะสุก',
+            'กึ่งสุกกึ่งดิบ \nกรอบนอก กรอบใน',
             'assets/image/ระดับ 3.png',
             currentDate,
           ));
@@ -299,7 +236,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         case 4:
           widgets.add(_buildLevelWidget(
             '4',
-            'กรอบนอกนุ่มใน สีเหลืองมากขึ้น \nกรอบข้างนอกหน่อยๆ \nข้างในนุ่มแล้ว',
+            'สุก เนื้อยอดนิยม \nนอกกรอบ ในนุ่ม',
             'assets/image/ระดับ 4.png',
             currentDate,
           ));
@@ -307,7 +244,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         case 5:
           widgets.add(_buildLevelWidget(
             '5',
-            'สุกนุ่มกำลังดี\nเนื้อเป็นครีมมี่นุ่มนวล \nสีเหลืองสวย',
+            'สุกมาก สุกนุ่มกำลังดี\nเนื้อนิ่มเป็นครีมนุ่มนวล',
             'assets/image/ระดับ 5.png',
             currentDate,
           ));
@@ -315,7 +252,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         case 6:
           widgets.add(_buildLevelWidget(
             '6',
-            'สุกมาก งอม \nนิยมนำไปทำทุเรียนกวน \nเพราะเนื้อค่อนข้างเละ',
+            'สุกมาก ๆ  \nเนื้อนิ่มจนเละ',
             'assets/image/ระดับ 6.png',
             currentDate,
           ));
@@ -345,15 +282,17 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
     DateTime dateTime,
   ) {
     String formattedDate = DateFormat('dd MMMM yyyy').format(dateTime);
-    String formattedTime = DateFormat('HH:mm').format(today);
+    String formattedTime = DateFormat('HH:mm').format(dateTime);
     String formattedToday = DateFormat('dd MMMM yyyy').format(today);
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      
+      const SizedBox(height: 10),
       Container(
         width: 350,
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10.0),
+            topRight: Radius.circular(10.0),
             bottomLeft: Radius.circular(10.0),
             bottomRight: Radius.circular(10.0),
           ),
@@ -361,6 +300,30 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            if (formattedDate == formattedToday)
+              Container(
+                decoration: const BoxDecoration(
+                  color: Color(0xffffea00),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'ความสุกระดับ $predict',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             if (formattedDate != formattedToday)
               Container(
                 decoration: const BoxDecoration(
@@ -370,38 +333,30 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
                     topRight: Radius.circular(10.0),
                   ),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'ระดับความสุกของทุเรียนระดับถัดไป',
-                      style: TextStyle(
+                      'ความสุกระดับ $levelText',
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: 25,
                         color: Colors.black,
                       ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Text(
-              'ความสุกระดับที่ $levelText \n$detail\n',
+              '$detail\n',
               style: const TextStyle(
                 color: Colors.black,
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.normal,
               ),
             ),
-            const SizedBox(height: 20),
-            Container(
-              width: 200,
-              height: 200,
-              color: const Color.fromARGB(255, 147, 147, 147),
-              child: Image.asset(imagePath),
-            ),
-            const SizedBox(height: 30),
             Container(
               width: 250,
               height: 150,
@@ -445,7 +400,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
                       child: Text(
                         formattedTime,
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 25,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
@@ -455,8 +410,13 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
                 ],
               ),
             ),
+            Container(
+              width: 150,
+              height: 150,
+              color: const Color.fromARGB(255, 147, 147, 147),
+              child: Image.asset(imagePath),
+            ),
             const SizedBox(height: 30),
-            
           ],
         ),
       ),
