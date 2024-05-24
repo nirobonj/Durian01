@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:durian_sound/config.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class DisplayNextPage extends StatefulWidget {
   final int predict;
@@ -29,6 +30,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
   @override
   void initState() {
     super.initState();
+    initializeDateFormatting('th_TH');
     predict = widget.predict;
     adsFuture = fetchAds();
     today = DateTime.now();
@@ -234,7 +236,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         case 4:
           widgets.add(_buildLevelWidget(
             '4',
-            'สุก เนื้อยอดนิยม \nนอกกรอบ ในนุ่ม',
+            'สุก เนื้อยอดนิยม \nกรอบนอก นุ่มใน',
             'assets/image/ระดับ 4.png',
             currentDate,
           ));
@@ -242,7 +244,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         case 5:
           widgets.add(_buildLevelWidget(
             '5',
-            'สุกมาก สุกนุ่มกำลังดี\nเนื้อนิ่มเป็นครีมนุ่มนวล',
+            'สุกมาก สุกกำลังดี\nเนื้อนิ่มเป็นครีมนุ่มนวล',
             'assets/image/ระดับ 5.png',
             currentDate,
           ));
@@ -279,10 +281,11 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
     String imagePath,
     DateTime dateTime,
   ) {
-    String formattedDate = DateFormat('dd MMMM yyyy').format(dateTime);
+    int buddhistYear = dateTime.year + 543;
+    String formattedDateBuddhist = DateFormat('dd MMMM $buddhistYear', 'th_TH').format(dateTime);
     String formattedTime = DateFormat('HH:mm').format(dateTime);
-    String formattedToday = DateFormat('dd MMMM yyyy').format(today);
-    bool isSameDateDifferentTime = formattedDate == formattedToday && dateTime.hour != today.hour;
+    String formattedToday = DateFormat('dd MMMM $buddhistYear', 'th_TH').format(today);
+    bool isSameDateDifferentTime = formattedDateBuddhist == formattedToday && dateTime.hour != today.hour;
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       const SizedBox(height: 10),
       Container(
@@ -312,7 +315,8 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
-                    (formattedDate == formattedToday && !isSameDateDifferentTime)
+                    (formattedDateBuddhist == formattedToday &&
+                            !isSameDateDifferentTime)
                         ? 'ความสุกระดับ $predict'
                         : 'ความสุกระดับ $levelText',
                     style: const TextStyle(
@@ -325,12 +329,22 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
               ),
             ),
             const SizedBox(height: 10),
-            Text(
-              '$detail\n',
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.normal,
+            SizedBox(
+              height: 105,
+              width: 350,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 80),
+                  child: Text(
+                    '$detail\n',
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ),
               ),
             ),
             Container(
@@ -354,9 +368,9 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
                     ),
                     child: Center(
                       child: Text(
-                        formattedDate,
+                        formattedDateBuddhist,
                         style: const TextStyle(
-                          fontSize: 25,
+                          fontSize: 24,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
@@ -386,10 +400,10 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
                 ],
               ),
             ),
-            Container(
+            const SizedBox(height: 20),
+            SizedBox(
               width: 150,
               height: 150,
-              color: const Color.fromARGB(255, 147, 147, 147),
               child: Image.asset(imagePath),
             ),
             const SizedBox(height: 30),

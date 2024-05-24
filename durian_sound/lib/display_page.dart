@@ -363,7 +363,7 @@ class _DisplayPageState extends State<DisplayPage>
                               text: 'กด',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 25,
+                                fontSize: 20,
                               ),
                             ),
                             WidgetSpan(
@@ -374,7 +374,7 @@ class _DisplayPageState extends State<DisplayPage>
                               text: '1',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 25,
+                                fontSize: 20,
                               ),
                             ),
                             WidgetSpan(
@@ -385,7 +385,7 @@ class _DisplayPageState extends State<DisplayPage>
                               text: 'ครั้ง\n',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 25,
+                                fontSize: 20,
                               ),
                             ),
                             WidgetSpan(
@@ -396,7 +396,7 @@ class _DisplayPageState extends State<DisplayPage>
                               text: 'เคาะ',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 25,
+                                fontSize: 20,
                               ),
                             ),
                             WidgetSpan(
@@ -407,7 +407,7 @@ class _DisplayPageState extends State<DisplayPage>
                               text: '2',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 25,
+                                fontSize: 20,
                               ),
                             ),
                             WidgetSpan(
@@ -418,7 +418,7 @@ class _DisplayPageState extends State<DisplayPage>
                               text: 'ครั้ง\n',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 25,
+                                fontSize: 20,
                               ),
                             ),
                             WidgetSpan(
@@ -429,7 +429,7 @@ class _DisplayPageState extends State<DisplayPage>
                               text: 'ระยะ',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 25,
+                                fontSize: 20,
                               ),
                             ),
                             WidgetSpan(
@@ -440,7 +440,7 @@ class _DisplayPageState extends State<DisplayPage>
                               text: '7',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 25,
+                                fontSize: 20,
                               ),
                             ),
                             WidgetSpan(
@@ -451,7 +451,7 @@ class _DisplayPageState extends State<DisplayPage>
                               text: 'เซนติเมตร\n',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 25,
+                                fontSize: 20,
                               ),
                             ),
                           ],

@@ -21,7 +21,7 @@ class AboutUsPage extends StatelessWidget {
           height: 1000,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 20),
               SizedBox(
@@ -35,7 +35,7 @@ class AboutUsPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13,
                 ),
-                textAlign: TextAlign.left,
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 10),
               const Text(

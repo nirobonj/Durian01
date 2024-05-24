@@ -160,7 +160,7 @@ class HomePage extends StatelessWidget {
                                   child: Padding(
                                     padding: EdgeInsets.only(left: 50),
                                     child: Text(
-                                      'ระดับที่ 4 : สุก (ripe)\n- เนื้อยอดนิยม \n- นอกกรอบ ในนุ่ม \n- หอมกำลังดี',
+                                      'ระดับที่ 4 : สุก (ripe)\n- เนื้อยอดนิยม \n- กรอบนอก นุ่มใน \n- หอมกำลังดี',
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 18,
@@ -186,7 +186,7 @@ class HomePage extends StatelessWidget {
                                   child: Padding(
                                     padding: EdgeInsets.only(left: 50),
                                     child: Text(
-                                      'ระดับที่ 5 : สุกมาก (creamy)\n- สุกนุ่มกำลังดี \n- เนื้อนิ่มเป็นครีมนุ่มนวล \n- หวานฉ่ำ กลิ่นแรง',
+                                      'ระดับที่ 5 : สุกมาก (creamy)\n- สุกกำลังดี \n- เนื้อนิ่มเป็นครีมนุ่มนวล \n- หวานฉ่ำ กลิ่นแรง',
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 18,
