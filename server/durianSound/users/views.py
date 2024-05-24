@@ -94,15 +94,15 @@ class UsersViewset(APIView):
 
 class LoginViewset(APIView):
     def get(self, request, id=None):
-        if id:
-            item = get_object_or_404(models.Register, id=id)
-            serializer = serializers.RegisterSerializer(item)
-            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+        if 'user' in request.session:
+            if id:
+                item = get_object_or_404(models.Register, id=id)
+                serializer = serializers.RegisterSerializer(item)
+                return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
-        items = models.Register.objects.all()
-        serializer = serializers.RegisterSerializer(items, many=True)
-        print("a")
-        return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+            items = models.Register.objects.all()
+            serializer = serializers.RegisterSerializer(items, many=True)
+            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
         username = request.data.get('login_username')
@@ -113,24 +113,37 @@ class LoginViewset(APIView):
             return Response({"status": "error", "message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
         if check_password(password, user.register_password):
+            request.session['user'] = username
             return Response({"status": "success", "message": "Login successful"}, status=status.HTTP_200_OK)
         else:
             return Response({"status": "error", "message": "Invalid username or password"}, status=status.HTTP_401_UNAUTHORIZED)
 
     def patch(self, request, id=None):
-        item = get_object_or_404(models.Register, id=id)
-        serializer = serializers.RegisterSerializer(
-            item, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
-        else:
-            return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        if 'user' in request.session:
+            item = get_object_or_404(models.Register, id=id)
+            serializer = serializers.RegisterSerializer(
+                item, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+            else:
+                return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, id=None):
         item = get_object_or_404(models.Register, id=id)
         item.delete()
         return Response({"status": "success", "data": "Item Deleted"}, status=status.HTTP_204_NO_CONTENT)
+
+    @api_view(['POST'])
+    def logout(request):  # แก้ไขเป็นเมทอดที่รับ request ได้อย่างถูกต้อง
+        try:
+            if 'user' in request.session:
+                del request.session['user']
+                return Response({"status": "success", "message": "Logout successful"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"status": "error", "message": "User not logged in"}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"status": "error", "message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class EditViewset(APIView):
