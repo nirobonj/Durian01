@@ -179,6 +179,8 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
   }
 
   Widget _buildAdWidget(List<Ad> ads, int index) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double containerWidth = screenWidth * 1;
     return GestureDetector(
       onTap: () async {
         Uri uri = Uri.parse(ads[index].linkUrl);
@@ -189,7 +191,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         }
       },
       child: Container(
-        width: 411,
+        width: containerWidth,
         height: 100,
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -284,6 +286,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
     String formattedDate = DateFormat('dd MMMM yyyy').format(dateTime);
     String formattedTime = DateFormat('HH:mm').format(dateTime);
     String formattedToday = DateFormat('dd MMMM yyyy').format(today);
+
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       const SizedBox(height: 10),
       Container(

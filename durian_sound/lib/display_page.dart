@@ -308,7 +308,6 @@ class _DisplayPageState extends State<DisplayPage>
                                         backgroundColor:
                                             Color.fromARGB(255, 255, 250, 181),
                                       ),
-                                      
                                     ),
                                   ),
                                   Positioned(
@@ -320,7 +319,8 @@ class _DisplayPageState extends State<DisplayPage>
                                       decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
                                       ),
-                                      child: Image.asset('assets/image/icon.PNG'),
+                                      child:
+                                          Image.asset('assets/image/icon.PNG'),
                                     ),
                                   ),
                                 ],
@@ -343,7 +343,8 @@ class _DisplayPageState extends State<DisplayPage>
                                         decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
                                         ),
-                                        child: Image.asset('assets/image/icon.PNG'),
+                                        child: Image.asset(
+                                            'assets/image/icon.PNG'),
                                       ),
                                     ),
                                   ],
@@ -445,6 +446,8 @@ class _DisplayPageState extends State<DisplayPage>
   }
 
   Widget _buildAdWidget(List<Ad> ads, int index) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double containerWidth = screenWidth * 1;
     return GestureDetector(
       onTap: () async {
         Uri uri = Uri.parse(ads[index].linkUrl);
@@ -455,7 +458,7 @@ class _DisplayPageState extends State<DisplayPage>
         }
       },
       child: Container(
-        width: 411,
+        width: containerWidth,
         height: 100,
         decoration: BoxDecoration(
           image: DecorationImage(
