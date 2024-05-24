@@ -352,109 +352,102 @@ class _DisplayPageState extends State<DisplayPage>
                               ),
                             ),
                       const SizedBox(height: 50),
-                      const Text.rich(
-                        TextSpan(
-                          children: [
-                            WidgetSpan(
-                              child:
-                                  SizedBox(width: 40), 
-                            ),
-                            TextSpan(
-                              text: 'กด',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
+                      const Center(
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              WidgetSpan(
+                                child: SizedBox(width: 20),
                               ),
-                            ),
-                            WidgetSpan(
-                              child:
-                                  SizedBox(width: 45), 
-                            ),
-                            TextSpan(
-                              text: '1',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
+                              TextSpan(
+                                text: 'กด',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
                               ),
-                            ),
-                            WidgetSpan(
-                              child:
-                                  SizedBox(width: 25), 
-                            ),
-                            TextSpan(
-                              text: 'ครั้ง\n',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
+                              WidgetSpan(
+                                child: SizedBox(width: 45),
                               ),
-                            ),
-                            WidgetSpan(
-                              child:
-                                  SizedBox(width: 40), 
-                            ),
-                            TextSpan(
-                              text: 'เคาะ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
+                              TextSpan(
+                                text: '1',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
                               ),
-                            ),
-                            WidgetSpan(
-                              child:
-                                  SizedBox(width: 30), 
-                            ),
-                            TextSpan(
-                              text: '2',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
+                              WidgetSpan(
+                                child: SizedBox(width: 25),
                               ),
-                            ),
-                            WidgetSpan(
-                              child:
-                                  SizedBox(width: 25), 
-                            ),
-                            TextSpan(
-                              text: 'ครั้ง\n',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
+                              TextSpan(
+                                text: 'ครั้ง\n',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
                               ),
-                            ),
-                            WidgetSpan(
-                              child:
-                                  SizedBox(width: 40), 
-                            ),
-                            TextSpan(
-                              text: 'ระยะ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
+                              WidgetSpan(
+                                child: SizedBox(width: 20),
                               ),
-                            ),
-                            WidgetSpan(
-                              child:
-                                  SizedBox(width: 25),
-                            ),
-                            TextSpan(
-                              text: '7',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
+                              TextSpan(
+                                text: 'เคาะ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
                               ),
-                            ),
-                            WidgetSpan(
-                              child:
-                                  SizedBox(width: 25), 
-                            ),
-                            TextSpan(
-                              text: 'เซนติเมตร\n',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
+                              WidgetSpan(
+                                child: SizedBox(width: 30),
                               ),
-                            ),
-                          ],
+                              TextSpan(
+                                text: '2',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(width: 25),
+                              ),
+                              TextSpan(
+                                text: 'ครั้ง\n',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(width: 20),
+                              ),
+                              TextSpan(
+                                text: 'ระยะ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(width: 25),
+                              ),
+                              TextSpan(
+                                text: '7',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(width: 25),
+                              ),
+                              TextSpan(
+                                text: 'เซนติเมตร\n',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
