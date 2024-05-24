@@ -135,7 +135,7 @@ class LoginViewset(APIView):
         return Response({"status": "success", "data": "Item Deleted"}, status=status.HTTP_204_NO_CONTENT)
 
     @api_view(['POST'])
-    def logout(request):  # แก้ไขเป็นเมทอดที่รับ request ได้อย่างถูกต้อง
+    def logout(request):
         try:
             if 'user' in request.session:
                 del request.session['user']
