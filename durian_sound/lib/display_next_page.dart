@@ -70,10 +70,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SettingPage()),
-            );
+            Navigator.pop(context);
           },
         ),
         actions: [
@@ -209,7 +206,6 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
       DateTime currentDate = (i == predict)
           ? today
           : today.add(Duration(hours: (i - predict) * 10));
-      // print(currentDate);
       switch (i) {
         case 1:
           widgets.add(_buildLevelWidget(
@@ -286,7 +282,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
     String formattedDate = DateFormat('dd MMMM yyyy').format(dateTime);
     String formattedTime = DateFormat('HH:mm').format(dateTime);
     String formattedToday = DateFormat('dd MMMM yyyy').format(today);
-
+    bool isSameDateDifferentTime = formattedDate == formattedToday && dateTime.hour != today.hour;
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       const SizedBox(height: 10),
       Container(
@@ -303,54 +299,31 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (formattedDate == formattedToday)
-              Container(
-                decoration: const BoxDecoration(
-                  color: Color(0xffffea00),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    topRight: Radius.circular(10.0),
-                  ),
+            Container(
+              decoration: const BoxDecoration(
+                color: Color(0xffffea00),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'ความสุกระดับ $predict',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                        color: Colors.black,
-                      ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    (formattedDate == formattedToday && !isSameDateDifferentTime)
+                        ? 'ความสุกระดับ $predict'
+                        : 'ความสุกระดับ $levelText',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 35,
+                      color: Colors.black,
                     ),
                   ),
                 ),
               ),
-            if (formattedDate != formattedToday)
-              Container(
-                decoration: const BoxDecoration(
-                  color: Color(0xffffea00),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    topRight: Radius.circular(10.0),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'ความสุกระดับ $levelText',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            ),
             const SizedBox(height: 10),
             Text(
               '$detail\n',
