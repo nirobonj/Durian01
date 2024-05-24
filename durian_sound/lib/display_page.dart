@@ -355,6 +355,10 @@ class _DisplayPageState extends State<DisplayPage>
                       const Text.rich(
                         TextSpan(
                           children: [
+                            WidgetSpan(
+                              child:
+                                  SizedBox(width: 40), 
+                            ),
                             TextSpan(
                               text: 'กด',
                               style: TextStyle(
@@ -364,7 +368,7 @@ class _DisplayPageState extends State<DisplayPage>
                             ),
                             WidgetSpan(
                               child:
-                                  SizedBox(width: 45), // Adjust width if needed
+                                  SizedBox(width: 45), 
                             ),
                             TextSpan(
                               text: '1',
@@ -375,7 +379,7 @@ class _DisplayPageState extends State<DisplayPage>
                             ),
                             WidgetSpan(
                               child:
-                                  SizedBox(width: 25), // Adjust width if needed
+                                  SizedBox(width: 25), 
                             ),
                             TextSpan(
                               text: 'ครั้ง\n',
@@ -383,6 +387,10 @@ class _DisplayPageState extends State<DisplayPage>
                                 color: Colors.black,
                                 fontSize: 25,
                               ),
+                            ),
+                            WidgetSpan(
+                              child:
+                                  SizedBox(width: 40), 
                             ),
                             TextSpan(
                               text: 'เคาะ',
@@ -393,7 +401,7 @@ class _DisplayPageState extends State<DisplayPage>
                             ),
                             WidgetSpan(
                               child:
-                                  SizedBox(width: 30), // Adjust width if needed
+                                  SizedBox(width: 30), 
                             ),
                             TextSpan(
                               text: '2',
@@ -404,7 +412,7 @@ class _DisplayPageState extends State<DisplayPage>
                             ),
                             WidgetSpan(
                               child:
-                                  SizedBox(width: 25), // Adjust width if needed
+                                  SizedBox(width: 25), 
                             ),
                             TextSpan(
                               text: 'ครั้ง\n',
@@ -412,6 +420,10 @@ class _DisplayPageState extends State<DisplayPage>
                                 color: Colors.black,
                                 fontSize: 25,
                               ),
+                            ),
+                            WidgetSpan(
+                              child:
+                                  SizedBox(width: 40), 
                             ),
                             TextSpan(
                               text: 'ระยะ',
@@ -422,7 +434,7 @@ class _DisplayPageState extends State<DisplayPage>
                             ),
                             WidgetSpan(
                               child:
-                                  SizedBox(width: 25), // Adjust width if needed
+                                  SizedBox(width: 25),
                             ),
                             TextSpan(
                               text: '7',
@@ -433,10 +445,10 @@ class _DisplayPageState extends State<DisplayPage>
                             ),
                             WidgetSpan(
                               child:
-                                  SizedBox(width: 25), // Adjust width if needed
+                                  SizedBox(width: 25), 
                             ),
                             TextSpan(
-                              text: 'เซน\n',
+                              text: 'เซนติเมตร\n',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 25,

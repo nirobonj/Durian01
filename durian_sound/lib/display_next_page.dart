@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 class DisplayNextPage extends StatefulWidget {
   final int predict;
 
-  const DisplayNextPage({Key? key, required this.predict}) : super(key: key);
+  const DisplayNextPage({super.key, required this.predict});
 
   @override
   _DisplayNextPageState createState() => _DisplayNextPageState();
