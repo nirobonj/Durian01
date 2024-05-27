@@ -3,7 +3,8 @@ from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 from . import models
 from . import serializers
-from .serializers import RegisterSerializer, LoginSerializer,PromstrSerializer
+from .serializers import RegisterSerializer, LoginSerializer,AddressesSerializer,PromstrSerializer
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -13,6 +14,14 @@ from rest_framework.decorators import api_view
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
 from django.contrib.postgres.aggregates import ArrayAgg
+from rest_framework.permissions import IsAuthenticated
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.http import JsonResponse
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+
+
 
 
 class UsersViewset(APIView):
@@ -80,7 +89,7 @@ class UsersViewset(APIView):
                     'add_aumphur_desc': request.data.get('add_aumphur_desc'),
                     'add_code': request.data.get('add_code')
                 }
-                address_serializer = AddressSerializer(data=address_data)
+                address_serializer = AddressesSerializer(data=address_data)
 
                 if address_serializer.is_valid():
                     address_serializer.save()
@@ -126,6 +135,7 @@ class UsersViewset(APIView):
         item.delete()
         return Response({"status": "success", "data": "Item Deleted"}, status=status.HTTP_204_NO_CONTENT)
 
+# @method_decorator(csrf_exempt, name='dispatch')
 
 class LoginViewset(APIView):
     def get(self, request, id=None):
@@ -138,10 +148,12 @@ class LoginViewset(APIView):
             items = models.Register.objects.all()
             serializer = serializers.RegisterSerializer(items, many=True)
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+        
 
     def post(self, request, format=None):
         username = request.data.get('login_username')
         password = request.data.get('login_password')
+        
         try:
             user = models.Register.objects.get(register_username=username)
         except models.Register.DoesNotExist:
@@ -170,15 +182,58 @@ class LoginViewset(APIView):
         return Response({"status": "success", "data": "Item Deleted"}, status=status.HTTP_204_NO_CONTENT)
 
     @api_view(['POST'])
-    def logout(request):  # แก้ไขเป็นเมทอดที่รับ request ได้อย่างถูกต้อง
+    def logout(request):
         try:
             if 'user' in request.session:
-                del request.session['user']
+                del request.session['user']  # ลบข้อมูลของผู้ใช้ออกจาก session
                 return Response({"status": "success", "message": "Logout successful"}, status=status.HTTP_200_OK)
             else:
                 return Response({"status": "error", "message": "User not logged in"}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"status": "error", "message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    # @csrf_exempt
+    # def logout(self, request):
+    #     try:
+    #         if 'user' in request.session:
+    #             del request.session['user']
+    #             return Response({"status": "success", "message": "Logout successful"}, status=status.HTTP_200_OK)
+    #         else:
+    #             return Response({"status": "error", "message": "User not logged in"}, status=status.HTTP_400_BAD_REQUEST)
+    #     except Exception as e:
+    #         return Response({"status": "error", "message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    # @staticmethod
+    # @csrf_exempt
+    # def logout(self, request):  # Add 'self' as the first parameter
+    #     try:
+    #         if 'user' in request.session:
+    #             del request.session['user']
+    #             return Response({"status": "success", "message": "Logout successful"}, status=status.HTTP_200_OK)
+    #         else:
+    #             return Response({"status": "error", "message": "User not logged in"}, status=status.HTTP_400_BAD_REQUEST)
+    #     except Exception as e:
+    #         return Response({"status": "error", "message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    # @staticmethod
+    # @csrf_exempt
+    # def logout(request):  # Add 'request' as the first parameter
+    #     try:
+    #         if 'user' in request.session:
+    #             del request.session['user']
+    #             return Response({"status": "success", "message": "Logout successful"}, status=status.HTTP_200_OK)
+    #         else:
+    #             return Response({"status": "error", "message": "User not logged in"}, status=status.HTTP_400_BAD_REQUEST)
+    #     except Exception as e:
+    #         return Response({"status": "error", "message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    # @staticmethod
+    # @ensure_csrf_cookie
+    # def logout(request):  # Add 'request' as the first parameter
+    #     try:
+    #         if 'user' in request.session:
+    #             del request.session['user']
+    #             return JsonResponse({"status": "success", "message": "Logout successful"}, status=status.HTTP_200_OK)
+    #         else:
+    #             return JsonResponse({"status": "error", "message": "User not logged in"}, status=status.HTTP_400_BAD_REQUEST)
+    #     except Exception as e:
+    #         return JsonResponse({"status": "error", "message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class EditViewset(APIView):
@@ -289,6 +344,7 @@ class ProAumphurDescAPIView(APIView):
         data = PRO_MSTR.objects.filter(pro_province_desc=pro_province_desc).values('pro_aumphur_desc').distinct().order_by('pro_aumphur_desc')
         print(data)
         unique_aumphurs = [item['pro_aumphur_desc'] for item in data]
-        print("inique ",unique_aumphurs)
+        print("unique ", unique_aumphurs)
 
         return Response({"status": "success", "data": unique_aumphurs})
+

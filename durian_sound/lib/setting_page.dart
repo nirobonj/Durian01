@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:durian_sound/login_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'about_us_page.dart';
+import 'config.dart';
 import 'display_page.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:durian_sound/edit_form_page.dart';
 
 class SettingPage extends StatefulWidget {
@@ -17,10 +21,12 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   bool? isHomePageVisible;
   final String defaultUsername = Get.find<UserController>().username.value;
+  final UserController userController = Get.find<UserController>();
   @override
   void initState() {
     super.initState();
     _loadHomePageVisibility();
+    _loadUserCredentials();
   }
 
   Future<void> _loadHomePageVisibility() async {
@@ -28,30 +34,90 @@ class _SettingPageState extends State<SettingPage> {
     setState(() {
       isHomePageVisible = prefs.getBool('isHomePageVisible');
     });
-    if (kDebugMode) {
-      print(defaultUsername);
+  }
+
+  Future<void> _loadUserCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username');
+    String? password = prefs.getString('password');
+
+    setState(() {
+      if (username != null) {
+        userController.setUsername(username);
+      }
+      if (password != null) {
+        userController.setPassword(password);
+      }
+    });
+  }
+
+  Future<void> _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String username = prefs.getString('username') ?? '';
+    String password = prefs.getString('password') ?? '';
+    try {
+      final response = await http.post(
+        Uri.parse('${AppConfig.connUrl}/users/logout/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+        'login_username': username,
+        'login_password': password,
+      }),
+      );
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        if (result['status'] == 'success') {
+          await prefs.clear();
+          await prefs.setBool('isLoggedIn', false);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  LoginPage(isHomePageVisible: isHomePageVisible ?? true),
+            ),
+            (Route<dynamic> route) => false,
+          );
+        } else {
+          _showErrorDialog(result['message']);
+        }
+      } else {
+        _showErrorDialog('Server error: ${response.statusCode}');
+      }
+    } catch (e) {
+      _showErrorDialog('An error occurred: $e');
     }
   }
 
-   Future<void> _logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
-    Navigator.pushAndRemoveUntil(
-      context,
-       MaterialPageRoute(
-        builder: (context) => LoginPage(isHomePageVisible: isHomePageVisible ?? true),
-      ),
-      (Route<dynamic> route) => false,
+  void _showErrorDialog(String message) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
-Future<void> _showLogoutConfirmationDialog() async {
+  Future<void> _showLogoutConfirmationDialog() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('ยืนยันการออกจากระบบ'),
-          content: SingleChildScrollView(
+          title: const Text('ยืนยันการออกจากระบบ'),
+          content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 Text('คุณแน่ใจหรือไม่ที่ต้องการออกจากระบบ?'),
@@ -60,13 +126,13 @@ Future<void> _showLogoutConfirmationDialog() async {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('ยกเลิก'),
+              child: const Text('ยกเลิก'),
               onPressed: () {
                 Navigator.of(context).pop(); // ปิดไดอะล็อก
               },
             ),
             TextButton(
-              child: Text('ตกลง'),
+              child: const Text('ตกลง'),
               onPressed: () {
                 Navigator.of(context).pop(); // ปิดไดอะล็อก
                 _logout(); // เรียกใช้เมธอดออกจากระบบ
@@ -77,6 +143,7 @@ Future<void> _showLogoutConfirmationDialog() async {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -196,7 +263,6 @@ Future<void> _showLogoutConfirmationDialog() async {
                   trailing: const Icon(Icons.logout),
                 ),
                 const Divider(),
-                
               ],
             ),
           ),
@@ -205,5 +271,3 @@ Future<void> _showLogoutConfirmationDialog() async {
     );
   }
 }
-
-

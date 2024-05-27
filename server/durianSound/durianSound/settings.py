@@ -97,9 +97,9 @@ WSGI_APPLICATION = "durianSound.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dbedit',
+        'NAME': 'durianDB',
         'USER': 'postgres',
-        'PASSWORD': '123456789',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -132,6 +132,7 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.SHA1PasswordHasher',
     'django.contrib.auth.hashers.MD5PasswordHasher',
     # 'django.contrib.auth.hashers.CryptPasswordHasher',
+    
 )
 
 
@@ -174,3 +175,4 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGIN_REGEXES = [
     "http://127.0.0.1:8000",
 ]
+APPEND_SLASH = False

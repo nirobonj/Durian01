@@ -34,7 +34,7 @@ class _EditFormPageState extends State<EditFormPage> {
   Future<void> fetchData() async {
     final response = await http.get(
       Uri.parse(
-          '${AppConfig.connUrl}/duriansound-analyisis/users/edit/${widget.defaultUsername}'),
+          '${AppConfig.connUrl}/users/edit/${widget.defaultUsername}'),
     );
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
@@ -66,7 +66,7 @@ class _EditFormPageState extends State<EditFormPage> {
   // }
   Future<List<String>> fetchProvinces() async {
     final response = await http.get(Uri.parse(
-        '${AppConfig.connUrl}/duriansound-analyisis/users/pro-mstr/'));
+        '${AppConfig.connUrl}/users/pro-mstr/'));
     if (response.statusCode == 200) {
       final dynamic data = json.decode(response.body, reviver: (key, value) {
         if (value is String) {
@@ -91,7 +91,7 @@ class _EditFormPageState extends State<EditFormPage> {
 
   Future<void> saveData() async {
     final url = Uri.parse(
-        '${AppConfig.connUrl}/duriansound-analyisis/users/edit/${widget.defaultUsername}');
+        '${AppConfig.connUrl}/users/edit/${widget.defaultUsername}');
     try {
       final response = await http.put(
         url,
@@ -122,8 +122,9 @@ class _EditFormPageState extends State<EditFormPage> {
   }
 
   Future<List<String>> fetchAumphurs(String province) async {
-    Uri uri = Uri.parse(
-            '${AppConfig.connUrl}/duriansound-analyisis/users/pro-mstr/aumphur')
+    // Uri uri = Uri.parse(
+    //         '${AppConfig.connUrl}/duriansound-analyisis/users/pro-mstr/aumphur')
+    Uri uri = Uri.parse('${AppConfig.connUrl}/users/pro-mstr/aumphur')
         .replace(queryParameters: {'pro_province_desc': province});
     String url = uri.toString();
 
@@ -136,15 +137,10 @@ class _EditFormPageState extends State<EditFormPage> {
       if (responseData is Map<String, dynamic> &&
           responseData['status'] == 'success') {
         final List<dynamic> data = responseData['data'];
-        if (data is List<dynamic>) {
-          List<String> aumphurs = data.map((item) => item as String).toList();
-          print(aumphurs);
-          return aumphurs;
-        } else {
-          print('$responseData');
-          throw Exception('รูปแบบข้อมูลไม่ถูกต้อง: $responseData');
-        }
-      } else {
+        List<String> aumphurs = data.map((item) => item as String).toList();
+        print(aumphurs);
+        return aumphurs;
+            } else {
         print('$responseData');
         throw Exception('รูปแบบข้อมูลไม่ถูกต้อง: $responseData');
       }
@@ -290,7 +286,7 @@ class _EditFormPageState extends State<EditFormPage> {
                               setState(() {
                                 _provinceController.text = value!;
                                 fetchAumphurs(
-                                    value!); // เรียกใช้เมท็อด fetchAumphurs เมื่อมีการเปลี่ยนแปลงค่าจังหวัด
+                                    value); // เรียกใช้เมท็อด fetchAumphurs เมื่อมีการเปลี่ยนแปลงค่าจังหวัด
                               });
                             },
                             items: snapshot.data!

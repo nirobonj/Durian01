@@ -144,7 +144,7 @@ class _SignupPageState extends State<SignupPage> {
 
     try {
       var response = await http.post(
-        Uri.parse('${AppConfig.connUrl}/duriansound-analyisis/users/register/'),
+        Uri.parse('${AppConfig.connUrl}/users/register/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
