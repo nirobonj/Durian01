@@ -292,7 +292,3 @@ class ProAumphurDescAPIView(APIView):
         print("inique ",unique_aumphurs)
 
         return Response({"status": "success", "data": unique_aumphurs})
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
