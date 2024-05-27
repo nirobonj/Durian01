@@ -83,7 +83,7 @@ WSGI_APPLICATION = "durianSound.wsgi.application"
 
 # localhost
 
-#use
+# use
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -97,9 +97,9 @@ WSGI_APPLICATION = "durianSound.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dbedit',
-        'USER': 'postgres',
-        'PASSWORD': '123456789',
+        'NAME': 'collectData',
+        'USER': 'bew',
+        'PASSWORD': 'admin123',
         'HOST': 'localhost',
         'PORT': '5432',
     }
