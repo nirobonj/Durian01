@@ -16,6 +16,13 @@ class_means = {
 }
 
 
+def hello(request):
+    if 'user' in request.session:
+        return JsonResponse({"hello": "world"})
+    else:
+        return JsonResponse({"error": "Unauthorized"}, status=401)
+
+
 def feature_extraction(file_path):
     try:
         # sr=None keeps the original sample rate
@@ -30,22 +37,25 @@ def feature_extraction(file_path):
 
 @csrf_exempt
 def predict(request):
-    if request.method == 'POST' and 'audio' in request.FILES:
-        # Receive the audio file
-        audio_file = request.FILES['audio']
-        with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
-            for chunk in audio_file.chunks():
-                tmp_file.write(chunk)
-            tmp_file_path = tmp_file.name
-        mfccs_mean = feature_extraction(tmp_file_path)
-        print("mfcc", mfccs_mean)
-        # Delete the temporary file after feature extraction
-        os.remove(tmp_file_path)
-        if mfccs_mean is not None:
-            nearest_class = min(class_means, key=lambda x: abs(
-                class_means[x] - mfccs_mean))
-            return JsonResponse({'predictions': nearest_class})
+    if 'user' in request.session:
+        if request.method == 'POST' and 'audio' in request.FILES:
+            # Receive the audio file
+            audio_file = request.FILES['audio']
+            with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+                for chunk in audio_file.chunks():
+                    tmp_file.write(chunk)
+                tmp_file_path = tmp_file.name
+            mfccs_mean = feature_extraction(tmp_file_path)
+            print("mfcc", mfccs_mean)
+            # Delete the temporary file after feature extraction
+            os.remove(tmp_file_path)
+            if mfccs_mean is not None:
+                nearest_class = min(class_means, key=lambda x: abs(
+                    class_means[x] - mfccs_mean))
+                return JsonResponse({'predictions': nearest_class})
+            else:
+                return JsonResponse({'error': 'Error in feature extraction'}, status=500)
         else:
-            return JsonResponse({'error': 'Error in feature extraction'}, status=500)
+            return JsonResponse({'error': 'No file uploaded'}, status=400)
     else:
-        return JsonResponse({'error': 'No file uploaded'}, status=400)
+        return JsonResponse({"error": "Unauthorized"}, status=401)

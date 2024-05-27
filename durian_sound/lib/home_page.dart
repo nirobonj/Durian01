@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
           controller: _scrollController,
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 30),
                 const Text(
@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 25),
                 SizedBox(
                   width: 350,
-                  height: 2020,
+                  height: 2140,
                   child: Card(
                     color: const Color.fromARGB(255, 255, 255, 255),
                     child: Column(
@@ -69,127 +69,166 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(10.0),
-                                bottomRight: Radius.circular(10.0),
+                          child: Column(
+                            // crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 40),
+                              const SizedBox(
+                                height: 50,
+                                width: 350,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 50),
+                                    child: Text(
+                                      'ระดับที่ 1 : ดิบมาก (over raw)\n- ยังรับประทานไม่ได้',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                            child: Center(
-                              child: Column(
-                                children: [
-                                  const SizedBox(height: 40),
-                                  const Text(
-                                    'ระดับที่ 1 : ดิบมาก \nยังรับประทานไม่ได้',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(height: 40),
-                                  SizedBox(
-                                    width: 120,
-                                    height: 120,
-                                    child:
-                                        Image.asset('assets/image/ระดับ 1.png'),
-                                  ),
-                                  const SizedBox(height: 40),
-                                  const Divider(),
-                                  const SizedBox(height: 40),
-                                  const Text(
-                                    'ระดับที่ 2 : ดิบมาก \nยังรับประทานไม่ได้',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(height: 40),
-                                  SizedBox(
-                                    width: 120,
-                                    height: 120,
-                                    child:
-                                        Image.asset('assets/image/ระดับ 2.png'),
-                                  ),
-                                  const SizedBox(height: 40),
-                                  const Divider(),
-                                  const SizedBox(height: 40),
-                                  const Text(
-                                    'ระดับที่ 3 : กึ่งสุกกึ่งดิบ \nกรอบนอก กรอบใน \nเนื้อเป็นเส้น เหมือนเนื้อไก่ฉีก \nกลิ่นอ่อน ๆ หวานมัน',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(height: 40),
-                                  SizedBox(
-                                    width: 120,
-                                    height: 120,
-                                    child:
-                                        Image.asset('assets/image/ระดับ 3.png'),
-                                  ),
-                                  const SizedBox(height: 40),
-                                  const Divider(),
-                                  const SizedBox(height: 40),
-                                  const Text(
-                                    'ระดับที่ 4 : สุก \nเนื้อยอดนิยม \nนอกกรอบ ในนุ่ม \nหอมกำลังดี',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(height: 40),
-                                  SizedBox(
-                                    width: 120,
-                                    height: 120,
-                                    child:
-                                        Image.asset('assets/image/ระดับ 4.png'),
-                                  ),
-                                  const SizedBox(height: 40),
-                                  const Divider(),
-                                  const SizedBox(height: 40),
-                                  const Text(
-                                    'ระดับที่ 5 : สุกมาก สุกนุ่มกำลังดี\nเนื้อนิ่มเป็นครีมนุ่มนวล \nหวานฉ่ำ กลิ่นแรง',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(height: 40),
-                                  SizedBox(
-                                    width: 120,
-                                    height: 120,
-                                    child:
-                                        Image.asset('assets/image/ระดับ 5.png'),
-                                  ),
-                                  const SizedBox(height: 40),
-                                  const Divider(),
-                                  const SizedBox(height: 40),
-                                  const Text(
-                                    'ระดับที่ 6 : สุกมาก ๆ  \nเนื้อนิ่มจนเละ \nรสขมเล็กน้อย ปลายลิ้น \nกลิ่นแรงมาก',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(height: 40),
-                                  SizedBox(
-                                    width: 120,
-                                    height: 120,
-                                    child:
-                                        Image.asset('assets/image/ระดับ 6.png'),
-                                  ),
-                                ],
+                              const SizedBox(height: 40),
+                              SizedBox(
+                                width: 120,
+                                height: 120,
+                                child: Image.asset('assets/image/ระดับ 1.png'),
                               ),
-                            ),
+                              const SizedBox(height: 40),
+                              const Divider(),
+                              const SizedBox(height: 40),
+                              const SizedBox(
+                                height: 50,
+                                width: 350,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 50),
+                                    child: Text(
+                                      'ระดับที่ 2 : ดิบมาก (raw)\n- ยังรับประทานไม่ได้',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 40),
+                              SizedBox(
+                                width: 120,
+                                height: 120,
+                                child: Image.asset('assets/image/ระดับ 2.png'),
+                              ),
+                              const SizedBox(height: 40),
+                              const Divider(),
+                              const SizedBox(height: 40),
+                              const SizedBox(
+                                height: 110,
+                                width: 350,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 50),
+                                    child: Text(
+                                      'ระดับที่ 3 : กึ่งสุกกึ่งดิบ (unripe)\n- กรอบนอก กรอบใน \n- เนื้อเป็นเส้น เหมือนเนื้อไก่ฉีก \n- กลิ่นอ่อน ๆ หวานมัน',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 40),
+                              SizedBox(
+                                width: 120,
+                                height: 120,
+                                child: Image.asset('assets/image/ระดับ 3.png'),
+                              ),
+                              const SizedBox(height: 40),
+                              const Divider(),
+                              const SizedBox(height: 40),
+                              const SizedBox(
+                                height: 110,
+                                width: 350,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 50),
+                                    child: Text(
+                                      'ระดับที่ 4 : สุก (ripe)\n- เนื้อยอดนิยม \n- กรอบนอก นุ่มใน \n- หอมกำลังดี',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 40),
+                              SizedBox(
+                                width: 120,
+                                height: 120,
+                                child: Image.asset('assets/image/ระดับ 4.png'),
+                              ),
+                              const SizedBox(height: 40),
+                              const Divider(),
+                              const SizedBox(height: 40),
+                              const SizedBox(
+                                height: 105,
+                                width: 350,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 50),
+                                    child: Text(
+                                      'ระดับที่ 5 : สุกมาก (creamy)\n- สุกกำลังดี \n- เนื้อนิ่มเป็นครีมนุ่มนวล \n- หวานฉ่ำ กลิ่นแรง',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 40),
+                              SizedBox(
+                                width: 120,
+                                height: 120,
+                                child: Image.asset('assets/image/ระดับ 5.png'),
+                              ),
+                              const SizedBox(height: 40),
+                              const Divider(),
+                              const SizedBox(height: 40),
+                              const SizedBox(
+                                height: 110,
+                                width: 350,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 50),
+                                    child: Text(
+                                      'ระดับที่ 6 : สุกมาก ๆ (over ripe)\n- เนื้อนิ่มจนเละ \n- รสขมเล็กน้อย ปลายลิ้น \n- กลิ่นแรงมาก',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 40),
+                              SizedBox(
+                                width: 120,
+                                height: 120,
+                                child: Image.asset('assets/image/ระดับ 6.png'),
+                              ),
+                              const SizedBox(height: 40),
+                            ],
                           ),
                         ),
                       ],

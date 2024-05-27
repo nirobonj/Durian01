@@ -3,15 +3,16 @@ from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 from . import models
 from . import serializers
-from .serializers import RegisterSerializer, LoginSerializer
+from .serializers import RegisterSerializer, LoginSerializer,PromstrSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import JsonResponse
-from .models import Register, Login
+from .models import Register, Login, Addresses,PRO_MSTR
 from rest_framework.decorators import api_view
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
+from django.contrib.postgres.aggregates import ArrayAgg
 
 
 class UsersViewset(APIView):
@@ -26,34 +27,68 @@ class UsersViewset(APIView):
         print("a")
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
+    # def post(self, request, format=None):
+    #     # Serialize data for registration
+    #     register_serializer = serializers.RegisterSerializer(data=request.data)
+    #     if register_serializer.is_valid():
+    #         # Hash the password
+    #         password = request.data.get('register_password')
+    #         hashed_password = make_password(password)
+
+    #         # Save data to register table
+    #         register_serializer.validated_data['register_password'] = hashed_password
+    #         register_serializer.save()
+
+    #         # Prepare data for login table
+    #         login_data = {
+    #             'login_username': request.data.get('register_username'),
+    #             'login_password': hashed_password
+    #         }
+    #         # Serialize data for login
+    #         login_serializer = serializers.LoginSerializer(data=login_data)
+    #         if login_serializer.is_valid():
+    #             # Save data to login table
+    #             login_serializer.save()
+    #             return Response({"status": "success", "data": register_serializer.data}, status=status.HTTP_201_CREATED)
+    #         else:
+    #             return Response({"status": "error", "data": login_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    #     else:
+    #         return Response({"status": "error", "data": register_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     def post(self, request, format=None):
-        # Serialize data for registration
-        register_serializer = serializers.RegisterSerializer(data=request.data)
-        if register_serializer.is_valid():
-            # Hash the password
-            password = request.data.get('register_password')
-            hashed_password = make_password(password)
+            register_serializer = RegisterSerializer(data=request.data)
+            if register_serializer.is_valid():
+                # Hash the password
+                password = request.data.get('register_password')
+                hashed_password = make_password(password)
+                register_serializer.validated_data['register_password'] = hashed_password
+                register_serializer.save()
 
-            # Save data to register table
-            register_serializer.validated_data['register_password'] = hashed_password
-            register_serializer.save()
+                login_data = {
+                    'login_username': request.data.get('register_username'),
+                    'login_password': hashed_password
+                }
+                login_serializer = LoginSerializer(data=login_data)
+                if login_serializer.is_valid():
+                    login_serializer.save()
+                else:
+                    return Response({"status": "error", "data": login_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-            # Prepare data for login table
-            login_data = {
-                'login_username': request.data.get('register_username'),
-                'login_password': hashed_password
-            }
-            # Serialize data for login
-            login_serializer = serializers.LoginSerializer(data=login_data)
-            if login_serializer.is_valid():
-                # Save data to login table
-                login_serializer.save()
-                return Response({"status": "success", "data": register_serializer.data}, status=status.HTTP_201_CREATED)
+                address_data = {
+                    'add_user': login_serializer.data['login_username'],
+                    'add_province_desc': request.data.get('register_province'),  
+                    'add_tumbol_desc': request.data.get('add_tumbol_desc'),
+                    'add_aumphur_desc': request.data.get('add_aumphur_desc'),
+                    'add_code': request.data.get('add_code')
+                }
+                address_serializer = AddressSerializer(data=address_data)
+
+                if address_serializer.is_valid():
+                    address_serializer.save()
+                    return Response({"status": "success", "data": register_serializer.data}, status=status.HTTP_201_CREATED)
+                else:
+                    return Response({"status": "error", "data": address_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
             else:
-                return Response({"status": "error", "data": login_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({"status": "error", "data": register_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
+                return Response({"status": "error", "data": register_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     # def create_user(request):
     #     if request.method == 'POST':
     #         data = request.data
@@ -226,3 +261,35 @@ class EditViewset(APIView):
     #             return JsonResponse({'error': 'Incomplete data provided'}, status=400)
     #     else:
     #         return JsonResponse({'error': 'Invalid request method'}, status=405)
+# class PromstrViewset(APIView):
+#     def get(self, request, id=None):
+#         if id:
+#             item = get_object_or_404(models.PRO_MSTR, id=id)
+#             serializer = serializers.PromstrSerializer(item)
+#             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+#         items = models.PRO_MSTR.objects.all()
+#         serializer = serializers.PromstrSerializer(items, many=True)
+#         print("a")
+#         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+    
+class PromstrListView(APIView):    
+    def get(self, request, id=None):
+        if id:
+            item = get_object_or_404(PRO_MSTR, id=id)
+            province_desc = item.pro_province_desc
+            return Response({"status": "success", "province_desc": province_desc}, status=status.HTTP_200_OK)
+
+        provinces_desc = PRO_MSTR.objects.values_list('pro_province_desc', flat=True).distinct()
+        return Response({"status": "success", "province_descs": list(provinces_desc)}, status=status.HTTP_200_OK)
+    
+class ProAumphurDescAPIView(APIView):
+    def get(self, request):
+        pro_province_desc = request.GET.get('pro_province_desc')
+        data = PRO_MSTR.objects.filter(pro_province_desc=pro_province_desc).values('pro_aumphur_desc').distinct().order_by('pro_aumphur_desc')
+        print(data)
+        unique_aumphurs = [item['pro_aumphur_desc'] for item in data]
+        print("inique ",unique_aumphurs)
+
+        return Response({"status": "success", "data": unique_aumphurs})
+

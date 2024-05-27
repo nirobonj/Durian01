@@ -7,11 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:durian_sound/config.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class DisplayNextPage extends StatefulWidget {
   final int predict;
 
-  const DisplayNextPage({Key? key, required this.predict}) : super(key: key);
+  const DisplayNextPage({super.key, required this.predict});
 
   @override
   _DisplayNextPageState createState() => _DisplayNextPageState();
@@ -29,6 +30,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
   @override
   void initState() {
     super.initState();
+    initializeDateFormatting('th_TH');
     predict = widget.predict;
     adsFuture = fetchAds();
     today = DateTime.now();
@@ -70,10 +72,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SettingPage()),
-            );
+            Navigator.pop(context);
           },
         ),
         actions: [
@@ -209,7 +208,6 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
       DateTime currentDate = (i == predict)
           ? today
           : today.add(Duration(hours: (i - predict) * 10));
-      // print(currentDate);
       switch (i) {
         case 1:
           widgets.add(_buildLevelWidget(
@@ -238,7 +236,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         case 4:
           widgets.add(_buildLevelWidget(
             '4',
-            'สุก เนื้อยอดนิยม \nนอกกรอบ ในนุ่ม',
+            'สุก เนื้อยอดนิยม \nกรอบนอก นุ่มใน',
             'assets/image/ระดับ 4.png',
             currentDate,
           ));
@@ -246,7 +244,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         case 5:
           widgets.add(_buildLevelWidget(
             '5',
-            'สุกมาก สุกนุ่มกำลังดี\nเนื้อนิ่มเป็นครีมนุ่มนวล',
+            'สุกมาก สุกกำลังดี\nเนื้อนิ่มเป็นครีมนุ่มนวล',
             'assets/image/ระดับ 5.png',
             currentDate,
           ));
@@ -283,10 +281,11 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
     String imagePath,
     DateTime dateTime,
   ) {
-    String formattedDate = DateFormat('dd MMMM yyyy').format(dateTime);
+    int buddhistYear = dateTime.year + 543;
+    String formattedDateBuddhist = DateFormat('dd MMMM $buddhistYear', 'th_TH').format(dateTime);
     String formattedTime = DateFormat('HH:mm').format(dateTime);
-    String formattedToday = DateFormat('dd MMMM yyyy').format(today);
-
+    String formattedToday = DateFormat('dd MMMM $buddhistYear', 'th_TH').format(today);
+    bool isSameDateDifferentTime = formattedDateBuddhist == formattedToday && dateTime.hour != today.hour;
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       const SizedBox(height: 10),
       Container(
@@ -303,61 +302,49 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (formattedDate == formattedToday)
-              Container(
-                decoration: const BoxDecoration(
-                  color: Color(0xffffea00),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    topRight: Radius.circular(10.0),
-                  ),
+            Container(
+              decoration: const BoxDecoration(
+                color: Color(0xffffea00),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'ความสุกระดับ $predict',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                        color: Colors.black,
-                      ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    (formattedDateBuddhist == formattedToday &&
+                            !isSameDateDifferentTime)
+                        ? 'ความสุกระดับ $predict'
+                        : 'ความสุกระดับ $levelText',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 35,
+                      color: Colors.black,
                     ),
                   ),
                 ),
               ),
-            if (formattedDate != formattedToday)
-              Container(
-                decoration: const BoxDecoration(
-                  color: Color(0xffffea00),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    topRight: Radius.circular(10.0),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'ความสุกระดับ $levelText',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            ),
             const SizedBox(height: 10),
-            Text(
-              '$detail\n',
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.normal,
+            SizedBox(
+              height: 105,
+              width: 350,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 80),
+                  child: Text(
+                    '$detail\n',
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ),
               ),
             ),
             Container(
@@ -381,9 +368,9 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
                     ),
                     child: Center(
                       child: Text(
-                        formattedDate,
+                        formattedDateBuddhist,
                         style: const TextStyle(
-                          fontSize: 25,
+                          fontSize: 24,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
@@ -413,10 +400,10 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
                 ],
               ),
             ),
-            Container(
+            const SizedBox(height: 20),
+            SizedBox(
               width: 150,
               height: 150,
-              color: const Color.fromARGB(255, 147, 147, 147),
               child: Image.asset(imagePath),
             ),
             const SizedBox(height: 30),

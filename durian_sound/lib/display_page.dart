@@ -138,7 +138,7 @@ class _DisplayPageState extends State<DisplayPage>
       setState(() {
         _isRecording = true;
       });
-      _stopRecordingAfter20Seconds();
+      _stopRecordingAfter5Seconds();
     } catch (e) {
       if (kDebugMode) {
         print('Error starting recording: $e');
@@ -146,7 +146,7 @@ class _DisplayPageState extends State<DisplayPage>
     }
   }
 
-  void _stopRecordingAfter20Seconds() {
+  void _stopRecordingAfter5Seconds() {
     Timer(const Duration(seconds: 5), () async {
       if (_isRecording) {
         _stopRecording();
@@ -352,25 +352,102 @@ class _DisplayPageState extends State<DisplayPage>
                               ),
                             ),
                       const SizedBox(height: 50),
-                      const Text(
-                        'กดปุ่ม 1 ครั้ง',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                        ),
-                      ),
-                      const Text(
-                        'เคาะอย่างน้อย 2 ครั้ง',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                        ),
-                      ),
-                      const Text(
-                        'ระยะ 7 เซนติเมตร',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
+                      const Center(
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              WidgetSpan(
+                                child: SizedBox(width: 20),
+                              ),
+                              TextSpan(
+                                text: 'กด',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(width: 45),
+                              ),
+                              TextSpan(
+                                text: '1',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(width: 25),
+                              ),
+                              TextSpan(
+                                text: 'ครั้ง\n',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(width: 20),
+                              ),
+                              TextSpan(
+                                text: 'เคาะ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(width: 30),
+                              ),
+                              TextSpan(
+                                text: '2',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(width: 25),
+                              ),
+                              TextSpan(
+                                text: 'ครั้ง\n',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(width: 20),
+                              ),
+                              TextSpan(
+                                text: 'ระยะ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(width: 25),
+                              ),
+                              TextSpan(
+                                text: '7',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(width: 25),
+                              ),
+                              TextSpan(
+                                text: 'เซนติเมตร\n',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
