@@ -83,7 +83,7 @@ WSGI_APPLICATION = "durianSound.wsgi.application"
 
 # localhost
 
-#use
+# use
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',

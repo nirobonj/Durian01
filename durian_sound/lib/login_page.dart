@@ -139,7 +139,7 @@ class LoginPage extends StatelessWidget {
 
     checkLogin(context);
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       checkLogin(context);
     });
 
