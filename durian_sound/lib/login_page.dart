@@ -53,6 +53,7 @@ class LoginPage extends StatelessWidget {
 
       final url =
           Uri.parse('${AppConfig.connUrl}/duriansound-analyisis/users/login/');
+      // final url = Uri.parse('${AppConfig.connUrl}/users/login/');
 
       try {
         final response = await http.post(
@@ -118,7 +119,7 @@ class LoginPage extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => const SignupPage(isHomePageVisible: true)),
+            builder: (context) => SignupPage(isHomePageVisible: isHomePageVisible)),
       );
     }
 

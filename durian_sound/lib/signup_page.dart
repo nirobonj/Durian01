@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart'; // นำเข้าชุดเครื่องมือเพื่อใช้ TextInputFormatter
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'login_page.dart';
 import 'package:durian_sound/config.dart';
@@ -48,33 +49,10 @@ class _SignupPageState extends State<SignupPage> {
     'น่าน',
     'บึงกาฬ',
     'บุรีรัมย์',
-    'ปทุมธาน',
+    'ปทุมธานี',
     'ประจวบคีรีขันธ์',
     'ปราจีนบุรี',
     'ปัตตานี',
-    'พระนครศรีอยุธยา',
-    'พังงา',
-    'พัทลุง',
-    'พิจิตร',
-    'พิษณุโลก',
-    'เพชรบุรี',
-    'เพชรบูรณ์',
-    'ปทุมธาน',
-    'ประจวบคีรีขันธ์',
-    'ปราจีนบุรี',
-    'ปัตตานี',
-    'พระนครศรีอยุธยา',
-    'พังงา',
-    'พัทลุง',
-    'พิจิตร',
-    'พิษณุโลก',
-    'เพชรบุรี',
-    'เพชรบูรณ์',
-    'ปทุมธาน',
-    'ประจวบคีรีขันธ์',
-    'ปราจีนบุรี',
-    'ปัตตานี',
-    'พระนครศรีอยุธยา',
     'พังงา',
     'พัทลุง',
     'พิจิตร',
@@ -196,12 +174,14 @@ class _SignupPageState extends State<SignupPage> {
     }
   }
 
-  void next(BuildContext context) {
+  Future<void> next(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? isHomePageVisible = prefs.getBool('isHomePageVisible') ?? true;
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => const LoginPage(
-                isHomePageVisible: false,
+          builder: (context) =>  LoginPage(
+                isHomePageVisible: isHomePageVisible,
               )),
     );
   }

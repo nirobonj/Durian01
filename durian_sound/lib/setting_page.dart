@@ -188,7 +188,6 @@ Future<void> _showLogoutConfirmationDialog() async {
                   },
                 ),
                 const Divider(),
-                const Divider(),
                 ListTile(
                   title: const Text('Logout'),
                   onTap: () {
