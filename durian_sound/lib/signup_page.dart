@@ -136,7 +136,8 @@ class _SignupPageState extends State<SignupPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('รหัสผ่านไม่ตรงกัน'),
-            content: const Text('กรุณาใส่รหัสผ่านและการยืนยันรหัสผ่านให้ตรงกัน'),
+            content:
+                const Text('กรุณาใส่รหัสผ่านและการยืนยันรหัสผ่านให้ตรงกัน'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -165,7 +166,7 @@ class _SignupPageState extends State<SignupPage> {
 
     try {
       var response = await http.post(
-        Uri.parse('${AppConfig.connUrl}/users/register/'),
+        Uri.parse('${AppConfig.connUrl}/duriansound-analyisis/users/register/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

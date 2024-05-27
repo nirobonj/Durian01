@@ -51,7 +51,8 @@ class LoginPage extends StatelessWidget {
       String username = usernameController.text;
       String password = passwordController.text;
 
-      final url = Uri.parse('${AppConfig.connUrl}/users/login/');
+      final url =
+          Uri.parse('${AppConfig.connUrl}/duriansound-analyisis/users/login/');
 
       try {
         final response = await http.post(

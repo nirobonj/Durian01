@@ -33,6 +33,50 @@ class _SettingPageState extends State<SettingPage> {
     }
   }
 
+   Future<void> _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    Navigator.pushAndRemoveUntil(
+      context,
+       MaterialPageRoute(
+        builder: (context) => LoginPage(isHomePageVisible: isHomePageVisible ?? true),
+      ),
+      (Route<dynamic> route) => false,
+    );
+  }
+Future<void> _showLogoutConfirmationDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('ยืนยันการออกจากระบบ'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('คุณแน่ใจหรือไม่ที่ต้องการออกจากระบบ?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('ยกเลิก'),
+              onPressed: () {
+                Navigator.of(context).pop(); // ปิดไดอะล็อก
+              },
+            ),
+            TextButton(
+              child: Text('ตกลง'),
+              onPressed: () {
+                Navigator.of(context).pop(); // ปิดไดอะล็อก
+                _logout(); // เรียกใช้เมธอดออกจากระบบ
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,6 +188,16 @@ class _SettingPageState extends State<SettingPage> {
                   },
                 ),
                 const Divider(),
+                const Divider(),
+                ListTile(
+                  title: const Text('Logout'),
+                  onTap: () {
+                    _showLogoutConfirmationDialog();
+                  },
+                  trailing: const Icon(Icons.logout),
+                ),
+                const Divider(),
+                
               ],
             ),
           ),
@@ -152,3 +206,5 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 }
+
+

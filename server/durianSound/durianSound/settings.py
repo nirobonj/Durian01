@@ -83,16 +83,7 @@ WSGI_APPLICATION = "durianSound.wsgi.application"
 
 # localhost
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sounddurian',
-        'USER': 'sound_durian',
-        'PASSWORD': 'sound_durian',
-        'HOST': '203.154.158.79',
-        'PORT': '5432',
-    }
-}
+#use
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -103,6 +94,16 @@ DATABASES = {
 #         'PORT': '5432',
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dbedit',
+        'USER': 'postgres',
+        'PASSWORD': '123456789',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
