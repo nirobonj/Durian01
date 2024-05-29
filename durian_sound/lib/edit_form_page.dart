@@ -24,6 +24,7 @@ class _EditFormPageState extends State<EditFormPage> {
   final TextEditingController _provinceController = TextEditingController();
   final TextEditingController _typesController = TextEditingController();
   final TextEditingController _aumphurController = TextEditingController();
+  final TextEditingController _tumbolController = TextEditingController();
 
   @override
   void initState() {
@@ -34,7 +35,7 @@ class _EditFormPageState extends State<EditFormPage> {
   Future<void> fetchData() async {
     final response = await http.get(
       Uri.parse(
-          '${AppConfig.connUrl}/users/edit/${widget.defaultUsername}'),
+          'https://cb5dhsk3-8000.asse.devtunnels.ms/duriansound-analyisis/users/edit/${widget.defaultUsername}'),
     );
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
@@ -47,6 +48,9 @@ class _EditFormPageState extends State<EditFormPage> {
         _telController.text = userData?['tel'] ?? '';
         _provinceController.text = userData?['province'] ?? '';
         _typesController.text = userData?['types'] ?? '';
+        _aumphurController.text = userData?['pro_aumphur_desc'] ?? '';
+        _tumbolController.text = userData?['pro_tumbol_desc'] ?? '';
+
       });
     } else {
       if (kDebugMode) {
@@ -66,7 +70,7 @@ class _EditFormPageState extends State<EditFormPage> {
   // }
   Future<List<String>> fetchProvinces() async {
     final response = await http.get(Uri.parse(
-        '${AppConfig.connUrl}/users/pro-mstr/'));
+        'https://cb5dhsk3-8000.asse.devtunnels.ms/duriansound-analyisis/users/pro-mstr/'));
     if (response.statusCode == 200) {
       final dynamic data = json.decode(response.body, reviver: (key, value) {
         if (value is String) {
@@ -89,9 +93,117 @@ class _EditFormPageState extends State<EditFormPage> {
     }
   }
 
-  Future<void> saveData() async {
+  // Future<void> saveData() async {
+  //   final url = Uri.parse(
+  //       '${AppConfig.connUrl}/duriansound-analyisis/users/edit/${widget.defaultUsername}');
+  //   try {
+  //     final response = await http.put(
+  //       url,
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json; charset=UTF-8',
+  //       },
+  //       body: jsonEncode(<String, String>{
+  //         'firstname': _firstnameController.text,
+  //         'lastname': _lastnameController.text,
+  //         'tel': _telController.text,
+  //         'province': _provinceController.text,
+  //         'types': _typesController.text,
+  //         'pro_aumphur_desc': _aumphurController.text,
+  //         'pro_tumbol_desc': _tumbolController.text,
+          
+  //       }),
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       showSuccessDialog();
+  //     } else {
+  //       if (kDebugMode) {
+  //         print('Failed to save data.');
+  //       }
+  //     }
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print('Error: $e');
+  //     }
+  //   }
+  // }
+
+  Future<List<String>> fetchAumphurs(String province) async {
+    Uri uri = Uri.parse(
+            'https://cb5dhsk3-8000.asse.devtunnels.ms/duriansound-analyisis/users/pro-mstr/aumphur')
+        .replace(queryParameters: {'pro_province_desc': province});
+    String url = uri.toString();
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final dynamic responseData = json.decode(response.body);
+
+      // ตรวจสอบให้แน่ใจว่า responseData เป็น Map และมีโครงสร้างที่ถูกต้อง
+      if (responseData is Map<String, dynamic> &&
+          responseData['status'] == 'success') {
+        final List<dynamic> data = responseData['data'];
+        if (data is List<dynamic>) {
+          // List<String> aumphurs = data.map((item) => item as String).toList();
+          List<String> aumphurs =
+              data.map((item) => utf8.decode(item.codeUnits)).toList();
+          // print('this is aumphurs: $aumphurs');
+          // print(aumphurs);
+          return aumphurs;
+        } else {
+          // print('$responseData');
+          throw Exception('รูปแบบข้อมูลไม่ถูกต้อง: $responseData');
+        }
+      } else {
+        // print('$responseData');
+        throw Exception('รูปแบบข้อมูลไม่ถูกต้อง: $responseData');
+      }
+    } else {
+      throw Exception('โหลดข้อมูลอำเภอไม่สำเร็จ');
+    }
+  }
+
+  Future<List<String>> fetchTumbols(String aumphur) async {
+    Uri uri = Uri.parse(
+            'https://cb5dhsk3-8000.asse.devtunnels.ms/duriansound-analyisis/users/pro-mstr/tumbol')
+        .replace(queryParameters: {'pro_aumphur_desc': aumphur});
+    String url = uri.toString();
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      // final dynamic responseData = json.decode(response.body);
+      final dynamic responseData = json.decode(utf8.decode(response.bodyBytes));
+
+      if (responseData is Map<String, dynamic> &&
+          responseData['status'] == 'success') {
+        final List<dynamic> data = responseData['data'];
+
+        if (data is List<dynamic>) {
+          // แปลงข้อมูลใน list ให้เป็น list ของ String
+          List<String> tumbols = data
+              .expand((item) => (item['pro_tumbol_desc'] as String).split(","))
+              .map((tumbol) => tumbol.trim())
+              .toList();
+
+          // print(tumbols);
+          // print('this is tumbol: $tumbols');
+          return tumbols;
+        } else {
+          print('$responseData');
+          throw Exception('รูปแบบข้อมูลไม่ถูกต้อง: $responseData');
+        }
+      } else {
+        // print('$responseData');
+        throw Exception('รูปแบบข้อมูลไม่ถูกต้อง: $responseData');
+      }
+    } else {
+      throw Exception('โหลดข้อมูลตำบลไม่สำเร็จ');
+    }
+  }
+Future<void> saveData() async {
     final url = Uri.parse(
-        '${AppConfig.connUrl}/users/edit/${widget.defaultUsername}');
+        'https://cb5dhsk3-8000.asse.devtunnels.ms/duriansound-analyisis/users/edit/${widget.defaultUsername}');
     try {
       final response = await http.put(
         url,
@@ -104,9 +216,16 @@ class _EditFormPageState extends State<EditFormPage> {
           'tel': _telController.text,
           'province': _provinceController.text,
           'types': _typesController.text,
+          'pro_aumphur_desc': _aumphurController.text,
+          'pro_tumbol_desc': _tumbolController.text,
+          
         }),
+        
       );
+      print("_aumphurController savedata: ${_aumphurController.text}");
+      print("_tumbolController savedata: ${_tumbolController.text}");
 
+    
       if (response.statusCode == 200) {
         showSuccessDialog();
       } else {
@@ -120,35 +239,6 @@ class _EditFormPageState extends State<EditFormPage> {
       }
     }
   }
-
-  Future<List<String>> fetchAumphurs(String province) async {
-    // Uri uri = Uri.parse(
-    //         '${AppConfig.connUrl}/duriansound-analyisis/users/pro-mstr/aumphur')
-    Uri uri = Uri.parse('${AppConfig.connUrl}/users/pro-mstr/aumphur')
-        .replace(queryParameters: {'pro_province_desc': province});
-    String url = uri.toString();
-
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      final dynamic responseData = json.decode(response.body);
-
-      // ตรวจสอบให้แน่ใจว่า responseData เป็น Map และมีโครงสร้างที่ถูกต้อง
-      if (responseData is Map<String, dynamic> &&
-          responseData['status'] == 'success') {
-        final List<dynamic> data = responseData['data'];
-        List<String> aumphurs = data.map((item) => item as String).toList();
-        print(aumphurs);
-        return aumphurs;
-            } else {
-        print('$responseData');
-        throw Exception('รูปแบบข้อมูลไม่ถูกต้อง: $responseData');
-      }
-    } else {
-      throw Exception('โหลดข้อมูลจังหวัดไม่สำเร็จ');
-    }
-  }
-
   void showSuccessDialog() {
     showDialog(
       context: context,
@@ -182,6 +272,7 @@ class _EditFormPageState extends State<EditFormPage> {
     _provinceController.dispose();
     _typesController.dispose();
     _aumphurController.dispose();
+    _tumbolController.dispose();
     super.dispose();
   }
 
@@ -204,7 +295,7 @@ class _EditFormPageState extends State<EditFormPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: 220,
+                    width: 270,
                     height: 50,
                     child: TextFormField(
                       controller: _usernameController,
@@ -222,7 +313,7 @@ class _EditFormPageState extends State<EditFormPage> {
                   ),
                   const SizedBox(height: 10),
                   SizedBox(
-                    width: 220,
+                    width: 270,
                     height: 50,
                     child: TextFormField(
                       controller: _firstnameController,
@@ -238,7 +329,7 @@ class _EditFormPageState extends State<EditFormPage> {
                   ),
                   const SizedBox(height: 10),
                   SizedBox(
-                    width: 220,
+                    width: 270,
                     height: 50,
                     child: TextFormField(
                       controller: _lastnameController,
@@ -254,7 +345,7 @@ class _EditFormPageState extends State<EditFormPage> {
                   ),
                   const SizedBox(height: 10),
                   SizedBox(
-                    width: 220,
+                    width: 270,
                     height: 50,
                     child: TextFormField(
                       controller: _telController,
@@ -273,8 +364,9 @@ class _EditFormPageState extends State<EditFormPage> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 10),
                   SizedBox(
-                    width: 220,
+                    width: 270,
                     height: 65,
                     child: FutureBuilder<List<String>>(
                       future: fetchProvinces(),
@@ -286,7 +378,7 @@ class _EditFormPageState extends State<EditFormPage> {
                               setState(() {
                                 _provinceController.text = value!;
                                 fetchAumphurs(
-                                    value); // เรียกใช้เมท็อด fetchAumphurs เมื่อมีการเปลี่ยนแปลงค่าจังหวัด
+                                    value!); // เรียกใช้เมท็อด fetchAumphurs เมื่อมีการเปลี่ยนแปลงค่าจังหวัด
                               });
                             },
                             items: snapshot.data!
@@ -311,8 +403,9 @@ class _EditFormPageState extends State<EditFormPage> {
                       },
                     ),
                   ),
+                  const SizedBox(height: 10),
                   SizedBox(
-                    width: 220,
+                    width: 270,
                     height: 65,
                     child: FutureBuilder<List<String>>(
                       future: fetchAumphurs(_provinceController.text),
@@ -332,6 +425,7 @@ class _EditFormPageState extends State<EditFormPage> {
                                   .contains(_aumphurController.text)) {
                             _aumphurController.text =
                                 ''; // หรือค่าเริ่มต้นที่ต้องการ
+                            // print(_aumphurController);
                           }
 
                           return DropdownButtonFormField<String>(
@@ -341,7 +435,13 @@ class _EditFormPageState extends State<EditFormPage> {
                             onChanged: (String? value) {
                               setState(() {
                                 _aumphurController.text = value!;
+                                fetchTumbols(_aumphurController.text);
+                                
+                                print("VALUE: $value");
+                                print(
+                                    "_aumphurController: ${_aumphurController.text}");
                               });
+                             
                             },
                             items: snapshot.data!
                                 .map<DropdownMenuItem<String>>((String value) {
@@ -349,9 +449,6 @@ class _EditFormPageState extends State<EditFormPage> {
                                 value: value,
                                 child: Text(
                                   value,
-                                  style: TextStyle(
-                                      fontFamily:
-                                          'Sarabun'), // ใช้ฟอนต์ที่รองรับภาษาไทย
                                 ),
                               );
                             }).toList(),
@@ -367,7 +464,66 @@ class _EditFormPageState extends State<EditFormPage> {
                       },
                     ),
                   ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: 270,
+                    height: 65,
+                    child: FutureBuilder<List<String>>(
+                      future: fetchTumbols(_aumphurController.text),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          print('เกิดข้อผิดพลาด: ${snapshot.error}');
+                          return Text('เกิดข้อผิดพลาด: ${snapshot.error}');
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return Text('ไม่มีข้อมูล');
+                        } else {
+                          // ตรวจสอบให้แน่ใจว่าค่าเริ่มต้นอยู่ในรายการ
+                          print('tumbols: ${snapshot.data}');
+                          if (!_tumbolController.text.isEmpty &&
+                              !snapshot.data!
+                                  .contains(_tumbolController.text)) {
+                            _tumbolController.text =
+                                ''; // หรือค่าเริ่มต้นที่ต้องการ
+                            print(
+                                "_tumbolController: ${_tumbolController.text}");
+                            print(snapshot.data.runtimeType);
+                          }
 
+                          return DropdownButtonFormField<String>(
+                            value: _tumbolController.text.isNotEmpty &&
+                                    snapshot.data!
+                                        .contains(_tumbolController.text)
+                                ? _tumbolController.text
+                                : null,
+                            onChanged: (String? value) {
+                              setState(() {
+                                _tumbolController.text = value!;
+                              });
+                            },
+                            items: snapshot.data!
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            hint: const Text('เลือกตำบล'),
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              fillColor: Colors.white,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  
                   // const SizedBox(height: 10),
                   // SizedBox(
                   //   width: 220,
@@ -408,7 +564,7 @@ class _EditFormPageState extends State<EditFormPage> {
                   // ),
                   const SizedBox(height: 10),
                   SizedBox(
-                    width: 220,
+                    width: 270,
                     height: 65,
                     child: DropdownButtonFormField<String>(
                       value: _typesController.text,
@@ -435,7 +591,7 @@ class _EditFormPageState extends State<EditFormPage> {
                   ),
                   const SizedBox(height: 20),
                   SizedBox(
-                    width: 220,
+                    width: 270,
                     height: 50,
                     child: ElevatedButton(
                       onPressed: saveData, // Pass context here

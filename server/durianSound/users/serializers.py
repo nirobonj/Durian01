@@ -24,3 +24,8 @@ class PromstrSerializer(serializers.ModelSerializer):
     class Meta:
         model = PRO_MSTR
         fields = '__all__'
+class ProTumbolSerializer(serializers.Serializer):
+    pro_aumphur_code = serializers.CharField()
+    pro_aumphur_desc = serializers.CharField()
+    pro_tumbol_desc = serializers.ListField(child=serializers.CharField())
+    # pro_tumbol_desc = serializers.CharField()

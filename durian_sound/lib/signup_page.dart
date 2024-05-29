@@ -204,7 +204,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 220,
+              width: 270,
               height: 50,
               child: TextField(
                 controller: _firstnameController,
@@ -221,7 +221,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 220,
+              width: 270,
               height: 50,
               child: TextField(
                 controller: _lastnameController,
@@ -238,7 +238,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 220,
+              width: 270,
               height: 50,
               child: TextField(
                 controller: _usernameController,
@@ -255,7 +255,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 220,
+              width: 270,
               height: 50,
               child: TextField(
                 obscureText: true,
@@ -273,7 +273,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 220,
+              width: 270,
               height: 50,
               child: TextField(
                 obscureText: true,
@@ -291,7 +291,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 220,
+              width: 270,
               height: 50,
               child: TextField(
                 controller: _phoneController,
@@ -312,7 +312,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 220,
+              width: 270,
               height: 65,
               child: DropdownButtonFormField<String>(
                 value: _selectedProvince,
@@ -338,7 +338,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 220,
+              width: 20,
               height: 65,
               child: DropdownButtonFormField<String>(
                 value: _selectedType,
