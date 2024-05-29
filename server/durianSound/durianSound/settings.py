@@ -97,9 +97,9 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'durianDB',
-#         'USER': 'postgres',
-#         'PASSWORD': '123456',
+#         'NAME': 'collectData',
+#         'USER': 'bew',
+#         'PASSWORD': 'admin123',
 #         'HOST': 'localhost',
 #         'PORT': '5432',
 #     }

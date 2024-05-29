@@ -167,7 +167,6 @@ class _DisplayPageState extends State<DisplayPage>
         print(fileName);
       }
       String filePath = '$_audioFilePath$fileName';
-
       var url = Uri.parse('${AppConfig.connUrl}/sounds/predict/');
       var request = http.MultipartRequest('POST', url)
         ..files.add(http.MultipartFile.fromBytes(

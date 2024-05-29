@@ -34,8 +34,7 @@ class _EditFormPageState extends State<EditFormPage> {
 
   Future<void> fetchData() async {
     final response = await http.get(
-      Uri.parse(
-          'https://cb5dhsk3-8000.asse.devtunnels.ms/duriansound-analyisis/users/edit/${widget.defaultUsername}'),
+      Uri.parse('${AppConfig.connUrl}/users/edit/${widget.defaultUsername}'),
     );
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
@@ -50,7 +49,6 @@ class _EditFormPageState extends State<EditFormPage> {
         _typesController.text = userData?['types'] ?? '';
         _aumphurController.text = userData?['pro_aumphur_desc'] ?? '';
         _tumbolController.text = userData?['pro_tumbol_desc'] ?? '';
-
       });
     } else {
       if (kDebugMode) {
@@ -60,8 +58,8 @@ class _EditFormPageState extends State<EditFormPage> {
   }
 
   Future<List<String>> fetchProvinces() async {
-    final response = await http.get(Uri.parse(
-        '${AppConfig.connUrl}/users/pro-mstr/'));
+    final response =
+        await http.get(Uri.parse('${AppConfig.connUrl}/users/pro-mstr/'));
     if (response.statusCode == 200) {
       final dynamic data = json.decode(response.body, reviver: (key, value) {
         if (value is String) {
@@ -85,8 +83,7 @@ class _EditFormPageState extends State<EditFormPage> {
   }
 
   Future<List<String>> fetchAumphurs(String province) async {
-    Uri uri = Uri.parse(
-            '${AppConfig.connUrl}/users/pro-mstr/aumphur')
+    Uri uri = Uri.parse('${AppConfig.connUrl}/users/pro-mstr/aumphur')
         .replace(queryParameters: {'pro_province_desc': province});
     String url = uri.toString();
 
@@ -120,8 +117,7 @@ class _EditFormPageState extends State<EditFormPage> {
   }
 
   Future<List<String>> fetchTumbols(String aumphur) async {
-    Uri uri = Uri.parse(
-            '${AppConfig.connUrl}/users/pro-mstr/tumbol')
+    Uri uri = Uri.parse('${AppConfig.connUrl}/users/pro-mstr/tumbol')
         .replace(queryParameters: {'pro_aumphur_desc': aumphur});
     String url = uri.toString();
 
@@ -157,9 +153,10 @@ class _EditFormPageState extends State<EditFormPage> {
       throw Exception('โหลดข้อมูลตำบลไม่สำเร็จ');
     }
   }
-Future<void> saveData() async {
-    final url = Uri.parse(
-        '${AppConfig.connUrl}/users/edit/${widget.defaultUsername}');
+
+  Future<void> saveData() async {
+    final url =
+        Uri.parse('${AppConfig.connUrl}/users/edit/${widget.defaultUsername}');
     try {
       final response = await http.put(
         url,
@@ -174,14 +171,11 @@ Future<void> saveData() async {
           'types': _typesController.text,
           'pro_aumphur_desc': _aumphurController.text,
           'pro_tumbol_desc': _tumbolController.text,
-          
         }),
-        
       );
       print("_aumphurController savedata: ${_aumphurController.text}");
       print("_tumbolController savedata: ${_tumbolController.text}");
 
-    
       if (response.statusCode == 200) {
         showSuccessDialog();
       } else {
@@ -195,6 +189,7 @@ Future<void> saveData() async {
       }
     }
   }
+
   void showSuccessDialog() {
     showDialog(
       context: context,
@@ -391,12 +386,11 @@ Future<void> saveData() async {
                               setState(() {
                                 _aumphurController.text = value!;
                                 fetchTumbols(_aumphurController.text);
-                                
+
                                 print("VALUE: $value");
                                 print(
                                     "_aumphurController: ${_aumphurController.text}");
                               });
-                             
                             },
                             items: snapshot.data!
                                 .map<DropdownMenuItem<String>>((String value) {
@@ -440,7 +434,7 @@ Future<void> saveData() async {
                           if (!_tumbolController.text.isEmpty &&
                               !snapshot.data!
                                   .contains(_tumbolController.text)) {
-                            _tumbolController.text = ''; 
+                            _tumbolController.text = '';
                             print(
                                 "_tumbolController: ${_tumbolController.text}");
                             print(snapshot.data.runtimeType);

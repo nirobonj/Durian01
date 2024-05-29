@@ -1,7 +1,8 @@
 # C:\xampp\htdocs\Durian01\server\durianSound\users\urls.py
 from django.urls import path
-from .views import UsersViewset, LoginViewset, EditViewset,PromstrListView,ProAumphurDescAPIView,ProTumbolDescAPIView
+from .views import UsersViewset, LoginViewset, EditViewset, PromstrListView, ProAumphurDescAPIView, ProTumbolDescAPIView
 # from .views import register_user
+from . import views
 urlpatterns = [
     path('register/', UsersViewset.as_view()),
     path('register/<int:id>', UsersViewset.as_view()),

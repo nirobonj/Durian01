@@ -10,7 +10,6 @@ import 'display_page.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
 
@@ -62,9 +61,9 @@ class _SettingPageState extends State<SettingPage> {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, String>{
-        'login_username': username,
-        'login_password': password,
-      }),
+          'login_username': username,
+          'login_password': password,
+        }),
       );
       print(response.statusCode);
       if (response.statusCode == 200) {
@@ -91,6 +90,19 @@ class _SettingPageState extends State<SettingPage> {
     }
   }
 
+  // Future<void> _logout() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.clear();
+  //   Navigator.pushAndRemoveUntil(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) =>
+  //           LoginPage(isHomePageVisible: isHomePageVisible ?? true),
+  //     ),
+  //     (Route<dynamic> route) => false,
+  //   );
+  // }
+
   void _showErrorDialog(String message) {
     showDialog<void>(
       context: context,
@@ -110,6 +122,7 @@ class _SettingPageState extends State<SettingPage> {
       },
     );
   }
+
   Future<void> _showLogoutConfirmationDialog() async {
     return showDialog<void>(
       context: context,
@@ -128,14 +141,14 @@ class _SettingPageState extends State<SettingPage> {
             TextButton(
               child: const Text('ยกเลิก'),
               onPressed: () {
-                Navigator.of(context).pop(); 
+                Navigator.of(context).pop();
               },
             ),
             TextButton(
               child: const Text('ตกลง'),
               onPressed: () {
-                Navigator.of(context).pop(); 
-                _logout(); 
+                Navigator.of(context).pop();
+                _logout();
               },
             ),
           ],
