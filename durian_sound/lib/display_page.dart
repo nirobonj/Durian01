@@ -168,7 +168,7 @@ class _DisplayPageState extends State<DisplayPage>
       }
       String filePath = '$_audioFilePath$fileName';
 
-      var url = Uri.parse('https://cb5dhsk3-8000.asse.devtunnels.ms/duriansound-analyisis/sounds/predict/');
+      var url = Uri.parse('${AppConfig.connUrl}/sounds/predict/');
       var request = http.MultipartRequest('POST', url)
         ..files.add(http.MultipartFile.fromBytes(
             'audio', File(filePath).readAsBytesSync(),
