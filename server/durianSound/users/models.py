@@ -67,6 +67,7 @@ class PRO_MSTR(models.Model):
     pro_aumphur_code = models.CharField(max_length=50)
     pro_aumphur_desc = models.CharField(max_length=100)
     pro_code = models.CharField(max_length=30)
+    # pro_country = models.CharField(max_length=50,default='TH')
 
 
 class Addresses(models.Model):
