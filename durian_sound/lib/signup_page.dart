@@ -1,7 +1,6 @@
-import 'package:flutter/services.dart'; // นำเข้าชุดเครื่องมือเพื่อใช้ TextInputFormatter
+import 'package:flutter/services.dart'; 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'login_page.dart';
 import 'package:durian_sound/config.dart';
@@ -19,93 +18,35 @@ class _SignupPageState extends State<SignupPage> {
   String? _selectedType;
 
   final List<String> type = ['ล้ง', 'ผู้บริโภค', 'ผู้ขาย', 'ชาวสวน'];
-  final List<String> provinces = [
-    'กรุงเทพมหานคร',
-    'กระบี่',
-    'กาญจนบุรี',
-    'ปทุมธานี',
-    'กาฬสินธุ์',
-    'กำแพงเพชร',
-    'ขอนแก่น',
-    'จันทบุรี',
-    'ฉะเชิงเทรา',
-    'ชลบุรี',
-    'ชัยนาท',
-    'ชัยภูมิ',
-    'ชุมพร',
-    'เชียงราย',
-    'เชียงใหม่',
-    'ตรัง',
-    'ตราด',
-    'ตาก',
-    'นครนายก',
-    'นครปฐม',
-    'นครพนม',
-    'นครราชสีมา',
-    'นครศรีธรรมราช',
-    'นครสวรรค์',
-    'นนทบุรี',
-    'นราธิวาส',
-    'น่าน',
-    'บึงกาฬ',
-    'บุรีรัมย์',
-    'ปทุมธานี',
-    'ประจวบคีรีขันธ์',
-    'ปราจีนบุรี',
-    'ปัตตานี',
-    'พังงา',
-    'พัทลุง',
-    'พิจิตร',
-    'พิษณุโลก',
-    'เพชรบุรี',
-    'เพชรบูรณ์',
-    'แพร่',
-    'พะเยา',
-    'ภูเก็ต',
-    'มหาสารคาม',
-    'มุกดาหาร',
-    'แม่ฮ่องสอน',
-    'ยะลา',
-    'ยโสธร',
-    'ร้อยเอ็ด',
-    'ระนอง',
-    'ระยอง',
-    'ราชบุรี',
-    'ลพบุรี',
-    'ลำปาง',
-    'ลำพูน',
-    'เลย',
-    'ศรีสะเกษ',
-    'สกลนคร',
-    'สงขลา',
-    'สตูล',
-    'สมุทรปราการ',
-    'สมุทรสงคราม',
-    'สมุทรสาคร',
-    'สระแก้ว',
-    'สระบุรี',
-    'สิงห์บุรี',
-    'สุโขทัย',
-    'สุพรรณบุรี',
-    'สุราษฎร์ธานี',
-    'สุรินทร์',
-    'หนองคาย',
-    'หนองบัวลำภู',
-    'อ่างทอง',
-    'อุดรธานี',
-    'อุทัยธานี',
-    'อุตรดิตถ์',
-    'อุบลราชธานี',
-    'อำนาจเจริญ',
-  ];
 
   final TextEditingController _firstnameController = TextEditingController();
   final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _provinceController = TextEditingController();
+
+  Future<List<String>> fetchProvinces() async {
+    final response = await http.get(Uri.parse('${AppConfig.connUrl}/users/pro-mstr/'));
+    if (response.statusCode == 200) {
+      final dynamic data = json.decode(response.body, reviver: (key, value) {
+        if (value is String) {
+          return utf8.decode(value.runes.toList());
+        }
+        return value;
+      });
+
+      if (data is Map<String, dynamic> && data.containsKey('province_descs') && data['province_descs'] is List<dynamic>) {
+        final provinces = data['province_descs'] as List<dynamic>;
+        return provinces.map((province) => province as String).toList();
+      } else {
+        throw Exception('Invalid data format');
+      }
+    } else {
+      throw Exception('Failed to load provinces');
+    }
+  }
 
   void _sendDataToServer() async {
     if (_passwordController.text != _confirmPasswordController.text) {
@@ -114,12 +55,11 @@ class _SignupPageState extends State<SignupPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('รหัสผ่านไม่ตรงกัน'),
-            content:
-                const Text('กรุณาใส่รหัสผ่านและการยืนยันรหัสผ่านให้ตรงกัน'),
+            content: const Text('กรุณาใส่รหัสผ่านและการยืนยันรหัสผ่านให้ตรงกัน'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // ปิด dialog
+                  Navigator.of(context).pop(); 
                 },
                 child: const Text('ตกลง'),
               ),
@@ -127,14 +67,14 @@ class _SignupPageState extends State<SignupPage> {
           );
         },
       );
-      return; // ออกจากฟังก์ชัน
+      return;
     }
 
     Map<String, dynamic> data = {
       'register_fname': _firstnameController.text,
       'register_lname': _lastnameController.text,
       'register_tel': _phoneController.text,
-      'register_province': _selectedProvince,
+      'register_province': _provinceController.text,
       'register_types': _selectedType,
       'register_username': _usernameController.text,
       'register_password': _passwordController.text,
@@ -174,15 +114,14 @@ class _SignupPageState extends State<SignupPage> {
     }
   }
 
-  Future<void> next(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? isHomePageVisible = prefs.getBool('isHomePageVisible') ?? true;
+  void next(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) =>  LoginPage(
-                isHomePageVisible: isHomePageVisible,
-              )),
+        builder: (context) => const LoginPage(
+          isHomePageVisible: false,
+        ),
+      ),
     );
   }
 
@@ -204,7 +143,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 270,
+              width: 220,
               height: 50,
               child: TextField(
                 controller: _firstnameController,
@@ -221,7 +160,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 270,
+              width: 220,
               height: 50,
               child: TextField(
                 controller: _lastnameController,
@@ -238,7 +177,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 270,
+              width: 220,
               height: 50,
               child: TextField(
                 controller: _usernameController,
@@ -255,7 +194,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 270,
+              width: 220,
               height: 50,
               child: TextField(
                 obscureText: true,
@@ -273,7 +212,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 270,
+              width: 220,
               height: 50,
               child: TextField(
                 obscureText: true,
@@ -291,7 +230,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 270,
+              width: 220,
               height: 50,
               child: TextField(
                 controller: _phoneController,
@@ -312,33 +251,49 @@ class _SignupPageState extends State<SignupPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 270,
+              width: 220,
               height: 65,
-              child: DropdownButtonFormField<String>(
-                value: _selectedProvince,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedProvince = newValue;
-                  });
+              child: FutureBuilder<List<String>>(
+                future: fetchProvinces(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (_selectedProvince == null && snapshot.data!.isNotEmpty) {
+                      _selectedProvince = snapshot.data!.first;
+                    }
+
+                    return DropdownButtonFormField<String>(
+                      value: _selectedProvince,
+                      onChanged: (String? value) {
+                        setState(() {
+                          _selectedProvince = value;
+                          _provinceController.text = value!;
+                        });
+                      },
+                      items: snapshot.data!
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      hint: const Text('เลือกจังหวัด'),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        fillColor: Colors.white,
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+                  return CircularProgressIndicator(); 
                 },
-                items: provinces.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                hint: const Text('เลือกจังหวัด'),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  fillColor: Colors.white,
-                ),
               ),
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: 20,
+              width: 220,
               height: 65,
               child: DropdownButtonFormField<String>(
                 value: _selectedType,

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:durian_sound/edit_form_page.dart';
 import 'package:durian_sound/login_page.dart';
 import 'package:flutter/foundation.dart';
@@ -10,7 +9,7 @@ import 'config.dart';
 import 'display_page.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:durian_sound/edit_form_page2.dart';
+
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -58,8 +57,7 @@ class _SettingPageState extends State<SettingPage> {
     String password = prefs.getString('password') ?? '';
     try {
       final response = await http.post(
-        // Uri.parse('${AppConfig.connUrl}/users/logout/'),
-        Uri.parse('https://cb5dhsk3-8000.asse.devtunnels.ms/duriansound-analyisis/users/logout/'),
+        Uri.parse('${AppConfig.connUrl}/users/logout/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -92,17 +90,6 @@ class _SettingPageState extends State<SettingPage> {
       _showErrorDialog('An error occurred: $e');
     }
   }
-  //  Future<void> _logout() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   await prefs.clear();
-  //   Navigator.pushAndRemoveUntil(
-  //     context,
-  //      MaterialPageRoute(
-  //       builder: (context) => LoginPage(isHomePageVisible: isHomePageVisible ?? true),
-  //     ),
-  //     (Route<dynamic> route) => false,
-  //   );
-  // }
 
   void _showErrorDialog(String message) {
     showDialog<void>(
@@ -141,14 +128,14 @@ class _SettingPageState extends State<SettingPage> {
             TextButton(
               child: const Text('ยกเลิก'),
               onPressed: () {
-                Navigator.of(context).pop(); // ปิดไดอะล็อก
+                Navigator.of(context).pop(); 
               },
             ),
             TextButton(
               child: const Text('ตกลง'),
               onPressed: () {
-                Navigator.of(context).pop(); // ปิดไดอะล็อก
-                _logout(); // เรียกใช้เมธอดออกจากระบบ
+                Navigator.of(context).pop(); 
+                _logout(); 
               },
             ),
           ],

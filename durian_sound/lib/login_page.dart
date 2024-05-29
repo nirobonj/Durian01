@@ -52,7 +52,7 @@ class LoginPage extends StatelessWidget {
       String password = passwordController.text;
 
       // final url = Uri.parse('${AppConfig.connUrl}/users/login/');
-      final url = Uri.parse('https://cb5dhsk3-8000.asse.devtunnels.ms/duriansound-analyisis/users/login/');
+      final url = Uri.parse('${AppConfig.connUrl}/users/login/');
 
       try {
         final response = await http.post(

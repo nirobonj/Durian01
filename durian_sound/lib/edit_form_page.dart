@@ -59,18 +59,9 @@ class _EditFormPageState extends State<EditFormPage> {
     }
   }
 
-  // Future<List<String>> fetchProvinces() async {
-  //   final response = await http.get(Uri.parse('${AppConfig.connUrl}/duriansound-analyisis/users/pro-mstr/'));
-  //   if (response.statusCode == 200) {
-  //     final List<dynamic> data = json.decode(response.body);
-  //     return data.map((province) => province['name'] as String).toList();
-  //   } else {
-  //     throw Exception('Failed to load provinces');
-  //   }
-  // }
   Future<List<String>> fetchProvinces() async {
     final response = await http.get(Uri.parse(
-        'https://cb5dhsk3-8000.asse.devtunnels.ms/duriansound-analyisis/users/pro-mstr/'));
+        '${AppConfig.connUrl}/users/pro-mstr/'));
     if (response.statusCode == 200) {
       final dynamic data = json.decode(response.body, reviver: (key, value) {
         if (value is String) {
@@ -93,44 +84,9 @@ class _EditFormPageState extends State<EditFormPage> {
     }
   }
 
-  // Future<void> saveData() async {
-  //   final url = Uri.parse(
-  //       '${AppConfig.connUrl}/duriansound-analyisis/users/edit/${widget.defaultUsername}');
-  //   try {
-  //     final response = await http.put(
-  //       url,
-  //       headers: <String, String>{
-  //         'Content-Type': 'application/json; charset=UTF-8',
-  //       },
-  //       body: jsonEncode(<String, String>{
-  //         'firstname': _firstnameController.text,
-  //         'lastname': _lastnameController.text,
-  //         'tel': _telController.text,
-  //         'province': _provinceController.text,
-  //         'types': _typesController.text,
-  //         'pro_aumphur_desc': _aumphurController.text,
-  //         'pro_tumbol_desc': _tumbolController.text,
-          
-  //       }),
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       showSuccessDialog();
-  //     } else {
-  //       if (kDebugMode) {
-  //         print('Failed to save data.');
-  //       }
-  //     }
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       print('Error: $e');
-  //     }
-  //   }
-  // }
-
   Future<List<String>> fetchAumphurs(String province) async {
     Uri uri = Uri.parse(
-            'https://cb5dhsk3-8000.asse.devtunnels.ms/duriansound-analyisis/users/pro-mstr/aumphur')
+            '${AppConfig.connUrl}/users/pro-mstr/aumphur')
         .replace(queryParameters: {'pro_province_desc': province});
     String url = uri.toString();
 
@@ -165,7 +121,7 @@ class _EditFormPageState extends State<EditFormPage> {
 
   Future<List<String>> fetchTumbols(String aumphur) async {
     Uri uri = Uri.parse(
-            'https://cb5dhsk3-8000.asse.devtunnels.ms/duriansound-analyisis/users/pro-mstr/tumbol')
+            '${AppConfig.connUrl}/users/pro-mstr/tumbol')
         .replace(queryParameters: {'pro_aumphur_desc': aumphur});
     String url = uri.toString();
 
@@ -203,7 +159,7 @@ class _EditFormPageState extends State<EditFormPage> {
   }
 Future<void> saveData() async {
     final url = Uri.parse(
-        'https://cb5dhsk3-8000.asse.devtunnels.ms/duriansound-analyisis/users/edit/${widget.defaultUsername}');
+        '${AppConfig.connUrl}/users/edit/${widget.defaultUsername}');
     try {
       final response = await http.put(
         url,
@@ -419,7 +375,6 @@ Future<void> saveData() async {
                             snapshot.data!.isEmpty) {
                           return Text('ไม่มีข้อมูล');
                         } else {
-                          // ตรวจสอบให้แน่ใจว่าค่าเริ่มต้นอยู่ในรายการ
                           if (!_aumphurController.text.isEmpty &&
                               !snapshot.data!
                                   .contains(_aumphurController.text)) {
@@ -481,13 +436,11 @@ Future<void> saveData() async {
                             snapshot.data!.isEmpty) {
                           return Text('ไม่มีข้อมูล');
                         } else {
-                          // ตรวจสอบให้แน่ใจว่าค่าเริ่มต้นอยู่ในรายการ
                           print('tumbols: ${snapshot.data}');
                           if (!_tumbolController.text.isEmpty &&
                               !snapshot.data!
                                   .contains(_tumbolController.text)) {
-                            _tumbolController.text =
-                                ''; // หรือค่าเริ่มต้นที่ต้องการ
+                            _tumbolController.text = ''; 
                             print(
                                 "_tumbolController: ${_tumbolController.text}");
                             print(snapshot.data.runtimeType);
@@ -523,45 +476,6 @@ Future<void> saveData() async {
                       },
                     ),
                   ),
-                  
-                  // const SizedBox(height: 10),
-                  // SizedBox(
-                  //   width: 220,
-                  //   height: 65,
-                  //   child: DropdownButtonFormField<String>(
-                  //     value: _provinceController.text,
-                  //     onChanged: (String? value) {
-                  //       setState(() {
-                  //         _provinceController.text = value!;
-                  //       });
-                  //     },
-                  //     items: <String>[
-                  //     'กรุงเทพมหานคร','กระบี่','กาญจนบุรี','ปทุมธานี','กาฬสินธุ์','กำแพงเพชร',
-                  //     'ขอนแก่น','จันทบุรี','ฉะเชิงเทรา','ชลบุรี','ชัยนาท','ชัยภูมิ','ชุมพร','เชียงราย',
-                  //     'เชียงใหม่','ตรัง','ตราด','ตาก','นครนายก','นครปฐม','นครพนม','นครราชสีมา',
-                  //     'นครศรีธรรมราช','นครสวรรค์','นนทบุรี','นราธิวาส','น่าน','บึงกาฬ','บุรีรัมย์',
-                  //     'ปทุมธานี','ประจวบคีรีขันธ์','ปราจีนบุรี','ปัตตานี','พังงา','พัทลุง','พิจิตร',
-                  //     'พิษณุโลก','เพชรบุรี','เพชรบูรณ์','แพร่','พะเยา','ภูเก็ต','มหาสารคาม',
-                  //     'มุกดาหาร','แม่ฮ่องสอน','ยะลา','ยโสธร','ร้อยเอ็ด','ระนอง','ระยอง','ราชบุรี',
-                  //     'ลพบุรี','ลำปาง','ลำพูน','เลย','ศรีสะเกษ','สกลนคร','สงขลา','สตูล',
-                  //     'สมุทรปราการ','สมุทรสงคราม','สมุทรสาคร','สระแก้ว','สระบุรี','สิงห์บุรี',
-                  //     'สุโขทัย','สุพรรณบุรี','สุราษฎร์ธานี','สุรินทร์','หนองคาย','หนองบัวลำภู',
-                  //     'อ่างทอง','อุดรธานี','อุทัยธานี','อุตรดิตถ์','อุบลราชธานี','อำนาจเจริญ',
-                  //   ].map<DropdownMenuItem<String>>((String value) {
-                  //       return DropdownMenuItem<String>(
-                  //         value: value,
-                  //         child: Text(value),
-                  //       );
-                  //     }).toList(),
-                  //     hint: const Text('เลือกจังหวัด'),
-                  //     decoration: InputDecoration(
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(4),
-                  //       ),
-                  //       fillColor: Colors.white,
-                  //     ),
-                  //   ),
-                  // ),
                   const SizedBox(height: 10),
                   SizedBox(
                     width: 270,
