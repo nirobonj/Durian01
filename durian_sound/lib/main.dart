@@ -1,4 +1,3 @@
-import 'display_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'login_page.dart';
@@ -30,7 +29,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _loadIsHomePageVisible() async {
-    // ทำการ delay 5 วินาที
     await Future.delayed(const Duration(seconds: 8));
     setState(() {
       _isLoading = false;
@@ -45,7 +43,6 @@ class _MyAppState extends State<MyApp> {
     String username = prefs.getString('username') ?? '';
     String password = prefs.getString('password') ?? '';
 
-    // Set user data in UserController
     final userController = Get.find<UserController>();
     userController.setUsername(username);
     userController.setPassword(password);

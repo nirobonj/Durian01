@@ -27,7 +27,6 @@ class HomePage extends StatelessWidget {
           controller: _scrollController,
           child: Center(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 30),
                 const Text(
@@ -70,7 +69,6 @@ class HomePage extends StatelessWidget {
                         ),
                         Expanded(
                           child: Column(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(height: 40),
                               const SizedBox(

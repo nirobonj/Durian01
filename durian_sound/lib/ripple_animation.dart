@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class RippleAnimation extends StatefulWidget {
-  ///initialize the ripple animation
   const RippleAnimation({
     required this.child,
     this.color = Colors.black,

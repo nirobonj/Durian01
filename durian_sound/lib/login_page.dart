@@ -51,7 +51,6 @@ class LoginPage extends StatelessWidget {
       String username = usernameController.text;
       String password = passwordController.text;
 
-      // final url = Uri.parse('${AppConfig.connUrl}/users/login/');
       final url = Uri.parse('${AppConfig.connUrl}/users/login/');
 
       try {
@@ -70,7 +69,6 @@ class LoginPage extends StatelessWidget {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           bool? isHomePageVisible = prefs.getBool('isHomePageVisible') ?? true;
           await prefs.setBool('isLoggedIn', true);
-          // Save user info in SharedPreferences
           await prefs.setString('username', username);
           await prefs.setString('password', password);
           userController.setUsername(username);
@@ -102,7 +100,6 @@ class LoginPage extends StatelessWidget {
             print('Login successful');
           }
         } else {
-          // ไม่สำเร็จ: แสดง dialog แจ้งเตือน
           if (kDebugMode) {
             print('Login failed');
           }
@@ -110,7 +107,6 @@ class LoginPage extends StatelessWidget {
               context, 'Login Failed', 'Invalid username or password');
         }
       } catch (e) {
-        // เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์
         if (kDebugMode) {
           print('Error: $e');
         }
@@ -126,49 +122,39 @@ class LoginPage extends StatelessWidget {
                 SignupPage(isHomePageVisible: isHomePageVisible)),
       );
     }
-    // void checkLogin(BuildContext context) async {
-    //   SharedPreferences prefs = await SharedPreferences.getInstance();
-    //   bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-    //   if (isLoggedIn) {
-    //     // ถ้าผู้ใช้อยู่ในสถานะล็อกอินอยู่แล้ว ให้นำทางไปยังหน้าโฮมเพจ
-    //     Navigator.pushReplacement(
-    //       context,
-    //       MaterialPageRoute(builder: (context) => HomePage(isHomePageVisible: isHomePageVisible,)),
-    //     );
-    //   }
-    // }
+
     void checkLogin(BuildContext context) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-  bool isHomePageVisible = prefs.getBool('isHomePageVisible') ?? true;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+      bool isHomePageVisible = prefs.getBool('isHomePageVisible') ?? true;
 
-  if (kDebugMode) {
-    print('checkLogin - isLoggedIn: $isLoggedIn, isHomePageVisible: $isHomePageVisible');
-  }
+      if (kDebugMode) {
+        print(
+            'checkLogin - isLoggedIn: $isLoggedIn, isHomePageVisible: $isHomePageVisible');
+      }
 
-  if (isLoggedIn) {
-    if (isHomePageVisible) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(
-            isHomePageVisible: isHomePageVisible,
-          ),
-        ),
-      );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => DisplayPage(
-            isHomePageVisible: isHomePageVisible,
-          ),
-        ),
-      );
+      if (isLoggedIn) {
+        if (isHomePageVisible) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomePage(
+                isHomePageVisible: isHomePageVisible,
+              ),
+            ),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DisplayPage(
+                isHomePageVisible: isHomePageVisible,
+              ),
+            ),
+          );
+        }
+      }
     }
-  }
-}
-
 
     checkLogin(context);
 

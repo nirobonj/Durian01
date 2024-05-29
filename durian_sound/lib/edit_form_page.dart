@@ -71,7 +71,6 @@ class _EditFormPageState extends State<EditFormPage> {
       if (data is Map<String, dynamic> &&
           data.containsKey('province_descs') &&
           data['province_descs'] is List<dynamic>) {
-        // ตรวจสอบว่ามี key 'province_descs' และเป็น List<dynamic> หรือไม่
         final provinces = data['province_descs'] as List<dynamic>;
         return provinces.map((province) => province as String).toList();
       } else {
@@ -92,19 +91,14 @@ class _EditFormPageState extends State<EditFormPage> {
     if (response.statusCode == 200) {
       final dynamic responseData = json.decode(response.body);
 
-      // ตรวจสอบให้แน่ใจว่า responseData เป็น Map และมีโครงสร้างที่ถูกต้อง
       if (responseData is Map<String, dynamic> &&
           responseData['status'] == 'success') {
         final List<dynamic> data = responseData['data'];
         if (data is List<dynamic>) {
-          // List<String> aumphurs = data.map((item) => item as String).toList();
           List<String> aumphurs =
               data.map((item) => utf8.decode(item.codeUnits)).toList();
-          // print('this is aumphurs: $aumphurs');
-          // print(aumphurs);
           return aumphurs;
         } else {
-          // print('$responseData');
           throw Exception('รูปแบบข้อมูลไม่ถูกต้อง: $responseData');
         }
       } else {
@@ -124,7 +118,6 @@ class _EditFormPageState extends State<EditFormPage> {
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      // final dynamic responseData = json.decode(response.body);
       final dynamic responseData = json.decode(utf8.decode(response.bodyBytes));
 
       if (responseData is Map<String, dynamic> &&
@@ -132,21 +125,16 @@ class _EditFormPageState extends State<EditFormPage> {
         final List<dynamic> data = responseData['data'];
 
         if (data is List<dynamic>) {
-          // แปลงข้อมูลใน list ให้เป็น list ของ String
           List<String> tumbols = data
               .expand((item) => (item['pro_tumbol_desc'] as String).split(","))
               .map((tumbol) => tumbol.trim())
               .toList();
-
-          // print(tumbols);
-          // print('this is tumbol: $tumbols');
           return tumbols;
         } else {
           print('$responseData');
           throw Exception('รูปแบบข้อมูลไม่ถูกต้อง: $responseData');
         }
       } else {
-        // print('$responseData');
         throw Exception('รูปแบบข้อมูลไม่ถูกต้อง: $responseData');
       }
     } else {
@@ -247,7 +235,7 @@ class _EditFormPageState extends State<EditFormPage> {
                 children: [
                   SizedBox(
                     width: 270,
-                    height: 50,
+                    height: 45,
                     child: TextFormField(
                       controller: _usernameController,
                       readOnly: true,
@@ -265,7 +253,7 @@ class _EditFormPageState extends State<EditFormPage> {
                   const SizedBox(height: 10),
                   SizedBox(
                     width: 270,
-                    height: 50,
+                    height: 45,
                     child: TextFormField(
                       controller: _firstnameController,
                       decoration: InputDecoration(
@@ -281,7 +269,7 @@ class _EditFormPageState extends State<EditFormPage> {
                   const SizedBox(height: 10),
                   SizedBox(
                     width: 270,
-                    height: 50,
+                    height: 45,
                     child: TextFormField(
                       controller: _lastnameController,
                       decoration: InputDecoration(
@@ -297,7 +285,7 @@ class _EditFormPageState extends State<EditFormPage> {
                   const SizedBox(height: 10),
                   SizedBox(
                     width: 270,
-                    height: 50,
+                    height: 45,
                     child: TextFormField(
                       controller: _telController,
                       keyboardType: TextInputType.number,
@@ -329,7 +317,7 @@ class _EditFormPageState extends State<EditFormPage> {
                               setState(() {
                                 _provinceController.text = value!;
                                 fetchAumphurs(
-                                    value!); // เรียกใช้เมท็อด fetchAumphurs เมื่อมีการเปลี่ยนแปลงค่าจังหวัด
+                                    value!); 
                               });
                             },
                             items: snapshot.data!
@@ -350,7 +338,7 @@ class _EditFormPageState extends State<EditFormPage> {
                         } else if (snapshot.hasError) {
                           return Text('${snapshot.error}');
                         }
-                        return CircularProgressIndicator(); // แสดง CircularProgressIndicator ในระหว่างโหลดข้อมูล
+                        return CircularProgressIndicator();
                       },
                     ),
                   ),
@@ -374,8 +362,7 @@ class _EditFormPageState extends State<EditFormPage> {
                               !snapshot.data!
                                   .contains(_aumphurController.text)) {
                             _aumphurController.text =
-                                ''; // หรือค่าเริ่มต้นที่ต้องการ
-                            // print(_aumphurController);
+                                ''; 
                           }
 
                           return DropdownButtonFormField<String>(
@@ -497,10 +484,10 @@ class _EditFormPageState extends State<EditFormPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   SizedBox(
                     width: 270,
-                    height: 50,
+                    height: 45,
                     child: ElevatedButton(
                       onPressed: saveData, // Pass context here
                       style: ElevatedButton.styleFrom(

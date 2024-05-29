@@ -9,7 +9,6 @@ class AboutUsPage extends StatelessWidget {
       backgroundColor: const Color.fromARGB(255, 255, 250, 181),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 255, 250, 181),
-        // backgroundColor: Color.fromARGB(255, 255, 255, 255),
         title: const Text(
           'เกี่ยวกับเรา',
           style: TextStyle(fontWeight: FontWeight.bold),

@@ -90,18 +90,6 @@ class _SettingPageState extends State<SettingPage> {
     }
   }
 
-  // Future<void> _logout() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   await prefs.clear();
-  //   Navigator.pushAndRemoveUntil(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) =>
-  //           LoginPage(isHomePageVisible: isHomePageVisible ?? true),
-  //     ),
-  //     (Route<dynamic> route) => false,
-  //   );
-  // }
 
   void _showErrorDialog(String message) {
     showDialog<void>(
