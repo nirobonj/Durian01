@@ -138,7 +138,7 @@ class _DisplayPageState extends State<DisplayPage>
       setState(() {
         _isRecording = true;
       });
-      _stopRecordingAfter5Seconds();
+      _stopRecordingAfter7Seconds();
     } catch (e) {
       if (kDebugMode) {
         print('Error starting recording: $e');
@@ -146,8 +146,8 @@ class _DisplayPageState extends State<DisplayPage>
     }
   }
 
-  void _stopRecordingAfter5Seconds() {
-    Timer(const Duration(seconds: 5), () async {
+  void _stopRecordingAfter7Seconds() {
+    Timer(const Duration(seconds: 7), () async {
       if (_isRecording) {
         _stopRecording();
       }
@@ -168,7 +168,7 @@ class _DisplayPageState extends State<DisplayPage>
       }
       String filePath = '$_audioFilePath$fileName';
 
-      var url = Uri.parse('${AppConfig.connUrl}/sounds/predict/');
+      var url = Uri.parse('https://cb5dhsk3-8000.asse.devtunnels.ms/duriansound-analyisis/sounds/predict/');
       var request = http.MultipartRequest('POST', url)
         ..files.add(http.MultipartFile.fromBytes(
             'audio', File(filePath).readAsBytesSync(),
@@ -204,6 +204,16 @@ class _DisplayPageState extends State<DisplayPage>
         if (kDebugMode) {
           print('File uploaded successfully');
         }
+        final data = await response.stream.transform(utf8.decoder).join();
+        final jsonData = json.decode(data);
+        print(jsonData);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DisplayNextPage(
+                    predict: jsonData['predictions'],
+                  )),
+        );
       } else {
         if (kDebugMode) {
           print('File upload failed to second URL');
