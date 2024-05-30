@@ -213,7 +213,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
           widgets.add(_buildLevelWidget(
             '1',
             'ดิบมาก \nยังรับประทานไม่ได้',
-            'assets/image/ระดับ 1.png',
+            'assets/image/level 1.png',
             currentDate,
           ));
           break;
@@ -221,7 +221,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
           widgets.add(_buildLevelWidget(
             '2',
             'ดิบมาก \nยังรับประทานไม่ได้',
-            'assets/image/ระดับ 2.png',
+            'assets/image/level 2.png',
             currentDate,
           ));
           break;
@@ -229,7 +229,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
           widgets.add(_buildLevelWidget(
             '3',
             'กึ่งสุกกึ่งดิบ \nกรอบนอก กรอบใน',
-            'assets/image/ระดับ 3.png',
+            'assets/image/level 3.png',
             currentDate,
           ));
           break;
@@ -237,7 +237,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
           widgets.add(_buildLevelWidget(
             '4',
             'สุก เนื้อยอดนิยม \nกรอบนอก นุ่มใน',
-            'assets/image/ระดับ 4.png',
+            'assets/image/level 4.png',
             currentDate,
           ));
           break;
@@ -245,7 +245,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
           widgets.add(_buildLevelWidget(
             '5',
             'สุกมาก สุกกำลังดี\nเนื้อนิ่มเป็นครีมนุ่มนวล',
-            'assets/image/ระดับ 5.png',
+            'assets/image/level 5.png',
             currentDate,
           ));
           break;
@@ -253,7 +253,7 @@ class _DisplayNextPageState extends State<DisplayNextPage> {
           widgets.add(_buildLevelWidget(
             '6',
             'สุกมาก ๆ  \nเนื้อนิ่มจนเละ',
-            'assets/image/ระดับ 6.png',
+            'assets/image/level 6.png',
             currentDate,
           ));
           break;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'display_page.dart';
+import 'home_next_page.dart';
 
 class HomePage extends StatelessWidget {
   final bool isHomePageVisible;
@@ -7,12 +8,16 @@ class HomePage extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
 
   void next(BuildContext context) {
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //       builder: (context) => DisplayPage(
+    //             isHomePageVisible: isHomePageVisible,
+    //           )),
+    // );
     Navigator.push(
       context,
-      MaterialPageRoute(
-          builder: (context) => DisplayPage(
-                isHomePageVisible: isHomePageVisible,
-              )),
+      MaterialPageRoute(builder: (context) => HomeNextPage(isHomePageVisible: isHomePageVisible,)),
     );
   }
 
@@ -39,7 +44,7 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 25),
                 SizedBox(
                   width: 350,
-                  height: 2140,
+                  height: 2400,
                   child: Card(
                     color: const Color.fromARGB(255, 255, 255, 255),
                     child: Column(
@@ -89,11 +94,11 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 80),
                               SizedBox(
                                 width: 120,
                                 height: 120,
-                                child: Image.asset('assets/image/ระดับ 1.png'),
+                                child: Image.asset('assets/image/level 1.png'),
                               ),
                               const SizedBox(height: 40),
                               const Divider(),
@@ -115,11 +120,11 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 80),
                               SizedBox(
                                 width: 120,
                                 height: 120,
-                                child: Image.asset('assets/image/ระดับ 2.png'),
+                                child: Image.asset('assets/image/level 2.png'),
                               ),
                               const SizedBox(height: 40),
                               const Divider(),
@@ -141,11 +146,11 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 80),
                               SizedBox(
                                 width: 120,
                                 height: 120,
-                                child: Image.asset('assets/image/ระดับ 3.png'),
+                                child: Image.asset('assets/image/level 3.png'),
                               ),
                               const SizedBox(height: 40),
                               const Divider(),
@@ -167,11 +172,11 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 80),
                               SizedBox(
                                 width: 120,
                                 height: 120,
-                                child: Image.asset('assets/image/ระดับ 4.png'),
+                                child: Image.asset('assets/image/level 4.png'),
                               ),
                               const SizedBox(height: 40),
                               const Divider(),
@@ -193,11 +198,11 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 80),
                               SizedBox(
                                 width: 120,
                                 height: 120,
-                                child: Image.asset('assets/image/ระดับ 5.png'),
+                                child: Image.asset('assets/image/level 5.png'),
                               ),
                               const SizedBox(height: 40),
                               const Divider(),
@@ -219,11 +224,11 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 80),
                               SizedBox(
                                 width: 120,
                                 height: 120,
-                                child: Image.asset('assets/image/ระดับ 6.png'),
+                                child: Image.asset('assets/image/level 6.png'),
                               ),
                               const SizedBox(height: 40),
                             ],

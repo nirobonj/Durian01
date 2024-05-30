@@ -229,15 +229,14 @@ class _SettingPageState extends State<SettingPage> {
                   trailing: const Icon(Icons.edit),
                 ),
                 const Divider(),
-                ListTile(
-                  title: const Row(
+                const ListTile(
+                  title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Version'),
-                      Text('1.0'),
+                      Text('1.1'),
                     ],
                   ),
-                  onTap: () {},
                 ),
                 const Divider(),
                 ListTile(
