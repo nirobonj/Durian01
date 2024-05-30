@@ -251,7 +251,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     child: const Text(
-                      'ปิด',
+                      'ถัดไป',
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
