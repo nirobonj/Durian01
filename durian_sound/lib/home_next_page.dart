@@ -26,8 +26,8 @@ class HomeNextPage extends StatelessWidget {
             //   child: Image.asset('assets/image/ระดับ 1.png'),
             // ),
             SizedBox(
-                width: 350,
-                height: 700,
+                width: 200,
+                height: 400,
                 child: Container(
                   color: Color.fromARGB(255, 255, 255, 255),
                   child: Image.asset('assets/image/how_to_use.jpg'),
@@ -54,7 +54,7 @@ class HomeNextPage extends StatelessWidget {
                   ),
                 ),
                 child: const Text(
-                  'ปิด',
+                  'เริ่มเข้าใช้งาน',
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
